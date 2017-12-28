@@ -13,17 +13,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var connectToDB = function connectToDB(address, port, database) {
     var connection_address = 'mongodb://' + address + ':' + port + '/' + database;
-    // const connect = function () {
-    //     mongoose.connect(connection_address, function (err) {
-    //         if (err) {
-    //             console.error("Failed to connect to mongod server :(");
-    //         }
-    //         // CONNECTED TO MONGODB SERVER
-    //         console.log("Connected to mongod server :)");
-    //     });
-    // };
-    // connect();
-    // mongoose.connection.on('disconnect', connect);
     _mongoose2.default.connect(connection_address);
     var db = _mongoose2.default.connection;
     db.on('error', console.error.bind(console, 'DB connection error:'));

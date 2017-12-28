@@ -31,7 +31,8 @@
     "clean": "rm -rf build public/bundle.js",
     "build": "npm run clean& babel server --out-dir build && webpack",
     "start": "NODE_ENV=production node ./build/main.js",
-    "dev": "NODE_ENV=development& node ./build/main.js"
+    "dev": "NODE_ENV=development& node ./build/main.js",
+    "db": "NODE_ENV=db& node ./build/db/dbCreation.js"
   },
   "babel": {
     "presets": [

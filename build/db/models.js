@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.menuModel = undefined;
+exports.menus = undefined;
 
 var _dbConnection = require('./dbConnection');
 
@@ -37,4 +37,23 @@ var menu = new _dbConnection.mongoose.Schema({
 
 var menuModel = _dbConnection.mongoose.model('menu', menu);
 
-exports.menuModel = menuModel;
+var menus = {
+    'about': new menuModel({
+        title: 'About',
+        titleForDesign: 'whoami'
+    }),
+    'works': new menuModel({
+        title: 'Works',
+        titleForDesign: 'ls works'
+    }),
+    'blog': new menuModel({
+        title: 'Blog',
+        titleForDesign: 'ls posts'
+    }),
+    'contacts': new menuModel({
+        title: 'Contacts',
+        titleForDesign: 'echo hello >> ~/contacts/mailbox'
+    })
+};
+
+exports.menus = menus;

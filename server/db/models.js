@@ -26,4 +26,23 @@ const menu = new mongoose.Schema({
 
 const menuModel = mongoose.model('menu', menu);
 
-export { menuModel };
+const menus = {
+    'about': new menuModel({
+        title: 'About',
+        titleForDesign: 'whoami',
+    }),
+    'works': new menuModel({
+        title: 'Works',
+        titleForDesign: 'ls works',
+    }),
+    'blog': new menuModel({
+        title: 'Blog',
+        titleForDesign: 'ls posts',
+    }),
+    'contacts': new menuModel({
+        title: 'Contacts',
+        titleForDesign: 'echo hello >> ~/contacts/mailbox',
+    }),
+};
+
+export { menus };
