@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import Nav from './nav/Nav';
 import Content from './content/Content';
 import 'whatwg-fetch';
-import './App.css';
 
 class App extends Component {
     // constructor(props) {

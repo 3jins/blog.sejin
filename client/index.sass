@@ -1,3 +1,42 @@
-body
-  color: red
+$primary-color: rgb(255, 255, 255)
+$primary-bg-color: rgb(0, 0, 0)
+$secondary-color: rgb(0, 0, 0)
+$secondary_bg-color: rgb(255, 255, 255)
 
+$menu-height: 4em
+
+body
+  width: 100%
+  font: 18px "Source Code Pro", "Bitstream Vera Sans Mono", "나눔바른고딕 Light", "Lucida Grande", Helvetica, Arial, sans-serif
+  margin: 0
+  padding: 0
+
+.nav
+  color: $primary-color
+  background-color: $primary-bg-color
+  text-align: center
+  height: calc(100vh - #{$menu-height})
+  .nav-menu-table
+    width: 100%
+    height: $menu-height
+  .v-center-table
+    width: 100%
+    height: calc(100% - #{$menu-height})
+    .Typist
+      font-size: $menu-height
+      .Cursor--blinking
+        animation-name: blinker
+        animation-duration: 0.7s
+        animation-timing-function: linear
+        animation-iteration-count: infinite
+        @keyframes blinker
+          0%
+            opacity: 1.0
+          50%
+            opacity: 0.0
+          100%
+            opacity: 1.0
+
+.content
+  color: $secondary-color
+  background-color: $secondary_bg-color

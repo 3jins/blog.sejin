@@ -4,9 +4,29 @@ import NavItem from './NavItem';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 
+import Typist from 'react-typist';
+
 
 class Nav extends Component {
+    // setTypist(typistProps) {
+    //     return {
+    //         ...typistProps,
+    //         avgTypingDelay: 140,
+    //         cursor: {
+    //             ...cursor,
+    //             element: '_'
+    //         }
+    //     }
+    // }
     render() {
+        const cursorOption = {
+            show: true,
+            blink: true,
+            element: '_',
+            hideWhenDone: false,
+            hideWhenDoneDelay: 1000,
+        };
+
         const mapToComponent = (menuList) => {
             return menuList.map((navMenu, menuIdx) => {
                 return <NavItem key={menuIdx} menuTitle={navMenu['title']} menuIdx={menuIdx} />
@@ -15,14 +35,19 @@ class Nav extends Component {
 
         return(
             <div className="nav">
-                <table>
+                <table class="nav-menu-table">
                     <tbody>
                         <tr>
                             {mapToComponent(this.props.menuList)}
                         </tr>
                     </tbody>
                 </table>
-                <h1>$ whoami_</h1>
+                <table class="v-center-table"><tbody><tr><td>
+                    <Typist avgTypingDelay={100} cursor={cursorOption}>
+                        <Typist.Delay ms={1000} />
+                        $ {this.props.menuList[this.props.selectedMenuIdx].titleForDesign}
+                    </Typist>
+                </td></tr></tbody></table>
             </div>
         );
     }
