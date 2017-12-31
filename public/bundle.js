@@ -793,9 +793,11 @@ function isPlainObject(value) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var CLICK_NAV_MENU = exports.CLICK_NAV_MENU = "CLICK_NAV_MENU";
-var SCROLL = exports.SCROLL = "SCROLL";
-var CLICK_CONTENT_MENU = exports.CLICK_CONTENT_MENU = "CLICK_CONTENT_MENU";
+var FETCH_POSTS = exports.FETCH_POSTS = "FETCH_POSTS"; // list
+var CREATE_POST = exports.CREATE_POST = "CREATE_POST"; // C
+var FETCH_POST = exports.FETCH_POST = "FETCH_POST"; // R
+var UPDATE_POST = exports.UPDATE_POST = "UPDATE_POST"; // U
+var DELETE_POST = exports.DELETE_POST = "DELETE_POST"; // D
 
 /***/ }),
 /* 13 */
@@ -1980,6 +1982,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import './index.css';
 var store = (0, _redux.createStore)(_reducers2.default);
 // import registerServiceWorker from './registerServiceWorker';
+
 
 _reactDom2.default.render(_react2.default.createElement(
     _reactRedux.Provider,
@@ -19325,41 +19328,39 @@ var App = function (_Component) {
     }
 
     _createClass(App, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            // fetch('/', {
-            //     method: 'get',
-            //     dataType: 'json',
-            //     headers:{
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-            //     }
-            // })
-            //     .then((response) => response.json())
-            //     .then((responseData) => {
-            //         console.log(responseData);
-            //         // this.setState({mans: responseData});
-            //     })
-            //     .catch((error)=>{
-            //         console.log('Error fetching man',error);
-            //     });
-            fetch('/').then(function (res) {
-                if (res.ok) {
-                    console.log(res.toString());
-                } else {
-                    console.log(res.status);
-                }
-            }, function (err) {
-                console.log("Fetch failed ", err);
-            });
-        }
-    }, {
         key: 'render',
+
+        // constructor(props) {
+        //     super(props);
+        //     this.state = {};
+        // }
+        //
+        // componentDidMount() {
+        //     fetch('/dbdata', {
+        //         method: 'get',
+        //         dataType: 'json',
+        //         headers: {
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json'
+        //         }
+        //     })
+        //         .then((response) => response.json())
+        //         .then((responseData) => {
+        //             // console.log(responseData.about.title);
+        //             // this.props.menus = responseData.about.title;
+        //             this.setState({menus: responseData});
+        //         })
+        //         .catch((error) => {
+        //             console.log('Error fetching man', error);
+        //         });
+        // }
+
         value: function render() {
             return _react2.default.createElement(
                 'div',
                 null,
-                'hello'
+                _react2.default.createElement(_Nav2.default, null),
+                _react2.default.createElement(_Content2.default, null)
             );
         }
 
@@ -19367,11 +19368,11 @@ var App = function (_Component) {
         //   return (
         //     <div className="App">
         //       <header className="App-header">
-        //         <img src={logo} className="App-logo" alt="logo" />
+        //         <img client={logo} className="App-logo" alt="logo" />
         //         <h1 className="App-title">Welcome to React</h1>
         //       </header>
         //       <p className="App-intro">
-        //         To get started, edit <code>src/App.js</code> and save to reload.
+        //         To get started, edit <code>client/App.js</code> and save to reload.
         //       </p>
         //     </div>
         //   );
@@ -19435,20 +19436,24 @@ var Nav = function (_Component) {
         value: function render() {
             var mapToComponent = function mapToComponent(menuList) {
                 return menuList.map(function (navMenu, menuIdx) {
-                    return _react2.default.createElement(_NavItem2.default, { menuTitle: navMenu['navMenu'], menuIdx: menuIdx, contentMenuList: navMenu['contentMenu'] });
+                    return _react2.default.createElement(_NavItem2.default, { key: menuIdx, menuTitle: navMenu['title'], menuIdx: menuIdx });
                 });
             };
 
             return _react2.default.createElement(
                 'div',
-                { 'class': 'nav' },
+                { className: 'nav' },
                 _react2.default.createElement(
                     'table',
                     null,
                     _react2.default.createElement(
-                        'tr',
+                        'tbody',
                         null,
-                        mapToComponent(this.props.menuList)
+                        _react2.default.createElement(
+                            'tr',
+                            null,
+                            mapToComponent(this.props.menuList)
+                        )
                     )
                 ),
                 _react2.default.createElement(
@@ -19464,24 +19469,18 @@ var Nav = function (_Component) {
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
+    console.log(state);
     return {
-        menuList: state.menuExchanger.menuList,
-        selectedNavMenu: state.menuExchanger.selectedNavMenu,
-        selectedContentMenu: state.menuExchanger.selectedContentMenu
+        menuList: state.menus.menuList,
+        selectedMenuIdx: state.menus.selectedMenuIdx
     };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     //return bindActionCreators(actions, dispatch);
     return {
-        handleClickNavMenu: function handleClickNavMenu(menuIdx) {
-            dispatch(actions.clickNavMenu(menuIdx));
-        },
-        handleClickContentMenu: function handleClickContentMenu(menuIdx) {
-            dispatch(actions.clickContentMenu(menuIdx));
-        },
-        handleScroll: function handleScroll() {
-            dispatch(actions.scroll());
+        handleChangeMenu: function handleChangeMenu(menuIdx) {
+            dispatch(actions.changeMenu(menuIdx));
         }
     };
 };
@@ -19522,8 +19521,7 @@ var NavItems = function (_Component) {
         var _this = _possibleConstructorReturn(this, (NavItems.__proto__ || Object.getPrototypeOf(NavItems)).call(this, props));
 
         _this.menuTitle = props.menuTitle;
-        _this.menuIdx = props.menuIdx;
-        _this.contentMenuList = props.contentMenuList;
+        // this.menuIdx = key;
         return _this;
     }
 
@@ -21555,33 +21553,60 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.clickNavMenu = clickNavMenu;
-exports.scroll = scroll;
-exports.clickContentMenu = clickContentMenu;
+exports.fetchPosts = fetchPosts;
+exports.createPost = createPost;
+exports.fetchPost = fetchPost;
+exports.changeMenu = changeMenu;
 
-var _ActionTypes = __webpack_require__(12);
+var _posts = __webpack_require__(12);
 
-var types = _interopRequireWildcard(_ActionTypes);
+var types = _interopRequireWildcard(_posts);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function clickNavMenu(menuIdx) {
+var headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+};
+function fetchPosts(url) {
+    var request = fetch(url, {
+        method: 'get',
+        headers: headers
+    }).then(function (res) {
+        return res.json();
+    });
+
     return {
-        type: types.CLICK_NAV_MENU,
-        menuIdx: menuIdx
+        type: FETCH_POSTS,
+        payload: request
+    };
+}
+function createPost(jsonData) {
+    // const request = fetch('/create_post', {
+    //     method: 'post',
+    //     headers: headers,
+    //     body: JSON.stringify(jsonData),
+    // })
+    //     .then(res => console.log(res))
+    //     .catch(err => console.log(err));
+}
+function fetchPost(url, postId) {
+    var request = fetch(url + '/' + postId, {
+        method: 'get',
+        headers: headers
+    }).then(function (res) {
+        return res.json();
+    });
+
+    return {
+        type: FETCH_POST,
+        payload: request
     };
 }
 
-function scroll() {
+function changeMenu(menuIdx) {
     return {
-        type: types.SCROLL
-    };
-}
-
-function clickContentMenu(menuIdx) {
-    return {
-        type: types.CLICK_CONTENT_MENU,
-        menuIdx: menuIdx
+        'menuIdx': menuIdx
     };
 }
 
@@ -21624,7 +21649,7 @@ var Content = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { "class": "content" },
+                { className: "content" },
                 "yoyo"
             );
         }
@@ -22709,18 +22734,18 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(10);
 
-var _menuExchanger = __webpack_require__(83);
+var _posts = __webpack_require__(83);
 
-var _menuExchanger2 = _interopRequireDefault(_menuExchanger);
+var _posts2 = _interopRequireDefault(_posts);
 
-var _scroller = __webpack_require__(84);
+var _menus = __webpack_require__(84);
 
-var _scroller2 = _interopRequireDefault(_scroller);
+var _menus2 = _interopRequireDefault(_menus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var reducers = (0, _redux.combineReducers)({
-    menuExchanger: _menuExchanger2.default, scroller: _scroller2.default
+    posts: _posts2.default, menus: _menus2.default
 });
 
 exports.default = reducers;
@@ -22738,51 +22763,28 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-exports.default = exchangeMenu;
-
-var _ActionTypes = __webpack_require__(12);
-
-var types = _interopRequireWildcard(_ActionTypes);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var _posts = __webpack_require__(12);
 
 var initialState = {
-    menuList: [{
-        'navMenu': 'About',
-        'contentMenu': ['Vision', 'History', 'Interests']
-    }, {
-        'navMenu': 'Works',
-        'contentMenu': ['Web', 'Mobile', 'AI', 'ETC']
-    }, {
-        'navMenu': 'Blog',
-        'contentMenu': []
-    }, {
-        'navMenu': 'Contact',
-        'contentMenu': []
-    }],
-    selectedNavMenu: 0,
-    selectedContentMenu: 0
+    postsList: [],
+    currentPost: {},
+    createdPost: {},
+    deletedPost: {}
 };
 
-function exchangeMenu() {
+exports.default = function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
     var action = arguments[1];
-    var menuIdx = arguments[2];
 
-    /* ... */
-    switch (action.type) {
-        case types.CLICK_NAV_MENU:
-            return _extends({}, state, {
-                selectedNavMenu: menuIdx
-            });
-        case types.CLICK_CONTENT_MENU:
-            return _extends({}, state, {
-                selectedContentMenu: menuIdx
-            });
+    switch (action) {
+        case _posts.FETCH_POSTS:
+            return _extends({}, state, { postsList: { postsList: action.payload } });
+        case _posts.FETCH_POST:
+            return _extends({}, state, { currentPost: { postsList: action.payload } });
         default:
-            return state;
+            return initialState;
     }
-}
+};
 
 /***/ }),
 /* 84 */
@@ -22794,24 +22796,39 @@ function exchangeMenu() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = ui;
 
-var _ActionTypes = __webpack_require__(12);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var types = _interopRequireWildcard(_ActionTypes);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var _posts = __webpack_require__(12);
 
 var initialState = {
-    /* scroll location */
+    menuList: [{
+        'title': 'About',
+        'titleForDesign': 'whoami'
+    }, {
+        'title': 'Works',
+        'titleForDesign': 'ls works'
+    }, {
+        'title': 'Blog',
+        'titleForDesign': 'ls posts'
+    }, {
+        'title': 'Contacts',
+        'titleForDesign': 'echo hello >> ~/mailbox.txt'
+    }],
+    selectedMenuIdx: 0
 };
 
-function ui() {
+exports.default = function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
     var action = arguments[1];
 
-    return state;
-}
+    switch (action) {
+        case _posts.SELECT_MENU:
+            return _extends({}, state, { selectedMenuIdx: action.menuIdx });
+        default:
+            return initialState;
+    }
+};
 
 /***/ })
 /******/ ]);

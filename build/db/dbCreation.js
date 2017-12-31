@@ -27,43 +27,6 @@ try {
     for (var _iterator = Object.entries(_models.menus)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         _loop();
     }
-    //
-    // menus.about.save(function(err) {
-    //     if(err) {
-    //         console.log("Failed to save \'about\'");
-    //         return console.error(err);
-    //     }
-    //     else {
-    //         console.log("successed to save \'about\'!");
-    //     }
-    // });
-    // menus.works.save(function(err) {
-    //     if(err) {
-    //         console.log("Failed to save \'works\'");
-    //         return console.error(err);
-    //     }
-    //     else {
-    //         console.log("successed to save \'works\'!");
-    //     }
-    // });
-    // menus.blog.save(function(err) {
-    //     if(err) {
-    //         console.log("Failed to save \'blog\'");
-    //         return console.error(err);
-    //     }
-    //     else {
-    //         console.log("successed to save \'blog\'!");
-    //     }
-    // });
-    // menus.contacts.save(function(err) {
-    //     if(err) {
-    //         console.log("Failed to save \'contacts\'");
-    //         return console.error(err);
-    //     }
-    //     else {
-    //         console.log("successed to save \'contacts\'!");
-    //     }
-    // });
 } catch (err) {
     _didIteratorError = true;
     _iteratorError = err;

@@ -11,38 +11,44 @@ const post = new mongoose.Schema({
     dateCreated: {type: Date, required: true, unique: false},
     dateUpdated: updatedDataSchema,
     content: {type: String, required: false, unique: false},
-    tag: {type: String, required: false, unique: false}
+    tag: {type: String, required: false, unique: false},
+    belongToMajor: {type: String, required: true, unique: false},
+    belongToMinor: {type: String, required: true, unique: false},
 });
 
-const board = new mongoose.Schema({
-    posts: [post]
-});
+const Post = mongoose.model("Post", post);
 
-const menu = new mongoose.Schema({
-    title: {type: String, required: true, unique: true},
-    titleForDesign: {type: String, required: true, unique: false},
-    contentMenu: board
-});
+export { Post };
 
-const menuModel = mongoose.model('menu', menu);
-
-const menus = {
-    'about': new menuModel({
-        title: 'About',
-        titleForDesign: 'whoami',
-    }),
-    'works': new menuModel({
-        title: 'Works',
-        titleForDesign: 'ls works',
-    }),
-    'blog': new menuModel({
-        title: 'Blog',
-        titleForDesign: 'ls posts',
-    }),
-    'contacts': new menuModel({
-        title: 'Contacts',
-        titleForDesign: 'echo hello >> ~/contacts/mailbox',
-    }),
-};
-
-export { menus };
+// const board = new mongoose.Schema({
+//     posts: [post]
+// });
+//
+// const menu = new mongoose.Schema({
+//     title: {type: String, required: true, unique: true},
+//     titleForDesign: {type: String, required: true, unique: false},
+//     contentMenu: board
+// });
+//
+// const menuModel = mongoose.model('menu', menu);
+//
+// const menus = {
+//     'about': new menuModel({
+//         title: 'About',
+//         titleForDesign: 'whoami',
+//     }),
+//     'works': new menuModel({
+//         title: 'Works',
+//         titleForDesign: 'ls works',
+//     }),
+//     'blog': new menuModel({
+//         title: 'Blog',
+//         titleForDesign: 'ls posts',
+//     }),
+//     'contacts': new menuModel({
+//         title: 'Contacts',
+//         titleForDesign: 'echo hello >> ~/contacts/mailbox',
+//     }),
+// };
+//
+// export { menus };

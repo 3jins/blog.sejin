@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 
-
 class NavItems extends Component {
     constructor(props) {
         super(props);
         this.menuTitle = props.menuTitle;
-        this.menuIdx = props.menuIdx;
-        this.contentMenuList = props.contentMenuList;
+        // this.menuIdx = key;
     }
 
     render() {

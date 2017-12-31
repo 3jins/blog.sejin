@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.menus = undefined;
+exports.Post = undefined;
 
 var _dbConnection = require('./dbConnection');
 
@@ -22,38 +22,44 @@ var post = new _dbConnection.mongoose.Schema({
     dateCreated: { type: Date, required: true, unique: false },
     dateUpdated: updatedDataSchema,
     content: { type: String, required: false, unique: false },
-    tag: { type: String, required: false, unique: false }
+    tag: { type: String, required: false, unique: false },
+    belongToMajor: { type: String, required: true, unique: false },
+    belongToMinor: { type: String, required: true, unique: false }
 });
 
-var board = new _dbConnection.mongoose.Schema({
-    posts: [post]
-});
+var Post = _dbConnection.mongoose.model("Post", post);
 
-var menu = new _dbConnection.mongoose.Schema({
-    title: { type: String, required: true, unique: true },
-    titleForDesign: { type: String, required: true, unique: false },
-    contentMenu: board
-});
+exports.Post = Post;
 
-var menuModel = _dbConnection.mongoose.model('menu', menu);
-
-var menus = {
-    'about': new menuModel({
-        title: 'About',
-        titleForDesign: 'whoami'
-    }),
-    'works': new menuModel({
-        title: 'Works',
-        titleForDesign: 'ls works'
-    }),
-    'blog': new menuModel({
-        title: 'Blog',
-        titleForDesign: 'ls posts'
-    }),
-    'contacts': new menuModel({
-        title: 'Contacts',
-        titleForDesign: 'echo hello >> ~/contacts/mailbox'
-    })
-};
-
-exports.menus = menus;
+// const board = new mongoose.Schema({
+//     posts: [post]
+// });
+//
+// const menu = new mongoose.Schema({
+//     title: {type: String, required: true, unique: true},
+//     titleForDesign: {type: String, required: true, unique: false},
+//     contentMenu: board
+// });
+//
+// const menuModel = mongoose.model('menu', menu);
+//
+// const menus = {
+//     'about': new menuModel({
+//         title: 'About',
+//         titleForDesign: 'whoami',
+//     }),
+//     'works': new menuModel({
+//         title: 'Works',
+//         titleForDesign: 'ls works',
+//     }),
+//     'blog': new menuModel({
+//         title: 'Blog',
+//         titleForDesign: 'ls posts',
+//     }),
+//     'contacts': new menuModel({
+//         title: 'Contacts',
+//         titleForDesign: 'echo hello >> ~/contacts/mailbox',
+//     }),
+// };
+//
+// export { menus };
