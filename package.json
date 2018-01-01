@@ -5,6 +5,7 @@
   "main": "webpack.config.js",
   "dependencies": {
     "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.2",
     "css-loader": "^0.28.7",
     "express": "^4.16.2",
