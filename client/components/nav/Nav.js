@@ -8,16 +8,6 @@ import Typist from 'react-typist';
 
 
 class Nav extends Component {
-    // setTypist(typistProps) {
-    //     return {
-    //         ...typistProps,
-    //         avgTypingDelay: 140,
-    //         cursor: {
-    //             ...cursor,
-    //             element: '_'
-    //         }
-    //     }
-    // }
     render() {
         const cursorOption = {
             show: true,
@@ -27,9 +17,9 @@ class Nav extends Component {
             hideWhenDoneDelay: 1000,
         };
 
-        const mapToComponent = (menuList) => {
+        const mapToComponent = (menuList, level) => {
             return menuList.map((navMenu, menuIdx) => {
-                return <NavItem key={menuIdx} menuTitle={navMenu['title']} menuIdx={menuIdx} />
+                return <NavItem key={menuIdx} menuTitle={navMenu.title} menuIdx={menuIdx} onSelect={this.props.handleChangeMenu} level={level}/>
             });
         };
 
@@ -38,21 +28,22 @@ class Nav extends Component {
                 <table className="nav-menu-table">
                     <tbody>
                         <tr>
-                            {mapToComponent(this.props.menuList)}
+                            {mapToComponent(this.props.menuList, 0)}
                         </tr>
                     </tbody>
                 </table>
                 <table className="v-center-table"><tbody><tr><td>
+                    ${' '}
                     <Typist avgTypingDelay={100} cursor={cursorOption}>
                         <Typist.Delay ms={1000} />
-                        $ {this.props.menuList[this.props.selectedMenuIdx].titleForDesign}
+                        {this.props.titleForDesign}
                     </Typist>
                 </td></tr></tbody></table>
                 <div className="sub-nav">
                     <table className="sub-nav-menu-table">
                         <tbody>
                             <tr>
-                                {mapToComponent(this.props.menuList[this.props.selectedMenuIdx].submenuList)}
+                                {mapToComponent(this.props.submenuList, 1)}
                             </tr>
                         </tbody>
                     </table>
@@ -64,17 +55,19 @@ class Nav extends Component {
 
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
-        menuList: state.menus.menuList,
         selectedMenuIdx: state.menus.selectedMenuIdx,
+        selectedSubmenuIdx: state.menus.selectedSubenuIdx,
+        menuList: state.menus.menuList,
+        submenuList: state.menus.menuList[state.menus.selectedMenuIdx].submenuList,
+        titleForDesign: state.menus.menuList[state.menus.selectedMenuIdx].titleForDesign,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     //return bindActionCreators(actions, dispatch);
     return {
-        handleChangeMenu: (menuIdx) => {dispatch(actions.changeMenu(menuIdx))},
+        handleChangeMenu: (menuIdx, level) => {dispatch(actions.changeMenu(menuIdx, level))},
     };
 };
 

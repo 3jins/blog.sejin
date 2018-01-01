@@ -1,4 +1,5 @@
-import * as types from './posts';
+import * as posts from './posts';
+import * as menus from './menus';
 
 const headers = {
     'Accept': 'application/json',
@@ -11,7 +12,7 @@ export function fetchPosts(url) {
     }).then(res => res.json());
 
     return {
-        type: FETCH_POSTS,
+        type: posts.FETCH_POSTS,
         payload: request
     }
 }
@@ -31,13 +32,15 @@ export function fetchPost(url, postId) {
     }).then(res => res.json());
 
     return {
-        type: FETCH_POST,
+        type: posts.FETCH_POST,
         payload: request
     }
 }
 
-export function changeMenu(menuIdx) {
+export function changeMenu(menuIdx, level) {
     return {
-        'menuIdx': menuIdx,
+        type: menus.CHANGE_MENU,
+        menuIdx: menuIdx,
+        level: level,
     };
 }

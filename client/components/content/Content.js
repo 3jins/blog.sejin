@@ -7,7 +7,7 @@ class Content extends Component {
         return(
             <div className="content">
                 <p>
-                    {this.props.submenuList[this.props.selectedSubmenuIdx].content}
+                    {/*content*/}
                 </p>
             </div>
         );

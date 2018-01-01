@@ -20,24 +20,28 @@ body
     width: 100%
     height: $menu-height
     table-layout: fixed
+    td p
+      cursor: pointer
   .v-center-table
     width: 100%
     //height: 100%
     height: calc(100% - 2 * #{$menu-height})
-    .Typist
-      font-size: $menu-height
-      .Cursor--blinking
-        animation-name: blinker
-        animation-duration: 0.7s
-        animation-timing-function: linear
-        animation-iteration-count: infinite
-        @keyframes blinker
-          0%
-            opacity: 1.0
-          50%
-            opacity: 0.0
-          100%
-            opacity: 1.0
+    td
+      font-size: 4em
+      .Typist
+        display: inline
+        .Cursor--blinking
+          animation-name: blinker
+          animation-duration: 0.7s
+          animation-timing-function: linear
+          animation-iteration-count: infinite
+          @keyframes blinker
+            0%
+              opacity: 1.0
+            50%
+              opacity: 0.0
+            100%
+              opacity: 1.0
   .sub-nav
     color: $secondary-color
     background-color: $secondary_bg-color

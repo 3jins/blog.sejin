@@ -1,6 +1,8 @@
-import { SELECT_MENU } from "../actions/posts";
+import { CHANGE_MENU } from "../actions/menus";
 
 const initialState = {
+    selectedMenuIdx: 0,
+    selectedSubmenuIdx: 0,
     menuList: [
         {
             'title': 'About',
@@ -8,7 +10,6 @@ const initialState = {
             'submenuList': [
                 {
                     'title': 'now',
-                    'content': 'blah blah'
                 },
                 {
                     'title': 'vision',
@@ -70,14 +71,55 @@ const initialState = {
             ],
         },
     ],
-    selectedMenuIdx: 0,
-    selectedSubmenuIdx: 0,
 };
 
-export default (state=initialState, action) => {
-    switch(action) {
-        case SELECT_MENU:
-            return { ...state, selectedMenuIdx: action.menuIdx };
+// const extractMenu = (wholeMenuData) => {
+//     const menuLength = wholeMenuData.menuList.length;
+//     let menuList = new Array(wholeMenuData.menuList.length);
+//     for(let i=0; i<menuLength; i++) {
+//         menuList[i] = {
+//             'title': wholeMenuData.menuList[i].title,
+//         }
+//     }
+//     return menuList;
+// };
+//
+// const extractSubMenu = (wholeMenuData, selectedMenuIdx) => {
+//     return wholeMenuData.menuList[selectedMenuIdx].submenuList;
+// };
+//
+// const initialState = {
+//     selectedMenuIdx: 0,
+//     selectedSubmenuIdx: 0,
+//     menuList: extractMenu(wholeMenuData),
+//     titleForDesign: wholeMenuData.menuList[0].titleForDesign,
+//     submenuList: extractSubMenu(wholeMenuData, 0),
+// };
+
+export default (state, action) => {
+    switch(action.type) {
+        case CHANGE_MENU:
+            const menuIdx = action.menuIdx;
+            switch(action.level) {
+                case 0:
+                    return {
+                        ...state,
+                        selectedMenuIdx: menuIdx,
+                    };
+                    break;
+                case 1:
+                    return {
+                        ...state,
+                        selectedSubmenuIdx: menuIdx,
+                    };
+                    break;
+                default:
+                    return {
+                        ...state,
+                        selectedMenuIdx: menuIdx,
+                    };
+                    break;
+            }
         default:
             return initialState;
     }
