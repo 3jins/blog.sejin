@@ -15,13 +15,15 @@ body
   color: $primary-color
   background-color: $primary-bg-color
   text-align: center
-  height: calc(100vh - #{$menu-height})
+  height: 100vh
   .nav-menu-table
     width: 100%
     height: $menu-height
+    table-layout: fixed
   .v-center-table
     width: 100%
-    height: calc(100% - #{$menu-height})
+    //height: 100%
+    height: calc(100% - 2 * #{$menu-height})
     .Typist
       font-size: $menu-height
       .Cursor--blinking
@@ -36,6 +38,14 @@ body
             opacity: 0.0
           100%
             opacity: 1.0
+  .sub-nav
+    color: $secondary-color
+    background-color: $secondary_bg-color
+    height: $menu-height
+    .sub-nav-menu-table
+      width: 100%
+      height: $menu-height
+      table-layout: fixed
 
 .content
   color: $secondary-color

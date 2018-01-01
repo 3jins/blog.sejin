@@ -35,19 +35,28 @@ class Nav extends Component {
 
         return(
             <div className="nav">
-                <table class="nav-menu-table">
+                <table className="nav-menu-table">
                     <tbody>
                         <tr>
                             {mapToComponent(this.props.menuList)}
                         </tr>
                     </tbody>
                 </table>
-                <table class="v-center-table"><tbody><tr><td>
+                <table className="v-center-table"><tbody><tr><td>
                     <Typist avgTypingDelay={100} cursor={cursorOption}>
                         <Typist.Delay ms={1000} />
                         $ {this.props.menuList[this.props.selectedMenuIdx].titleForDesign}
                     </Typist>
                 </td></tr></tbody></table>
+                <div className="sub-nav">
+                    <table className="sub-nav-menu-table">
+                        <tbody>
+                            <tr>
+                                {mapToComponent(this.props.menuList[this.props.selectedMenuIdx].submenuList)}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         );
     }
