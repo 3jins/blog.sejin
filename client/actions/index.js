@@ -1,21 +1,26 @@
 import * as posts from './posts';
 import * as menus from './menus';
 
+/*********/
+/* posts */
+/*********/
 const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
 };
-export function fetchPosts(url) {
-    const request = fetch(url, {
+
+export function fetchPosts(url, belongToMajor, belongToMinor) {
+    const request = fetch(url + "/" + belongToMajor + "/" + belongToMinor, {
         method: 'get',
         headers: headers
     }).then(res => res.json());
 
     return {
         type: posts.FETCH_POSTS,
-        payload: request
+        payload: request,
     }
 }
+
 export function createPost(jsonData) {
     // const request = fetch('/create_post', {
     //     method: 'post',
@@ -25,6 +30,7 @@ export function createPost(jsonData) {
     //     .then(res => console.log(res))
     //     .catch(err => console.log(err));
 }
+
 export function fetchPost(url, postId) {
     const request = fetch(url + '/' + postId, {
         method: 'get',
@@ -33,14 +39,23 @@ export function fetchPost(url, postId) {
 
     return {
         type: posts.FETCH_POST,
-        payload: request
+        payload: request,
     }
 }
 
-export function changeMenu(menuIdx, level) {
+/*********/
+/* menus */
+/*********/
+export function changeMenu(menuIdx) {
     return {
         type: menus.CHANGE_MENU,
         menuIdx: menuIdx,
-        level: level,
+    };
+}
+
+export function changeSubmenu(submenuIdx) {
+    return {
+        type: menus.CHANGE_SUBMENU,
+        submenuIdx: submenuIdx,
     };
 }

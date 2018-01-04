@@ -18,8 +18,13 @@ class Nav extends Component {
         };
 
         const mapToComponent = (menuList, level) => {
+            let functionToPass = this.props.handleChangeMenu;
+            if(level === 1) {
+                functionToPass = this.props.handleChangeSubmenu;
+            }
+
             return menuList.map((navMenu, menuIdx) => {
-                return <NavItem key={menuIdx} menuTitle={navMenu.title} menuIdx={menuIdx} onSelect={this.props.handleChangeMenu} level={level}/>
+                return <NavItem key={menuIdx} menuTitle={navMenu.title} menuIdx={menuIdx} onSelect={functionToPass} level={level}/>
             });
         };
 
@@ -67,7 +72,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     //return bindActionCreators(actions, dispatch);
     return {
-        handleChangeMenu: (menuIdx, level) => {dispatch(actions.changeMenu(menuIdx, level))},
+        handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),
+        handleChangeSubmenu: (menuIdx) => dispatch(actions.changeSubmenu(menuIdx)),
     };
 };
 

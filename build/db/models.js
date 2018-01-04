@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Post = undefined;
+exports.UpdatedData = exports.Post = undefined;
 
 var _dbConnection = require('./dbConnection');
 
@@ -27,12 +27,14 @@ var post = new _dbConnection.mongoose.Schema({
     belongToMinor: { type: String, required: true, unique: false }
 });
 
+var UpdatedData = _dbConnection.mongoose.model("UpdatedData", updatedDataSchema);
 var Post = _dbConnection.mongoose.model("Post", post);
 
 exports.Post = Post;
+exports.UpdatedData = UpdatedData;
 
 // const board = new mongoose.Schema({
-//     posts: [post]
+//     works: [post]
 // });
 //
 // const menu = new mongoose.Schema({
@@ -54,11 +56,11 @@ exports.Post = Post;
 //     }),
 //     'blog': new menuModel({
 //         title: 'Blog',
-//         titleForDesign: 'ls posts',
+//         titleForDesign: 'ls works',
 //     }),
-//     'contacts': new menuModel({
+//     'contacts.js': new menuModel({
 //         title: 'Contacts',
-//         titleForDesign: 'echo hello >> ~/contacts/mailbox',
+//         titleForDesign: 'echo hello >> ~/contacts.js/mailbox',
 //     }),
 // };
 //

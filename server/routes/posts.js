@@ -4,31 +4,30 @@ import { Post } from '../db/models';
 // import timestamps from 'mongoose-timestamp';
 const router = express.Router();
 
-router.get('/works', function(req, res) {
+router.get('(about)?', function(req, res) {
     Post
-        .find({"belongToMajor": 'works'})
+        .find({
+            "belongToMajor": "About",
+        })
         .exec(function(err, posts) {
             if(err) {
                 console.log(err);
                 return res.status(500).json({
-                    message: 'Could not retrieve posts'
+                    message: 'Could not retrieve works'
                 });
             }
-            res.json(posts);
+            // res.json(posts);
+            res.json({test: "test"});
+            // res.format({
+            //     html: function(){
+            //         res.send(express.static(__dirname + "/../public"));
+            //     },
+            //     json: function(){
+            //         res.send(posts);
+            //     },
+            // });
         });
 });
-router.get('/blog', function(req, res) {
-    Post
-        .find({"belongToMajor": 'blog'})
-        .exec(function(err, posts) {
-            if(err) {
-                console.log(err);
-                return res.status(500).json({
-                    message: 'Could not retrieve posts'
-                });
-            }
-            res.json(posts);
-        });
-});
+
 
 export default router;

@@ -5599,6 +5599,7 @@ exports.fetchPosts = fetchPosts;
 exports.createPost = createPost;
 exports.fetchPost = fetchPost;
 exports.changeMenu = changeMenu;
+exports.changeSubmenu = changeSubmenu;
 
 var _posts = __webpack_require__(155);
 
@@ -5610,12 +5611,16 @@ var menus = _interopRequireWildcard(_menus);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+/*********/
+/* posts */
+/*********/
 var headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
 };
-function fetchPosts(url) {
-    var request = fetch(url, {
+
+function fetchPosts(url, belongToMajor, belongToMinor) {
+    var request = fetch(url + "/" + belongToMajor + "/" + belongToMinor, {
         method: 'get',
         headers: headers
     }).then(function (res) {
@@ -5627,6 +5632,7 @@ function fetchPosts(url) {
         payload: request
     };
 }
+
 function createPost(jsonData) {
     // const request = fetch('/create_post', {
     //     method: 'post',
@@ -5636,6 +5642,7 @@ function createPost(jsonData) {
     //     .then(res => console.log(res))
     //     .catch(err => console.log(err));
 }
+
 function fetchPost(url, postId) {
     var request = fetch(url + '/' + postId, {
         method: 'get',
@@ -5650,11 +5657,20 @@ function fetchPost(url, postId) {
     };
 }
 
-function changeMenu(menuIdx, level) {
+/*********/
+/* menus */
+/*********/
+function changeMenu(menuIdx) {
     return {
         type: menus.CHANGE_MENU,
-        menuIdx: menuIdx,
-        level: level
+        menuIdx: menuIdx
+    };
+}
+
+function changeSubmenu(submenuIdx) {
+    return {
+        type: menus.CHANGE_SUBMENU,
+        submenuIdx: submenuIdx
     };
 }
 
@@ -5685,6 +5701,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var CHANGE_MENU = exports.CHANGE_MENU = "CHANGE_MENU";
+var CHANGE_SUBMENU = exports.CHANGE_SUBMENU = "CHANGE_SUBMENU";
 
 /***/ }),
 /* 157 */
@@ -28339,7 +28356,7 @@ exports = module.exports = __webpack_require__(373)(undefined);
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\nbody {\n  width: 100%;\n  font: 18px \"Source Code Pro\", \"Bitstream Vera Sans Mono\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  margin: 0;\n  padding: 0; }\n\n.nav {\n  color: white;\n  background-color: black;\n  text-align: center;\n  height: 100vh; }\n  .nav .nav-menu-table {\n    width: 100%;\n    height: 4em;\n    table-layout: fixed; }\n    .nav .nav-menu-table td p {\n      cursor: pointer; }\n  .nav .v-center-table {\n    width: 100%;\n    height: calc(100% - 2 * 4em); }\n    .nav .v-center-table td {\n      font-size: 4em; }\n      .nav .v-center-table td .Typist {\n        display: inline; }\n        .nav .v-center-table td .Typist .Cursor--blinking {\n          animation-name: blinker;\n          animation-duration: 0.7s;\n          animation-timing-function: linear;\n          animation-iteration-count: infinite; }\n\n@keyframes blinker {\n  0% {\n    opacity: 1.0; }\n  50% {\n    opacity: 0.0; }\n  100% {\n    opacity: 1.0; } }\n  .nav .sub-nav {\n    color: black;\n    background-color: white;\n    height: 4em; }\n    .nav .sub-nav .sub-nav-menu-table {\n      width: 100%;\n      height: 4em;\n      table-layout: fixed; }\n\n.content {\n  color: black;\n  background-color: white; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\nbody {\n  width: 100%;\n  font: 18px \"Source Code Pro\", \"Bitstream Vera Sans Mono\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  margin: 0;\n  padding: 0; }\n\na {\n  color: white;\n  text-decoration: none; }\n\n.nav {\n  color: white;\n  background-color: black;\n  text-align: center;\n  height: 100vh; }\n  .nav .nav-menu-table {\n    width: 100%;\n    height: 4em;\n    table-layout: fixed; }\n    .nav .nav-menu-table td p {\n      cursor: pointer; }\n  .nav .v-center-table {\n    width: 100%;\n    height: calc(100% - 2 * 4em); }\n    .nav .v-center-table td {\n      font-size: 4em; }\n      .nav .v-center-table td .Typist {\n        display: inline; }\n        .nav .v-center-table td .Typist .Cursor--blinking {\n          animation-name: blinker;\n          animation-duration: 0.7s;\n          animation-timing-function: linear;\n          animation-iteration-count: infinite; }\n\n@keyframes blinker {\n  0% {\n    opacity: 1.0; }\n  50% {\n    opacity: 0.0; }\n  100% {\n    opacity: 1.0; } }\n  .nav .sub-nav {\n    color: black;\n    background-color: white;\n    height: 4em; }\n    .nav .sub-nav .sub-nav-menu-table {\n      width: 100%;\n      height: 4em;\n      table-layout: fixed; }\n\n.content {\n  color: black;\n  background-color: white; }\n", ""]);
 
 // exports
 
@@ -29059,8 +29076,13 @@ var Nav = function (_Component) {
             };
 
             var mapToComponent = function mapToComponent(menuList, level) {
+                var functionToPass = _this2.props.handleChangeMenu;
+                if (level === 1) {
+                    functionToPass = _this2.props.handleChangeSubmenu;
+                }
+
                 return menuList.map(function (navMenu, menuIdx) {
-                    return _react2.default.createElement(_NavItem2.default, { key: menuIdx, menuTitle: navMenu.title, menuIdx: menuIdx, onSelect: _this2.props.handleChangeMenu, level: level });
+                    return _react2.default.createElement(_NavItem2.default, { key: menuIdx, menuTitle: navMenu.title, menuIdx: menuIdx, onSelect: functionToPass, level: level });
                 });
             };
 
@@ -29141,8 +29163,11 @@ var mapStateToProps = function mapStateToProps(state) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     //return bindActionCreators(actions, dispatch);
     return {
-        handleChangeMenu: function handleChangeMenu(menuIdx, level) {
-            dispatch(actions.changeMenu(menuIdx, level));
+        handleChangeMenu: function handleChangeMenu(menuIdx) {
+            return dispatch(actions.changeMenu(menuIdx));
+        },
+        handleChangeSubmenu: function handleChangeSubmenu(menuIdx) {
+            return dispatch(actions.changeSubmenu(menuIdx));
         }
     };
 };
@@ -29189,39 +29214,46 @@ var NavItems = function (_Component) {
     }
 
     _createClass(NavItems, [{
-        key: 'componentWillReceiveProps',
+        key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(nextProps) {
             if (nextProps.menuTitle !== this.props.menuTitle) {
                 this.menuTitle = nextProps.menuTitle;
             }
         }
-
-        // shouldComponentUpdate(nextProps, nextState) {
-        //     if(nextProps.menuTitle !== this.props.menuTitle) {
-        //         this.menuTitle = nextProps.menuTitle;
-        //         return true;
-        //     }
-        //     else {
-        //         return false;
-        //     }
-        // }
-
     }, {
-        key: 'render',
+        key: "render",
         value: function render() {
             var _this2 = this;
 
-            return _react2.default.createElement(
-                'td',
-                null,
-                _react2.default.createElement(
-                    'p',
-                    { onClick: function onClick() {
-                            return _this2.props.onSelect(_this2.menuIdx, _this2.level);
-                        } },
-                    this.menuTitle
-                )
-            );
+            if (this.level === 0) {
+                return _react2.default.createElement(
+                    "td",
+                    null,
+                    _react2.default.createElement(
+                        "a",
+                        { href: "/" + this.menuTitle },
+                        _react2.default.createElement(
+                            "p",
+                            { onClick: function onClick() {
+                                    return _this2.props.onSelect(_this2.menuIdx);
+                                } },
+                            this.menuTitle
+                        )
+                    )
+                );
+            } else {
+                return _react2.default.createElement(
+                    "td",
+                    null,
+                    _react2.default.createElement(
+                        "p",
+                        { onClick: function onClick() {
+                                return _this2.props.onSelect(_this2.menuIdx);
+                            } },
+                        this.menuTitle
+                    )
+                );
+            }
         }
     }]);
 
@@ -32886,11 +32918,7 @@ var Content = function (_Component) {
             return _react2.default.createElement(
                 'div',
                 { className: 'content' },
-                _react2.default.createElement(
-                    'p',
-                    null,
-                    this.props.submenuList.content
-                )
+                _react2.default.createElement('p', null)
             );
         }
     }]);
@@ -33471,8 +33499,7 @@ var initialState = {
         'title': 'About',
         'titleForDesign': 'whoami',
         'submenuList': [{
-            'title': 'now',
-            'content': 'blah blah'
+            'title': 'now'
         }, {
             'title': 'vision'
         }, {
@@ -33492,7 +33519,7 @@ var initialState = {
         }]
     }, {
         'title': 'Blog',
-        'titleForDesign': 'ls posts',
+        'titleForDesign': 'ls works',
         'submenuList': [{
             'title': 'tech'
         }, {
@@ -33515,50 +33542,18 @@ var initialState = {
     }]
 };
 
-// const extractMenu = (wholeMenuData) => {
-//     const menuLength = wholeMenuData.menuList.length;
-//     let menuList = new Array(wholeMenuData.menuList.length);
-//     for(let i=0; i<menuLength; i++) {
-//         menuList[i] = {
-//             'title': wholeMenuData.menuList[i].title,
-//         }
-//     }
-//     return menuList;
-// };
-//
-// const extractSubMenu = (wholeMenuData, selectedMenuIdx) => {
-//     return wholeMenuData.menuList[selectedMenuIdx].submenuList;
-// };
-//
-// const initialState = {
-//     selectedMenuIdx: 0,
-//     selectedSubmenuIdx: 0,
-//     menuList: extractMenu(wholeMenuData),
-//     titleForDesign: wholeMenuData.menuList[0].titleForDesign,
-//     submenuList: extractSubMenu(wholeMenuData, 0),
-// };
-
 exports.default = function (state, action) {
     switch (action.type) {
         case _menus.CHANGE_MENU:
-            var menuIdx = action.menuIdx;
-            switch (action.level) {
-                case 0:
-                    return _extends({}, state, {
-                        selectedMenuIdx: menuIdx
-                    });
-                    break;
-                case 1:
-                    return _extends({}, state, {
-                        selectedSubmenuIdx: menuIdx
-                    });
-                    break;
-                default:
-                    return _extends({}, state, {
-                        selectedMenuIdx: menuIdx
-                    });
-                    break;
-            }
+            return _extends({}, state, {
+                selectedMenuIdx: action.menuIdx
+            });
+            break;
+        case _menus.CHANGE_SUBMENU:
+            return _extends({}, state, {
+                selectedSubmenuIdx: action.submenuIdx
+            });
+            break;
         default:
             return initialState;
     }

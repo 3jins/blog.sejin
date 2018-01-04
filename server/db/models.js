@@ -16,12 +16,13 @@ const post = new mongoose.Schema({
     belongToMinor: {type: String, required: true, unique: false},
 });
 
+const UpdatedData = mongoose.model("UpdatedData", updatedDataSchema);
 const Post = mongoose.model("Post", post);
 
-export { Post };
+export { Post, UpdatedData };
 
 // const board = new mongoose.Schema({
-//     posts: [post]
+//     works: [post]
 // });
 //
 // const menu = new mongoose.Schema({
@@ -43,11 +44,11 @@ export { Post };
 //     }),
 //     'blog': new menuModel({
 //         title: 'Blog',
-//         titleForDesign: 'ls posts',
+//         titleForDesign: 'ls works',
 //     }),
-//     'contacts': new menuModel({
+//     'contacts.js': new menuModel({
 //         title: 'Contacts',
-//         titleForDesign: 'echo hello >> ~/contacts/mailbox',
+//         titleForDesign: 'echo hello >> ~/contacts.js/mailbox',
 //     }),
 // };
 //

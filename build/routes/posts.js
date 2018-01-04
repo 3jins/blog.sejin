@@ -19,26 +19,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import timestamps from 'mongoose-timestamp';
 var router = _express2.default.Router();
 
-router.get('/works', function (req, res) {
-    _models.Post.find({ "belongToMajor": 'works' }).exec(function (err, posts) {
+router.get('(about)?', function (req, res) {
+    _models.Post.find({
+        "belongToMajor": "About"
+    }).exec(function (err, posts) {
         if (err) {
             console.log(err);
             return res.status(500).json({
-                message: 'Could not retrieve posts'
+                message: 'Could not retrieve works'
             });
         }
-        res.json(posts);
-    });
-});
-router.get('/blog', function (req, res) {
-    _models.Post.find({ "belongToMajor": 'blog' }).exec(function (err, posts) {
-        if (err) {
-            console.log(err);
-            return res.status(500).json({
-                message: 'Could not retrieve posts'
-            });
-        }
-        res.json(posts);
+        // res.json(posts);
+        res.json({ test: "test" });
+        // res.format({
+        //     html: function(){
+        //         res.send(express.static(__dirname + "/../public"));
+        //     },
+        //     json: function(){
+        //         res.send(posts);
+        //     },
+        // });
     });
 });
 
