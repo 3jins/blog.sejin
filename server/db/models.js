@@ -1,6 +1,6 @@
 import connectToDB, {mongoose} from './dbConnection'
 
-connectToDB('172.18.0.3', 27017, 'blog');
+connectToDB('172.18.0.3', '172.18.0.2', 27017, 'blog');
 
 const updatedDataSchema = new mongoose.Schema({
     dateUpdated: {type: Date, required: true, unique: false}
