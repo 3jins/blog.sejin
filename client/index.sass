@@ -52,10 +52,12 @@ a
     height: $menu-height
     .sub-nav-menu-table
       width: 100%
-      height: $menu-height
+      height: calc(#{$menu-height} / 2)
+      padding: calc(#{$menu-height} / 4) 0
       table-layout: fixed
       td p
         cursor: pointer
+        margin: 0
 
 .content
   color: $secondary-color
@@ -63,4 +65,4 @@ a
 
   .content-preview
     min-height: calc(100vh - #{$menu-height})
-    margin: 3em 2em
+    padding: 2em 8em
