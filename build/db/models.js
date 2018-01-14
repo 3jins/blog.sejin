@@ -27,8 +27,8 @@ var post = new _dbConnection.mongoose.Schema({
     belongToMinor: { type: String, required: true, unique: false }
 });
 
-var UpdatedData = _dbConnection.mongoose.model("UpdatedData", updatedDataSchema);
-var Post = _dbConnection.mongoose.model("Post", post);
+var UpdatedData = _dbConnection.mongoose.model("UpdatedData", updatedDataSchema, "updatedDataSchema");
+var Post = _dbConnection.mongoose.model("Post", post, "posts");
 
 exports.Post = Post;
 exports.UpdatedData = UpdatedData;

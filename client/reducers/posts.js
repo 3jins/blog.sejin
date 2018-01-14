@@ -3,7 +3,6 @@ import {FETCH_POSTS, FETCH_POST, FETCH_POSTS_SUCCESS} from "../actions/posts";
 const initialState = {
     postList: [],
     loading: false,
-    currentPostIdx: 0,
 };
 
 export default (state=initialState, action) => {

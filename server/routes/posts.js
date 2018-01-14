@@ -3,13 +3,11 @@ import { Post } from '../db/models';
 // import timestamps from 'mongoose-timestamp';
 const router = express.Router();
 
-router.get('/:nav/:subnav', function(req, res) {
+router.get('/:nav', function(req, res) {
     const nav = req.params.nav;
-    const subnav = req.params.subnav;
     Post
         .find({
             "belongToMajor": nav,
-            "belongToMinor": subnav,
         })
         .exec(function(err, posts) {
             if(err) {

@@ -11,6 +11,7 @@ const headers = {
 /* posts */
 /*********/
 export function fetchPosts(url, belongToMajor, belongToMinor) {
+    console.log(url + "/" + belongToMajor + "/" + belongToMinor);
     const postList = fetch(url + "/" + belongToMajor + "/" + belongToMinor, {
         method: 'get',
         headers: headers
@@ -69,5 +70,11 @@ export function changeSubmenu(submenuIdx) {
     return {
         type: menus.CHANGE_SUBMENU,
         submenuIdx: submenuIdx,
+    };
+}
+
+export function changeSubmenuFinished() {
+    return {
+        type: menus.CHANGE_SUBMENU_FINISHED,
     };
 }

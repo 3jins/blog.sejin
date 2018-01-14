@@ -15,12 +15,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import timestamps from 'mongoose-timestamp';
 var router = _express2.default.Router();
 
-router.get('/:nav/:subnav', function (req, res) {
+router.get('/:nav', function (req, res) {
     var nav = req.params.nav;
-    var subnav = req.params.subnav;
     _models.Post.find({
-        "belongToMajor": nav,
-        "belongToMinor": subnav
+        "belongToMajor": nav
     }).exec(function (err, posts) {
         if (err) {
             console.log(err);

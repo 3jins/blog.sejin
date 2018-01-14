@@ -1,23 +1,37 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../../actions';
+import ContentPreview from './ContentPreview';
+import scrollToComponent from 'react-scroll-to-component';
 
-class Content extends Component {
+class Contents extends Component {
+
+    constructor(props) {
+        super(props);
+        this.postPositions = [];
+    }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.selectedMenuIdx !== nextProps.selectedMenuIdx) {
             this.props.handleFetchPosts(
                 '/posts',
                 this.props.menuList[nextProps.selectedMenuIdx].title,
-                this.props.menuList[nextProps.selectedMenuIdx].submenuList[0].title
+                // this.props.menuList[nextProps.selectedMenuIdx].submenuList[0].title
             );
         }
-        if (this.props.selectedSubmenuIdx !== nextProps.selectedSubmenuIdx) {
-            this.props.handleFetchPosts(
-                '/posts',
-                this.props.menuList[this.props.selectedMenuIdx].title,
-                this.props.menuList[this.props.selectedMenuIdx].submenuList[nextProps.selectedSubmenuIdx].title
-            );
+    //     if (this.props.selectedSubmenuIdx !== nextProps.selectedSubmenuIdx) {
+    //         this.props.handleFetchPosts(
+    //             '/posts',
+    //             this.props.menuList[this.props.selectedMenuIdx].title,
+    //             // this.props.menuList[this.props.selectedMenuIdx].submenuList[nextProps.selectedSubmenuIdx].title
+    //         );
+    //     }
+        if(nextProps.scroll) {
+            scrollToComponent(this.postPositions[nextProps.selectedSubmenuIdx], {
+                align: 'top',
+                duration: 500,
+            });
+            this.props.handleChangeSubmenuFinished();
         }
     }
 
@@ -25,7 +39,7 @@ class Content extends Component {
         this.props.handleFetchPosts(
             '/posts',
             this.props.menuList[0].title,
-            this.props.menuList[0].submenuList[0].title
+            // this.props.menuList[0].submenuList[0].title
         );
     }
 
@@ -36,36 +50,46 @@ class Content extends Component {
     render() {
         const renderLoading = () => {
             return (
-                <div className="content">
-                    <p>loading...</p>
-                </div>
+                <p>loading...</p>
             );
         };
-        const renderContent = (numContents, currentIdx) => {
-            if(numContents === 0) {
+        const renderContent = (postList, selectedSubmenuIdx) => {
+            if(postList.length === 0) {
                 return (
-                    <div className="content">
-                        <p>There is no post</p>
-                    </div>
+                    <p>There is no post</p>
                 );
             }
             else {
-                return (
-                    <div className="content">
-                        <p>
-                            {this.props.postList[currentIdx]['content']}
-                        </p>
-                    </div>
-                );
+                return postList.map((post, idx) => {
+                    return <ContentPreview
+                        ref={(section) => {
+                            this.postPositions[idx] = section;
+                        }}
+                        key={post._id}
+                        belongToMajor={post.belongToMajor}
+                        belongToMinor={post.belongToMinor}
+                        title={post.title}
+                        content={post.content}
+                        dataUpdated={post.dataUpdated}
+                    />
+                });
             }
         };
 
         if(this.props.loading) {
-            return renderLoading();
+            return (
+                <div className="content">
+                    {renderLoading()}
+                </div>
+            );
         }
         else {
             const postList = this.props.postList;
-            return renderContent(postList.length, this.props.currentPostIdx);
+            return (
+                <div className="content">
+                    {renderContent(postList, this.props.currentPostIdx)}
+                </div>
+            );
         }
     }
 }
@@ -78,15 +102,16 @@ export default connect(
         menuList: state.menus.menuList,
         selectedMenuIdx: state.menus.selectedMenuIdx,
         selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
+        scroll: state.menus.scroll,
     }),
     (dispatch) => ({
-        // handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),
-        handleFetchPosts: (url, belongToMajor, belongToMinor) => {
-            const pendingResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor));
+        handleFetchPosts: (url, belongToMajor) => {
+            const pendingResult = dispatch(actions.fetchPosts(url, belongToMajor, ''));
             pendingResult.postList
                 .then((response) => {
                     dispatch(actions.fetchPostsSuccess(response));
                 });
         },
+        handleChangeSubmenuFinished: () => dispatch(actions.changeSubmenuFinished()),
     }),
-)(Content);
+)(Contents);

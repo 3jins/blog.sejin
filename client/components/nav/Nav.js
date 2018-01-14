@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import NavItem from './NavItem';
-import SubnavItem from './SubnavItem';
 
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 
 import Typist from 'react-typist';
-
 
 class Nav extends Component {
     render() {
@@ -23,6 +21,7 @@ class Nav extends Component {
             if(level === 1) {
                 onSelected = this.props.handleChangeSubmenu;
             }
+
             return menuList.map((navMenu, menuIdx) => {
                 return <NavItem key={menuIdx} menuTitle={navMenu.title} menuIdx={menuIdx}
                                 onSelected={onSelected}/>
@@ -74,7 +73,9 @@ const mapDispatchToProps = (dispatch) => {
     //return bindActionCreators(actions, dispatch);
     return {
         handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),
-        handleChangeSubmenu: (submenuIdx) => dispatch(actions.changeSubmenu(submenuIdx)),
+        handleChangeSubmenu: (submenuIdx) => {
+            dispatch(actions.changeSubmenu(submenuIdx));
+        },
     };
 };
 
