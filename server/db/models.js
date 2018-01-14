@@ -16,8 +16,8 @@ const post = new mongoose.Schema({
     belongToMinor: {type: String, required: true, unique: false},
 });
 
-const UpdatedData = mongoose.model("UpdatedData", updatedDataSchema);
-const Post = mongoose.model("Post", post);
+const UpdatedData = mongoose.model("UpdatedData", updatedDataSchema, "updatedDataSchema");
+const Post = mongoose.model("Post", post, "posts");
 
 export { Post, UpdatedData };
 
