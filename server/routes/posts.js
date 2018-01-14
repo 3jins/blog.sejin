@@ -1,13 +1,15 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import { Post } from '../db/models';
 // import timestamps from 'mongoose-timestamp';
 const router = express.Router();
 
-router.get('(about)?', function(req, res) {
+router.get('/:nav/:subnav', function(req, res) {
+    const nav = req.params.nav;
+    const subnav = req.params.subnav;
     Post
         .find({
-            "belongToMajor": "About",
+            "belongToMajor": nav,
+            "belongToMinor": subnav,
         })
         .exec(function(err, posts) {
             if(err) {
@@ -16,16 +18,7 @@ router.get('(about)?', function(req, res) {
                     message: 'Could not retrieve works'
                 });
             }
-            // res.json(posts);
-            res.json({test: "test"});
-            // res.format({
-            //     html: function(){
-            //         res.send(express.static(__dirname + "/../public"));
-            //     },
-            //     json: function(){
-            //         res.send(posts);
-            //     },
-            // });
+            res.json(posts);
         });
 });
 

@@ -14,11 +14,7 @@ var app = (0, _express2.default)();
 var port = 5913;
 
 app.use(_express2.default.static(__dirname + "/../public"));
-app.use('/', _posts2.default);
-
-// app.get('/dbdata', (req, res) => {
-//     res.send(menus);
-// });
+app.use('/posts', _posts2.default);
 
 app.listen(port, function () {
     console.log('Express listening on port', port);

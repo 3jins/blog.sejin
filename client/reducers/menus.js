@@ -73,22 +73,20 @@ const initialState = {
     ],
 };
 
-export default (state, action) => {
+export default (state=initialState, action) => {
     switch(action.type) {
         case CHANGE_MENU:
             return {
                 ...state,
                 selectedMenuIdx: action.menuIdx,
             };
-            break;
         case CHANGE_SUBMENU:
             return {
                 ...state,
                 selectedSubmenuIdx: action.submenuIdx,
             };
-            break;
         default:
-            return initialState;
+            return state;
     }
 }
 

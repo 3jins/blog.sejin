@@ -1,23 +1,35 @@
 import * as posts from './posts';
 import * as menus from './menus';
 
-/*********/
-/* posts */
-/*********/
 const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
 };
 
+
+/*********/
+/* posts */
+/*********/
 export function fetchPosts(url, belongToMajor, belongToMinor) {
-    const request = fetch(url + "/" + belongToMajor + "/" + belongToMinor, {
+    const postList = fetch(url + "/" + belongToMajor + "/" + belongToMinor, {
         method: 'get',
         headers: headers
-    }).then(res => res.json());
+    })
+        .then(res => res.json())
+        .catch(err => console.log(err));
 
     return {
         type: posts.FETCH_POSTS,
-        payload: request,
+        loading: true,
+        postList: postList,
+    };
+}
+
+export function fetchPostsSuccess(postList) {
+    return {
+        type: posts.FETCH_POSTS_SUCCESS,
+        loading: false,
+        postList: postList,
     }
 }
 
@@ -32,15 +44,15 @@ export function createPost(jsonData) {
 }
 
 export function fetchPost(url, postId) {
-    const request = fetch(url + '/' + postId, {
-        method: 'get',
-        headers: headers
-    }).then(res => res.json());
-
-    return {
-        type: posts.FETCH_POST,
-        payload: request,
-    }
+    // const request = fetch(url + '/' + postId, {
+    //     method: 'get',
+    //     headers: headers
+    // }).then(res => res.json());
+    //
+    // return {
+    //     type: posts.FETCH_POST,
+    //     payload: request,
+    // }
 }
 
 /*********/

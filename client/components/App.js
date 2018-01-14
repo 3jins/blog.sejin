@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Nav from './nav/Nav';
-import Content from './content/Content';
+import Contents from './content/Contents';
 import 'whatwg-fetch';
 
 class App extends Component {
@@ -15,7 +15,7 @@ class App extends Component {
     //         dataType: 'json',
     //         headers: {
     //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
+    //             'Contents-Type': 'application/json'
     //         }
     //     })
     //         .then((response) => response.json())
@@ -33,7 +33,7 @@ class App extends Component {
         return (
             <div>
                 <Nav/>
-                <Content/>
+                <Contents/>
             </div>
         );
     }

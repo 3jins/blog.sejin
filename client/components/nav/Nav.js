@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import NavItem from './NavItem';
+import SubnavItem from './SubnavItem';
 
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
@@ -17,14 +18,14 @@ class Nav extends Component {
             hideWhenDoneDelay: 1000,
         };
 
-        const mapToComponent = (menuList, level) => {
-            let functionToPass = this.props.handleChangeMenu;
+        const mapMenuToComponent = (menuList, level) => {
+            let onSelected = this.props.handleChangeMenu;
             if(level === 1) {
-                functionToPass = this.props.handleChangeSubmenu;
+                onSelected = this.props.handleChangeSubmenu;
             }
-
             return menuList.map((navMenu, menuIdx) => {
-                return <NavItem key={menuIdx} menuTitle={navMenu.title} menuIdx={menuIdx} onSelect={functionToPass} level={level}/>
+                return <NavItem key={menuIdx} menuTitle={navMenu.title} menuIdx={menuIdx}
+                                onSelected={onSelected}/>
             });
         };
 
@@ -33,7 +34,7 @@ class Nav extends Component {
                 <table className="nav-menu-table">
                     <tbody>
                         <tr>
-                            {mapToComponent(this.props.menuList, 0)}
+                            {mapMenuToComponent(this.props.menuList, 0)}
                         </tr>
                     </tbody>
                 </table>
@@ -48,7 +49,7 @@ class Nav extends Component {
                     <table className="sub-nav-menu-table">
                         <tbody>
                             <tr>
-                                {mapToComponent(this.props.submenuList, 1)}
+                                {mapMenuToComponent(this.props.submenuList, 1)}
                             </tr>
                         </tbody>
                     </table>
@@ -73,7 +74,7 @@ const mapDispatchToProps = (dispatch) => {
     //return bindActionCreators(actions, dispatch);
     return {
         handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),
-        handleChangeSubmenu: (menuIdx) => dispatch(actions.changeSubmenu(menuIdx)),
+        handleChangeSubmenu: (submenuIdx) => dispatch(actions.changeSubmenu(submenuIdx)),
     };
 };
 

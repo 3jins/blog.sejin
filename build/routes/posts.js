@@ -8,10 +8,6 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
-var _mongoose = require('mongoose');
-
-var _mongoose2 = _interopRequireDefault(_mongoose);
-
 var _models = require('../db/models');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -19,9 +15,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import timestamps from 'mongoose-timestamp';
 var router = _express2.default.Router();
 
-router.get('(about)?', function (req, res) {
+router.get('/:nav/:subnav', function (req, res) {
+    var nav = req.params.nav;
+    var subnav = req.params.subnav;
     _models.Post.find({
-        "belongToMajor": "About"
+        "belongToMajor": nav,
+        "belongToMinor": subnav
     }).exec(function (err, posts) {
         if (err) {
             console.log(err);
@@ -29,16 +28,7 @@ router.get('(about)?', function (req, res) {
                 message: 'Could not retrieve works'
             });
         }
-        // res.json(posts);
-        res.json({ test: "test" });
-        // res.format({
-        //     html: function(){
-        //         res.send(express.static(__dirname + "/../public"));
-        //     },
-        //     json: function(){
-        //         res.send(posts);
-        //     },
-        // });
+        res.json(posts);
     });
 });
 

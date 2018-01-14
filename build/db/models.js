@@ -11,7 +11,7 @@ var _dbConnection2 = _interopRequireDefault(_dbConnection);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-(0, _dbConnection2.default)('172.18.0.3', 27017, 'blog');
+(0, _dbConnection2.default)('172.18.0.3', '172.18.0.2', 27017, 'blog');
 
 var updatedDataSchema = new _dbConnection.mongoose.Schema({
     dateUpdated: { type: Date, required: true, unique: false }

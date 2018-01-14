@@ -1,18 +1,30 @@
-import { FETCH_POSTS, FETCH_POST } from "../actions/posts";
+import {FETCH_POSTS, FETCH_POST, FETCH_POSTS_SUCCESS} from "../actions/posts";
 
 const initialState = {
-    postsList: [],
-    currentPost: {},
-    createdPost: {},
-    deletedPost: {},
+    postList: [],
+    loading: false,
+    currentPostIdx: 0,
 };
 
 export default (state=initialState, action) => {
-    switch(action) {
+    switch(action.type) {
         case FETCH_POSTS:
-            return { ...state, postsList: {postsList: action.payload} };
-        case FETCH_POST:
-            return { ...state, currentPost: {postsList: action.payload} };
+            return {
+                ...state,
+                postList: action.postList,
+                loading: action.loading,
+            };
+        case FETCH_POSTS_SUCCESS:
+            return {
+                ...state,
+                postList: action.postList,
+                loading: action.loading,
+            };
+        // case FETCH_POST:
+        //     return {
+        //         ...state,
+        //         currentPost: action.currentPost,
+        //     };
         default:
             return initialState;
     }
