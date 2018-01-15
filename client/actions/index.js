@@ -1,5 +1,7 @@
 import * as posts from './posts';
 import * as menus from './menus';
+import * as scrolls from './scrolls';
+import {emToPx} from "../utils/unitConverter";
 
 const headers = {
     'Accept': 'application/json',
@@ -77,4 +79,15 @@ export function changeSubmenuFinished() {
     return {
         type: menus.CHANGE_SUBMENU_FINISHED,
     };
+}
+
+export function scroll(scrollY, subnavGetStickyFromHere) {
+    const areNavsSticky = {
+        isNavSticky: scrollY >= emToPx(1),
+        isSubnavSticky: scrollY >= subnavGetStickyFromHere,
+    };
+    return {
+        type: scrolls.SCROLL,
+        areNavsSticky: areNavsSticky,
+    }
 }

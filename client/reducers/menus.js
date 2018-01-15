@@ -53,24 +53,6 @@ const initialState = {
                 },
             ],
         },
-        {
-            'title': 'Contacts',
-            'titleForDesign': 'echo hello >> ~/mailbox.txt',
-            'submenuList': [
-                {
-                    'title': 'email',
-                },
-                {
-                    'title': 'github',
-                },
-                {
-                    'title': 'facebook',
-                },
-                {
-                    'title': 'linkedin',
-                },
-            ],
-        },
     ],
 };
 
