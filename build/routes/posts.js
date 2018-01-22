@@ -12,7 +12,6 @@ var _models = require('../db/models');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import timestamps from 'mongoose-timestamp';
 var router = _express2.default.Router();
 
 router.get('/:nav', function (req, res) {
