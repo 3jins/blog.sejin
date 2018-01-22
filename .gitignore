@@ -125,6 +125,11 @@ fabric.properties
 .idea/sonarlint
 
 # webpack bundle files
-build/*
+build/*.js
+build/db/*.js
+build/routes/*.js
+
+# posting content files
+*.md
 
 # End of https://www.gitignore.io/api/node,webstorm
