@@ -18,7 +18,9 @@
     "react-showdown": "^1.6.0",
     "react-typist": "^2.0.4",
     "redux": "^3.7.2",
+    "save-dev": "^2.0.0",
     "style-loader": "^0.19.1",
+    "url-loader": "^0.6.2",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7",
     "whatwg-fetch": "^2.0.3"
@@ -35,7 +37,7 @@
   },
   "scripts": {
     "clean": "rm -rf build public/bundle.js",
-    "build": "npm run clean& babel server --out-dir build && webpack",
+    "build": "npm run clean; babel server --out-dir build; webpack",
     "start": "NODE_ENV=production node ./build/main.js",
     "dev": "NODE_ENV=development& node ./build/main.js",
     "db": "NODE_ENV=db& node ./build/db/dbCreation.js"

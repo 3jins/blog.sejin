@@ -31,7 +31,7 @@ const initialState = {
                     'title': 'mobile',
                 },
                 {
-                    'title': 'artificial int',
+                    'title': 'a.i.',
                 },
                 {
                     'title': 'etc',

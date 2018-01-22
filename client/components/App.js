@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
-import Nav from './nav/Nav';
-import Contents from './content/Contents';
 import {connect} from 'react-redux';
-import * as actions from '../actions';
 import 'whatwg-fetch';
 import {emToPx} from "../utils/unitConverter";
+
+import * as actions from '../actions';
+import Nav from './nav/Nav';
+import Contents from './content/Contents';
+import Footer from './footer/Footer';
+
 
 class App extends Component {
     componentDidMount() {
@@ -19,7 +22,7 @@ class App extends Component {
             <div>
                 <Nav/>
                 <Contents/>
-                {/*<Footer/>*/}
+                <Footer/>
             </div>
         );
     }
