@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import 'whatwg-fetch';
-import {emToPx} from "../utils/unitConverter";
 
 import * as actions from '../actions';
 import Nav from './nav/Nav';
@@ -13,7 +12,7 @@ class App extends Component {
     componentDidMount() {
         window.addEventListener(
             'scroll',
-            () => this.props.handleScroll(window.scrollY, window.innerHeight - emToPx(5)),
+            () => this.props.handleScroll(window.scrollY, window.innerHeight),
             true
         );
     }

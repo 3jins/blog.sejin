@@ -81,10 +81,13 @@ export function changeSubmenuFinished() {
     };
 }
 
-export function scroll(scrollY, subnavGetStickyFromHere) {
+export function scroll(scrollY, innerWindowHeight) {
+    const basePx = 14;
+    const menuHeight = 4;
+    const menuPadding = menuHeight / 4;
     const areNavsSticky = {
-        isNavSticky: scrollY >= emToPx(1),
-        isSubnavSticky: scrollY >= subnavGetStickyFromHere,
+        isNavSticky: scrollY >= emToPx(basePx, menuPadding),
+        isSubnavSticky: scrollY >= innerWindowHeight - emToPx(basePx, menuHeight + menuPadding),
     };
     return {
         type: scrolls.SCROLL,

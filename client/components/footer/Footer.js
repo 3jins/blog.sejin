@@ -52,7 +52,7 @@ class Footer extends Component {
                                 <tbody>
                                 <tr>
                                     <th colSpan={this.contacts.length}>
-                                        <h2>Contact me</h2>
+                                        <h1>Contact me</h1>
                                     </th>
                                 </tr>
                                 <tr>

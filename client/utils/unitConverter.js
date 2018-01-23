@@ -1,5 +1,4 @@
-function emToPx(em) {
-    const basePx = 18;
+function emToPx(basePx, em) {
     return basePx * em;
 }
 

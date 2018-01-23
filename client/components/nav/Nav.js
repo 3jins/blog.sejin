@@ -32,18 +32,20 @@ class Nav extends Component {
         return (
             <div className="nav">
                 <div className="main-nav">
-                    <table className={["nav-menu-table", this.props.isNavSticky ? "sticky" : "unsticky"].join(' ')}>
-                        <tbody>
-                        <tr>
-                            {mapMenuToComponent(this.props.menuList, 0)}
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div className={["nav-menu-table-wrapper", this.props.isNavSticky ? "sticky" : "unsticky"].join(' ')}>
+                        <table className="nav-menu-table">
+                            <tbody>
+                            <tr>
+                                {mapMenuToComponent(this.props.menuList, 0)}
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <table className="v-center-table">
                     <tbody>
                     <tr>
-                        <td>
+                        <td className="typed-td">
                             ${' '}
                             <Typist avgTypingDelay={100} cursor={cursorOption}>
                                 <Typist.Delay ms={1000}/>
@@ -53,14 +55,16 @@ class Nav extends Component {
                     </tr>
                     </tbody>
                 </table>
-                <div className="sub-nav">
-                    <table className={["sub-nav-menu-table", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
-                        <tbody>
-                        <tr>
-                            {mapMenuToComponent(this.props.submenuList, 1)}
-                        </tr>
-                        </tbody>
-                    </table>
+                <div className="subnav">
+                    <div className={["subnav-menu-table-wrapper", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
+                        <table className="subnav-menu-table">
+                            <tbody>
+                            <tr>
+                                {mapMenuToComponent(this.props.submenuList, 1)}
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         );

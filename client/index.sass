@@ -6,6 +6,10 @@ $tertiary-color: rgb(224, 224, 224)
 $tertiary-bg-color: rgb(224, 224, 224)
 
 $menu-height: 4em
+$menu-item-width: 10em
+$menu-base-pixel: 14px
+$content-base-pixel: 16px
+$side-margin: 12em
 
 @keyframes bg-color-secondary-to-tertiary
   from
@@ -22,7 +26,6 @@ $menu-height: 4em
 
 body
   width: 100%
-  font: 18px "Source Code Pro", "Bitstream Vera Sans Mono", "나눔바른고딕 Light", "Lucida Grande", Helvetica, Arial, sans-serif
   margin: 0
   padding: 0
 
@@ -33,80 +36,99 @@ a
 .nav
   color: $primary-color
   background-color: $primary-bg-color
+  font: $menu-base-pixel "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
   text-align: center
   height: 100vh
   .main-nav
     height: $menu-height
-    .nav-menu-table
-      background-color: $primary-bg-color
+    .nav-menu-table-wrapper
       width: 100%
+      background-color: $primary-bg-color
       height: calc(#{$menu-height} / 2)
       padding: calc(#{$menu-height} / 4) 0
-      table-layout: fixed
       &.sticky
         position: fixed
+        top: 0
         padding: 0
-      td p
-        cursor: pointer
-        margin: 0
+      .nav-menu-table
+        margin: 0 auto
+        table-layout: fixed
+        td
+          width: $menu-item-width
+          p
+            cursor: pointer
+
+            margin: 0
 
   .v-center-table
     width: 100%
-    //height: 100%
     height: calc(100% - 2 * #{$menu-height})
     td
       font-size: 4em
-      .Typist
-        display: inline
-        .Cursor--blinking
-          animation-name: blinker
-          animation-duration: 0.7s
-          animation-timing-function: linear
-          animation-iteration-count: infinite
-          @keyframes blinker
-            0%
-              opacity: 1.0
-            50%
-              opacity: 0.0
-            100%
-              opacity: 1.0
-  .sub-nav
+    //.typed-td
+    //  width: 100%
+    .Typist
+      display: inline
+      .Cursor--blinking
+        animation-name: blinker
+        animation-duration: 0.7s
+        animation-timing-function: linear
+        animation-iteration-count: infinite
+        @keyframes blinker
+          0%
+            opacity: 1.0
+          50%
+            opacity: 0.0
+          100%
+            opacity: 1.0
+  .subnav
     color: $secondary-color
     background-color: $secondary-bg-color
     height: $menu-height
-    .sub-nav-menu-table
+    .subnav-menu-table-wrapper
       width: 100%
       height: calc(#{$menu-height} / 2)
       padding: calc(#{$menu-height} / 4) 0
-      table-layout: fixed
-      background-color: $secondary-bg-color
       animation-name: bg-color-tertiary-to-secondary
       animation-duration: 0.5s
       &.sticky
+        position: fixed
         background-color: $tertiary-bg-color
         animation-name: bg-color-secondary-to-tertiary
         animation-duration: 0.5s
-        position: fixed
         top: calc(#{$menu-height} / 2)
         padding: 0
-      td p
-        cursor: pointer
-        margin: 0
+      .subnav-menu-table
+        margin: 0 auto
+        table-layout: fixed
+        td
+          width: $menu-item-width
+          p
+            cursor: pointer
+            margin: 0
 
 .content
   color: $secondary-color
   background-color: $secondary-bg-color
+  font: $content-base-pixel "Bitstream Vera Sans Mono", "나눔바른고딕 Light", "Source Code Pro", "Lucida Grande", Helvetica, Arial, sans-serif
+  line-height: 2em
 
   .content-preview
     min-height: calc(100vh - #{$menu-height})
-    padding: 2em 8em
+    padding-top: 4em
+    padding-bottom: 2em
+    margin-left: $side-margin
+    margin-right: $side-margin
 
 .footer
   color: $tertiary-color
   background-color: $primary-bg-color
+  font: $menu-base-pixel "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
   height: calc(100vh - #{$menu-height})
   .v-center-table
     margin-top: 5em
+    padding-left: $side-margin
+    padding-right: $side-margin
     width: 100%
     height: 100%
     td
@@ -115,7 +137,7 @@ a
         padding-top: 10%
         text-align: center
         tr
-          height: 4em
+          height: 5em
           //th
           //  text-align: center
           td
@@ -127,4 +149,4 @@ a
         width: 100%
         text-align: center
         color: $tertiary-color
-        font-size: 0.8em
+        font-size: 1em
