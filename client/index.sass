@@ -4,6 +4,7 @@ $secondary-color: rgb(0, 0, 0)
 $secondary-bg-color: rgb(255, 255, 255)
 $tertiary-color: rgb(224, 224, 224)
 $tertiary-bg-color: rgb(224, 224, 224)
+$anchor-color: rgb(128, 128, 255)
 
 $menu-height: 4em
 $menu-item-width: 10em
@@ -39,6 +40,8 @@ a
   font: $menu-base-pixel "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
   text-align: center
   height: 100vh
+  .sticky
+    z-index: 10
   .main-nav
     height: $menu-height
     .nav-menu-table-wrapper
@@ -57,7 +60,6 @@ a
           width: $menu-item-width
           p
             cursor: pointer
-
             margin: 0
 
   .v-center-table
@@ -112,13 +114,34 @@ a
   background-color: $secondary-bg-color
   font: $content-base-pixel "Bitstream Vera Sans Mono", "나눔바른고딕 Light", "Source Code Pro", "Lucida Grande", Helvetica, Arial, sans-serif
   line-height: 2em
-
-  .content-preview
+  .content-view
     min-height: calc(100vh - #{$menu-height})
     padding-top: 4em
     padding-bottom: 2em
     margin-left: $side-margin
     margin-right: $side-margin
+    .content-preview
+      display: inline
+      position: relative
+      &>div
+        height: 70vh
+        overflow: hidden
+        &::before
+          content: ''
+          position: absolute
+          width: calc(100vw - 2 * #{$side-margin})
+          //width: 100%
+          height: 10em
+          top: calc(70vh - 10em)
+          left: 0
+          background: linear-gradient(transparent 0px, #fff)
+      .read-more
+        width: 100%
+        height: 2em
+        //width: calc(100wh - 2 * #{$side-margin})
+        text-align: center
+        a
+          color: $anchor-color
 
 .footer
   color: $tertiary-color

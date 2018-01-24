@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../../actions';
-import ContentPreview from './ContentPreview';
+import ContentView from './ContentView';
+import ContentPreviewBunch from './ContentPreviewBunch';
 import scrollToComponent from 'react-scroll-to-component';
 
 class Contents extends Component {
@@ -53,26 +54,44 @@ class Contents extends Component {
                 <p>loading...</p>
             );
         };
-        const renderContent = (postList, selectedSubmenuIdx) => {
+        const renderContent = (postList, menuList, selectedMenuIdx) => {
             if(postList.length === 0) {
                 return (
                     <p>There is no post</p>
                 );
             }
             else {
-                return postList.map((post, idx) => {
-                    return <ContentPreview
-                        ref={(section) => {
-                            this.postPositions[idx] = section;
-                        }}
-                        key={post._id}
-                        belongToMajor={post.belongToMajor}
-                        belongToMinor={post.belongToMinor}
-                        title={post.title}
-                        content={post.content}
-                        dataUpdated={post.dataUpdated}
-                    />
-                });
+                if(selectedMenuIdx === 0) {  // about
+                    return postList.map((post, idx) => {
+                        return <ContentView
+                            ref={(section) => {
+                                this.postPositions[idx] = section;
+                            }}
+                            key={post._id}
+                            belongToMajor={post.belongToMajor}
+                            belongToMinor={post.belongToMinor}
+                            title={post.title}
+                            content={post.content}
+                            dataUpdated={post.dataUpdated}
+                        />
+                    });
+                }
+                else {  // works, blog
+                    return menuList[selectedMenuIdx].submenuList.map((submenu, idx) => {
+                        const submenuTitle = submenu.title;
+                        let selectedPostList = [];
+                        postList.map((post) => {
+                            if(submenuTitle === post.belongToMinor) {
+                                selectedPostList.push(post);
+                            }
+                        });
+                        return <ContentPreviewBunch
+                            key={idx}
+                            submenuTitle={submenuTitle}
+                            postList={selectedPostList}
+                        />;
+                    });
+                }
             }
         };
 
@@ -87,7 +106,7 @@ class Contents extends Component {
             const postList = this.props.postList;
             return (
                 <div className="content">
-                    {renderContent(postList, this.props.currentPostIdx)}
+                    {renderContent(postList, this.props.menuList, this.props.selectedMenuIdx)}
                 </div>
             );
         }

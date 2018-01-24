@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Markdown } from 'react-showdown';
 import { capitalizeFirstLetter } from "../../utils/stringModifier";
 
-class ContentPreview extends Component {
+class ContentView extends Component {
     constructor(props) {
         super(props);
         this.belongToMajor = props.belongToMajor;
@@ -24,15 +24,14 @@ class ContentPreview extends Component {
     // }
 
     render() {
-        return(
-            <div className={["content-preview", this.belongToMajor].join(' ')}>
-                <Markdown markup={this.content}/>
-                <div className={"read-more"}>
-                    <a href="">Read more</a>
-                </div>
+        return (
+            <div className={["content-view", this.belongToMajor].join(' ')}>
+                {!this.isEmpty && <h1>{capitalizeFirstLetter(this.belongToMinor)}</h1>}
+                {!this.isEmpty && <Markdown markup={this.content}/>}
+                {this.isEmpty && <h2>There is no post :-O</h2>}
             </div>
-        );
+        )
     }
 }
 
-export default ContentPreview;
+export default ContentView;
