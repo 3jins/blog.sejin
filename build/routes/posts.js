@@ -12,14 +12,19 @@ var _models = require('../db/models');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import timestamps from 'mongoose-timestamp';
 var router = _express2.default.Router();
 
-router.get('/:nav', function (req, res) {
+router.get('/:nav/:subnav?', function (req, res) {
     var nav = req.params.nav;
-    _models.Post.find({
+    var subnav = req.params.subnav;
+    var queryJson = {
         "belongToMajor": nav
-    }).exec(function (err, posts) {
+    };
+
+    if (typeof subnav !== 'undefined') {
+        queryJson["belongToMinor"] = subnav;
+    }
+    _models.Post.find(queryJson).exec(function (err, posts) {
         if (err) {
             console.log(err);
             return res.status(500).json({

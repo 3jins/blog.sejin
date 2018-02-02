@@ -1,7 +1,7 @@
 import * as posts from './posts';
 import * as menus from './menus';
 import * as scrolls from './scrolls';
-import {emToPx} from "../utils/unitConverter";
+import {getBasePx, getMenuHeightRaw, emToPx} from "../utils/unitConverter";
 
 const headers = {
     'Accept': 'application/json',
@@ -18,7 +18,10 @@ export function fetchPosts(url, belongToMajor, belongToMinor) {
         method: 'get',
         headers: headers
     })
-        .then(res => res.json())
+        .then(res => {
+            // console.log(res);
+            return res.json();
+        })
         .catch(err => console.log(err));
 
     return {
@@ -68,22 +71,30 @@ export function changeMenu(menuIdx) {
     };
 }
 
-export function changeSubmenu(submenuIdx) {
-    return {
+export function changeSubmenu(submenuIdx, exchange) {
+    const changedState = {
         type: menus.CHANGE_SUBMENU,
         submenuIdx: submenuIdx,
+        exchange: false,
     };
+    if(exchange) {
+        changedState['exchange'] = true;
+    }
+    return changedState;
 }
 
-export function changeSubmenuFinished() {
+export function changeMenuFinished() {
     return {
-        type: menus.CHANGE_SUBMENU_FINISHED,
+        type: menus.CHANGE_MENU_FINISHED,
     };
 }
 
+/***********/
+/* scrolls */
+/***********/
 export function scroll(scrollY, innerWindowHeight) {
-    const basePx = 14;
-    const menuHeight = 4;
+    const basePx = getBasePx()['menu'];
+    const menuHeight = getMenuHeightRaw();
     const menuPadding = menuHeight / 4;
     const areNavsSticky = {
         isNavSticky: scrollY >= emToPx(basePx, menuPadding),

@@ -1,9 +1,10 @@
-import { CHANGE_MENU, CHANGE_SUBMENU, CHANGE_SUBMENU_FINISHED } from "../actions/menus";
+import {CHANGE_MENU, CHANGE_SUBMENU, EXCHANGE_PREVIEWS, CHANGE_MENU_FINISHED} from "../actions/menus";
 
 const initialState = {
     selectedMenuIdx: 0,
     selectedSubmenuIdx: 0,
     scroll: false,
+    exchange: false,
     menuList: [
         {
             'title': 'About',
@@ -62,17 +63,21 @@ export default (state=initialState, action) => {
             return {
                 ...state,
                 selectedMenuIdx: action.menuIdx,
+                selectedSubmenuIdx: 0,
+                scroll: true,
             };
         case CHANGE_SUBMENU:
             return {
                 ...state,
                 selectedSubmenuIdx: action.submenuIdx,
                 scroll: true,
+                exchange: action.exchange,
             };
-        case CHANGE_SUBMENU_FINISHED:
+        case CHANGE_MENU_FINISHED:
             return {
                 ...state,
                 scroll: false,
+                exchange: false
             };
         default:
             return state;

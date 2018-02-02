@@ -5,6 +5,7 @@ class NavItems extends Component {
         super(props);
         this.menuTitle = props.menuTitle;
         this.menuIdx = props.menuIdx;
+        this.exchange = props.exchange;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -16,7 +17,7 @@ class NavItems extends Component {
     render() {
         return (
             <td>
-                <p onClick={() => this.props.onSelected(this.menuIdx)}>
+                <p onClick={() => this.props.onSelected(this.menuIdx, this.props.exchange)}>
                     {this.menuTitle}
                 </p>
             </td>

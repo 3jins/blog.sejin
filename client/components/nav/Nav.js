@@ -8,6 +8,7 @@ import Typist from 'react-typist';
 
 
 class Nav extends Component {
+
     render() {
         const cursorOption = {
             show: true,
@@ -17,22 +18,26 @@ class Nav extends Component {
             hideWhenDoneDelay: 1000,
         };
 
-        const mapMenuToComponent = (menuList, level) => {
+        const mapMenuToComponent = (menuList, level, selectedMenuIdx = 0) => {
             let onSelected = this.props.handleChangeMenu;
+            let exchange = false;
             if (level === 1) {
                 onSelected = this.props.handleChangeSubmenu;
+                if (selectedMenuIdx > 0) {
+                    exchange = true;
+                }
             }
-
             return menuList.map((navMenu, menuIdx) => {
                 return <NavItem key={menuIdx} menuTitle={navMenu.title} menuIdx={menuIdx}
-                                onSelected={onSelected}/>
+                                onSelected={onSelected} exchange={exchange}/>
             });
         };
 
         return (
             <div className="nav">
                 <div className="main-nav">
-                    <div className={["nav-menu-table-wrapper", this.props.isNavSticky ? "sticky" : "unsticky"].join(' ')}>
+                    <div
+                        className={["nav-menu-table-wrapper", this.props.isNavSticky ? "sticky" : "unsticky"].join(' ')}>
                         <table className="nav-menu-table">
                             <tbody>
                             <tr>
@@ -56,11 +61,12 @@ class Nav extends Component {
                     </tbody>
                 </table>
                 <div className="subnav">
-                    <div className={["subnav-menu-table-wrapper", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
+                    <div
+                        className={["subnav-menu-table-wrapper", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
                         <table className="subnav-menu-table">
                             <tbody>
                             <tr>
-                                {mapMenuToComponent(this.props.submenuList, 1)}
+                                {mapMenuToComponent(this.props.submenuList, 1, this.props.selectedMenuIdx)}
                             </tr>
                             </tbody>
                         </table>
@@ -72,8 +78,8 @@ class Nav extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-    return {
+export default connect(
+    (state) => ({
         selectedMenuIdx: state.menus.selectedMenuIdx,
         selectedSubmenuIdx: state.menus.selectedSubenuIdx,
         menuList: state.menus.menuList,
@@ -81,20 +87,11 @@ const mapStateToProps = (state) => {
         titleForDesign: state.menus.menuList[state.menus.selectedMenuIdx].titleForDesign,
         isNavSticky: state.scrolls.areNavsSticky.isNavSticky,
         isSubnavSticky: state.scrolls.areNavsSticky.isSubnavSticky,
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    //return bindActionCreators(actions, dispatch);
-    return {
+    }),
+    (dispatch) => ({
         handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),
-        handleChangeSubmenu: (submenuIdx) => {
-            dispatch(actions.changeSubmenu(submenuIdx));
+        handleChangeSubmenu: (submenuIdx, exchange) => {
+            dispatch(actions.changeSubmenu(submenuIdx, exchange));
         },
-        // handleStickNav: () => dispatch(actions.stickNav()),
-        // handleUnstickNav: () => dispatch(actions.)
-    };
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Nav);
+    }),
+)(Nav);

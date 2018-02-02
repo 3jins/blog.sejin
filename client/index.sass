@@ -2,8 +2,7 @@ $primary-color: rgb(255, 255, 255)
 $primary-bg-color: rgb(0, 0, 0)
 $secondary-color: rgb(0, 0, 0)
 $secondary-bg-color: rgb(255, 255, 255)
-$tertiary-color: rgb(224, 224, 224)
-$tertiary-bg-color: rgb(224, 224, 224)
+$light-color: rgb(224, 224, 224)
 $anchor-color: rgb(128, 128, 255)
 
 $menu-height: 4em
@@ -11,16 +10,20 @@ $menu-item-width: 10em
 $menu-base-pixel: 14px
 $content-base-pixel: 16px
 $side-margin: 12em
+$nested-side-margin: 6em
+$content-width: calc(100vw - #{$side-margin} - 2 * #{$nested-side-margin})
 
-@keyframes bg-color-secondary-to-tertiary
+$color-change-duration: 0.5s
+
+@keyframes bg-color-secondary-to-light
   from
     background-color: $secondary-bg-color
   to
-    background-color: $tertiary-bg-color
+    background-color: $light-color
 
-@keyframes bg-color-tertiary-to-secondary
+@keyframes bg-color-light-to-secondary
   from
-    background-color: $tertiary-bg-color
+    background-color: $light-color
   to
     background-color: $secondary-bg-color
 
@@ -67,8 +70,6 @@ a
     height: calc(100% - 2 * #{$menu-height})
     td
       font-size: 4em
-    //.typed-td
-    //  width: 100%
     .Typist
       display: inline
       .Cursor--blinking
@@ -91,13 +92,13 @@ a
       width: 100%
       height: calc(#{$menu-height} / 2)
       padding: calc(#{$menu-height} / 4) 0
-      animation-name: bg-color-tertiary-to-secondary
-      animation-duration: 0.5s
+      animation-name: bg-color-light-to-secondary
+      animation-duration: $color-change-duration
       &.sticky
         position: fixed
-        background-color: $tertiary-bg-color
-        animation-name: bg-color-secondary-to-tertiary
-        animation-duration: 0.5s
+        background-color: $light-color
+        animation-name: bg-color-secondary-to-light
+        animation-duration: $color-change-duration
         top: calc(#{$menu-height} / 2)
         padding: 0
       .subnav-menu-table
@@ -114,46 +115,48 @@ a
   background-color: $secondary-bg-color
   font: $content-base-pixel "Bitstream Vera Sans Mono", "나눔바른고딕 Light", "Source Code Pro", "Lucida Grande", Helvetica, Arial, sans-serif
   line-height: 2em
+  a
+    color: $anchor-color
   .content-view
     min-height: calc(100vh - #{$menu-height})
-    padding-top: 4em
-    padding-bottom: 2em
-    margin-left: $side-margin
-    margin-right: $side-margin
-    .content-preview
-      display: inline
-      position: relative
-      &>div
-        height: 70vh
-        overflow: hidden
-        &::before
-          content: ''
-          position: absolute
-          width: calc(100vw - 2 * #{$side-margin})
-          //width: 100%
-          height: 10em
-          top: calc(70vh - 10em)
-          left: 0
-          background: linear-gradient(transparent 0px, #fff)
-      .read-more
-        width: 100%
-        height: 2em
-        //width: calc(100wh - 2 * #{$side-margin})
+
+    table
+      width: 100%
+      border: 0
+      border-spacing: 0
+      /* About */
+      .subtitle
+        width: $side-margin
+        vertical-align: top
+        padding: 3em 0
         text-align: center
-        a
-          color: $anchor-color
+        background-color: $secondary-bg-color
+        animation-name: bg-color-light-to-secondary
+        animation-duration: $color-change-duration
+        &.sticky
+          background-color: $light-color
+          animation-name: bg-color-secondary-to-light
+          animation-duration: $color-change-duration
+        h3
+          font-family: "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
+      .content-body
+        div
+          margin: 3em $nested-side-margin
+
+      /* Works, Blog */
+      .content-preview
+        padding: 3em $side-margin
 
 .footer
-  color: $tertiary-color
+  color: $light-color
   background-color: $primary-bg-color
   font: $menu-base-pixel "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
   height: calc(100vh - #{$menu-height})
   .v-center-table
-    margin-top: 5em
+    padding-top: 5em
     padding-left: $side-margin
     padding-right: $side-margin
     width: 100%
-    height: 100%
     td
       .contact-table
         margin: 0 auto
@@ -161,8 +164,6 @@ a
         text-align: center
         tr
           height: 5em
-          //th
-          //  text-align: center
           td
             width: 5em
             img
@@ -171,5 +172,5 @@ a
         padding-top: 10%
         width: 100%
         text-align: center
-        color: $tertiary-color
+        color: $light-color
         font-size: 1em
