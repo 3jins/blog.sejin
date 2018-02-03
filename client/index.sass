@@ -116,14 +116,15 @@ a
   background-color: $secondary-bg-color
   font: $content-base-pixel "Bitstream Vera Sans Mono", "나눔바른고딕 Light", "Source Code Pro", "Lucida Grande", Helvetica, Arial, sans-serif
   line-height: 2em
-  .content-view
-    min-height: calc(100vh - #{$menu-height})
 
+  /* main */
+  .content-preview
+    min-height: calc(100vh - #{$menu-height})
     table
       width: 100%
       border: 0
       border-spacing: 0
-      /* About */
+      /* about */
       .subtitle
         width: $side-margin
         vertical-align: top
@@ -142,7 +143,7 @@ a
         div
           margin: $top-bottom-margin $nested-side-margin
 
-      /* Works, Blog */
+      /* works, blog */
       .content-preview
         padding: $top-bottom-margin $side-margin
         position: relative
@@ -164,9 +165,16 @@ a
           height: 2em
           //width: calc(100wh - 2 * #{$side-margin})
           text-align: center
-          > p
+          > a
             color: $link-color
             margin: 0
+
+  /* post body */
+  .content-view
+    min-height: calc(100vh - #{$menu-height})
+    margin: $top-bottom-margin $side-margin
+    //> div
+    //  padding: $top-bottom-margin $side-margin
 
 .footer
   color: $light-color

@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import {Markdown} from 'react-showdown';
-import {capitalizeFirstLetter} from "../../utils/stringModifier";
+import {
+    BrowserRouter as Router,
+    Route,
+    Link
+} from 'react-router-dom'
 
 class ContentPreview extends Component {
     constructor(props) {
@@ -21,7 +25,10 @@ class ContentPreview extends Component {
                 <td id={this.id} className={["content-preview", this.belongToMajor].join(' ')}>
                     <Markdown markup={this.content}/>
                     <div className={"read-more"}>
-                        <p onClick={() => this.onReadMore('/post', this.id)}>Read more</p>
+                        <Router>
+                            <Link to={this.id} onClick={() => this.onReadMore('/post', this.id)}>Read more</Link>
+                            {/*<p onClick={() => this.onReadMore('/post', this.id)}>Read more</p>*/}
+                        </Router>
                     </div>
                 </td>
             </tr>

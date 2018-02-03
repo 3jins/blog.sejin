@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/:postId', function(req, res) {
     const postId = req.params.postId;
     const queryJson = {
-        "postId": postId,
+        "_id": postId,
     };
 
     Post

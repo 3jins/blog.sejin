@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../../actions';
+
+import NoPostPreview from './NoPostPreview';
+import LoadingView from './LoadingView';
 import AboutView from './AboutView';
 import ContentPreview from './ContentPreview';
+import ContentView from './ContentView';
 import scrollToComponent from 'react-scroll-to-component';
 import {getMenuHeight} from "../../utils/unitConverter";
 
@@ -63,21 +67,14 @@ class Contents extends Component {
     render() {
         const renderLoading = () => {
             return (
-                <tr>
-                    <td>
-                        <p>loading...</p>
-                    </td>
-                </tr>
+                <LoadingView/>
             );
         };
-        const renderContent = (postList, menuList, selectedMenuIdx) => {
+
+        const renderContents = (postList, menuList, selectedMenuIdx) => {
             if (postList.length === 0) {
                 return (
-                    <tr>
-                        <td>
-                            <p>There is no post</p>
-                        </td>
-                    </tr>
+                    <NoPostPreview/>
                 );
             }
             else {
@@ -118,7 +115,7 @@ class Contents extends Component {
         if (this.props.loading) {
             return (
                 <div className="content">
-                    <div className="content-view">
+                    <div className="content-preview">
                         <table>
                             <tbody>
                             {renderLoading()}
@@ -129,24 +126,45 @@ class Contents extends Component {
             );
         }
         else {
-            const postList = this.props.postPayload;
-            return (
-                <div className="content">
-                    <div className="content-view">
-                        <table>
-                            <tbody>
-                            {renderContent(postList, this.props.menuList, this.props.selectedMenuIdx)}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            );
+            switch(this.props.actionType) {
+                case 'FETCH_POSTS':
+                    const postList = this.props.postPayload;
+                    return (
+                        <div className="content">
+                            <div className="content-preview">
+                                <table>
+                                    <tbody>
+                                    {renderContents(postList, this.props.menuList, this.props.selectedMenuIdx)}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    );
+                case 'FETCH_POST':
+                    const post = this.props.postPayload[0];
+                    return (
+                        <div className={"content"}>
+                            <div className={"content-view"}>
+                                <ContentView
+                                    key={post._id}
+                                    id={post._id}
+                                    belongToMajor={post.belongToMajor}
+                                    belongToMinor={post.belongToMinor}
+                                    title={post.title}
+                                    content={post.content}
+                                    dataUpdated={post.dataUpdated}
+                                />
+                            </div>
+                        </div>
+                    );
+            }
         }
     }
 }
 
 export default connect(
     (state) => ({
+        actionType: state.posts.actionType,
         postPayload: state.posts.postPayload,
         loading: state.posts.loading,
         currentPostIdx: state.posts.currentPostIdx,
