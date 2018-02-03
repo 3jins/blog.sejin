@@ -8,6 +8,10 @@ var _posts = require('./routes/posts');
 
 var _posts2 = _interopRequireDefault(_posts);
 
+var _post = require('./routes/post');
+
+var _post2 = _interopRequireDefault(_post);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -15,6 +19,7 @@ var port = 5913;
 
 app.use(_express2.default.static(__dirname + "/../public"));
 app.use('/posts', _posts2.default);
+app.use('/post', _post2.default);
 
 app.listen(port, function () {
     console.log('Express listening on port', port);

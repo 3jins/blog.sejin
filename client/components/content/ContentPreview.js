@@ -7,19 +7,21 @@ class ContentPreview extends Component {
         super(props);
         this.belongToMajor = props.belongToMajor;
         this.belongToMinor = props.belongToMinor;
+        this.id = props.id;
         this.title = props.title;
         this.content = props.content;
         this.dataUpdated = props.dataUpdated;
+        this.onReadMore = props.onReadMore;
     }
 
 
     render() {
         return (
             <tr>
-                <td className={["content-preview", this.belongToMajor].join(' ')}>
+                <td id={this.id} className={["content-preview", this.belongToMajor].join(' ')}>
                     <Markdown markup={this.content}/>
                     <div className={"read-more"}>
-                        <a href="">Read more</a>
+                        <p onClick={() => this.onReadMore('/post', this.id)}>Read more</p>
                     </div>
                 </td>
             </tr>

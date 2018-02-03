@@ -14,7 +14,7 @@ const headers = {
 /*********/
 export function fetchPosts(url, belongToMajor, belongToMinor) {
     console.log(url + "/" + belongToMajor + "/" + belongToMinor);
-    const postList = fetch(url + "/" + belongToMajor + "/" + belongToMinor, {
+    const postPayload = fetch(url + "/" + belongToMajor + "/" + belongToMinor, {
         method: 'get',
         headers: headers
     })
@@ -27,15 +27,23 @@ export function fetchPosts(url, belongToMajor, belongToMinor) {
     return {
         type: posts.FETCH_POSTS,
         loading: true,
-        postList: postList,
+        postPayload: postPayload,
     };
 }
 
-export function fetchPostsSuccess(postList) {
+export function fetchPost(url, postId) {
+    console.log(url + '/' + postId);
+    const postPayload = fetch(url + '/' + postId, {
+        method: 'get',
+        headers: headers
+    })
+        .then(res => res.json())
+        .catch(err => console.log(err));
+
     return {
-        type: posts.FETCH_POSTS_SUCCESS,
-        loading: false,
-        postList: postList,
+        type: posts.FETCH_POST,
+        loading: true,
+        postPayload: postPayload,
     }
 }
 
@@ -49,17 +57,14 @@ export function createPost(jsonData) {
     //     .catch(err => console.log(err));
 }
 
-export function fetchPost(url, postId) {
-    // const request = fetch(url + '/' + postId, {
-    //     method: 'get',
-    //     headers: headers
-    // }).then(res => res.json());
-    //
-    // return {
-    //     type: posts.FETCH_POST,
-    //     payload: request,
-    // }
+export function fetchSuccess(postPayload) {
+    return {
+        type: posts.FETCH_SUCCESS,
+        loading: false,
+        postPayload: postPayload,
+    }
 }
+
 
 /*********/
 /* menus */

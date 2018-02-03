@@ -57,7 +57,7 @@ class Contents extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return (nextProps.postList.length > 0) || (this.props.loading !== nextProps.loading) || this.props.exchange;
+        return (nextProps.postPayload.length > 0) || (this.props.loading !== nextProps.loading) || this.props.exchange;
     }
 
     render() {
@@ -88,6 +88,7 @@ class Contents extends Component {
                                 this.postPositions[idx] = section;
                             }}
                             key={post._id}
+                            id={post._id}
                             belongToMajor={post.belongToMajor}
                             belongToMinor={post.belongToMinor}
                             content={post.content}
@@ -101,11 +102,13 @@ class Contents extends Component {
                                 this.postPositions[idx] = section;
                             }}
                             key={post._id}
+                            id={post._id}
                             belongToMajor={post.belongToMajor}
                             belongToMinor={post.belongToMinor}
                             title={post.title}
                             content={post.content}
                             dataUpdated={post.dataUpdated}
+                            onReadMore={this.props.handleFetchPost}
                         />
                     });
                 }
@@ -126,7 +129,7 @@ class Contents extends Component {
             );
         }
         else {
-            const postList = this.props.postList;
+            const postList = this.props.postPayload;
             return (
                 <div className="content">
                     <div className="content-view">
@@ -144,7 +147,7 @@ class Contents extends Component {
 
 export default connect(
     (state) => ({
-        postList: state.posts.postList,
+        postPayload: state.posts.postPayload,
         loading: state.posts.loading,
         currentPostIdx: state.posts.currentPostIdx,
         menuList: state.menus.menuList,
@@ -156,10 +159,16 @@ export default connect(
     (dispatch) => ({
         handleFetchPosts: (url, belongToMajor, belongToMinor) => {
             const pendingResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor));
-            console.log(pendingResult);
-            pendingResult.postList
+            pendingResult.postPayload
                 .then((response) => {
-                    dispatch(actions.fetchPostsSuccess(response));
+                    dispatch(actions.fetchSuccess(response));
+                });
+        },
+        handleFetchPost: (url, postId) => {
+            const pendingResult = dispatch(actions.fetchPost(url, postId));
+            pendingResult.postPayload
+                .then((response) => {
+                    dispatch(actions.fetchSuccess(response));
                 });
         },
         handleScrollToComponentFinished: () => dispatch(actions.changeMenuFinished()),

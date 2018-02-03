@@ -2,16 +2,12 @@ import express from 'express';
 import { Post } from '../db/models';
 const router = express.Router();
 
-router.get('/:nav/:subnav?', function(req, res) {
-    const nav = req.params.nav;
-    const subnav = req.params.subnav;
+router.get('/:postId', function(req, res) {
+    const postId = req.params.postId;
     const queryJson = {
-        "belongToMajor": nav,
+        "postId": postId,
     };
 
-    if(typeof subnav !== 'undefined') {
-        queryJson["belongToMinor"] = subnav;
-    }
     Post
         .find(queryJson)
         .exec(function (err, posts) {
