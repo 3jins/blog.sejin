@@ -41152,9 +41152,24 @@ var Contents = function (_Component) {
                 var scrollOptions = {
                     align: 'top',
                     duration: 500,
-                    offset: -(0, _unitConverter.getMenuHeight)()
+                    offset: 0
                 };
-                (0, _reactScrollToComponent2.default)(this.postPositions[nextProps.selectedSubmenuIdx], scrollOptions);
+                console.log(nextProps.menuActionType);
+                switch (nextProps.menuActionType) {
+                    case 'CHANGE_MENU':
+                        (function scrollToTop() {
+                            if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
+                                window.scrollBy(0, -50);
+                                setTimeout(scrollToTop, 10);
+                            }
+                        })();
+                        break;
+                    case 'CHANGE_SUBMENU':
+                        scrollOptions['offset'] = -(0, _unitConverter.getMenuHeight)();
+                        (0, _reactScrollToComponent2.default)(this.postPositions[nextProps.selectedSubmenuIdx], scrollOptions);
+                        break;
+                }
+
                 this.props.handleScrollToComponentFinished();
             }
         }
@@ -41235,7 +41250,7 @@ var Contents = function (_Component) {
                     )
                 );
             } else {
-                switch (this.props.actionType) {
+                switch (this.props.postActionType) {
                     case 'FETCH_POSTS':
                         var postList = this.props.postPayload;
                         return _react2.default.createElement(
@@ -41284,10 +41299,11 @@ var Contents = function (_Component) {
 
 exports.default = (0, _reactRedux.connect)(function (state) {
     return {
-        actionType: state.posts.actionType,
+        postActionType: state.posts.postActionType,
         postPayload: state.posts.postPayload,
         loading: state.posts.loading,
         currentPostIdx: state.posts.currentPostIdx,
+        menuActionType: state.menus.menuActionType,
         menuList: state.menus.menuList,
         selectedMenuIdx: state.menus.selectedMenuIdx,
         selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
@@ -53405,7 +53421,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var _posts = __webpack_require__(184);
 
 var initialState = {
-    actionType: 'FETCH_POSTS',
+    postActionType: 'FETCH_POSTS',
     postPayload: [],
     loading: false
 };
@@ -53417,13 +53433,13 @@ exports.default = function () {
     switch (action.type) {
         case _posts.FETCH_POSTS:
             return _extends({}, state, {
-                actionType: action.type,
+                postActionType: action.type,
                 postPayload: action.postPayload,
                 loading: action.loading
             });
         case _posts.FETCH_POST:
             return _extends({}, state, {
-                actionType: action.type,
+                postActionType: action.type,
                 postPayload: action.postPayload,
                 loading: action.loading
             });
@@ -53453,6 +53469,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var _menus = __webpack_require__(185);
 
 var initialState = {
+    menuActionType: '',
     selectedMenuIdx: 0,
     selectedSubmenuIdx: 0,
     scroll: false,
@@ -53481,7 +53498,7 @@ var initialState = {
         }]
     }, {
         'title': 'Blog',
-        'titleForDesign': 'ls works',
+        'titleForDesign': 'ls posts',
         'submenuList': [{
             'title': 'tech'
         }, {
@@ -53499,18 +53516,21 @@ exports.default = function () {
     switch (action.type) {
         case _menus.CHANGE_MENU:
             return _extends({}, state, {
+                menuActionType: action.type,
                 selectedMenuIdx: action.menuIdx,
                 selectedSubmenuIdx: 0,
                 scroll: true
             });
         case _menus.CHANGE_SUBMENU:
             return _extends({}, state, {
+                menuActionType: action.type,
                 selectedSubmenuIdx: action.submenuIdx,
                 scroll: true,
                 exchange: action.exchange
             });
         case _menus.CHANGE_MENU_FINISHED:
             return _extends({}, state, {
+                menuActionType: action.type,
                 scroll: false,
                 exchange: false
             });

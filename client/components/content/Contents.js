@@ -45,9 +45,25 @@ class Contents extends Component {
             const scrollOptions = {
                 align: 'top',
                 duration: 500,
-                offset: -getMenuHeight(),
+                offset: 0,
             };
-            scrollToComponent(this.postPositions[nextProps.selectedSubmenuIdx], scrollOptions);
+            console.log(nextProps.menuActionType);
+            switch(nextProps.menuActionType) {
+                case 'CHANGE_MENU':
+                    // TODO: It needs deceleration effect.
+                    (function scrollToTop () {
+                        if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
+                            window.scrollBy(0, -50);
+                            setTimeout(scrollToTop, 10);
+                        }
+                    }());
+                    break;
+                case 'CHANGE_SUBMENU':
+                    scrollOptions['offset'] = -getMenuHeight();
+                    scrollToComponent(this.postPositions[nextProps.selectedSubmenuIdx], scrollOptions);
+                    break;
+            }
+
             this.props.handleScrollToComponentFinished();
         }
     }
@@ -126,7 +142,7 @@ class Contents extends Component {
             );
         }
         else {
-            switch(this.props.actionType) {
+            switch(this.props.postActionType) {
                 case 'FETCH_POSTS':
                     const postList = this.props.postPayload;
                     return (
@@ -164,10 +180,11 @@ class Contents extends Component {
 
 export default connect(
     (state) => ({
-        actionType: state.posts.actionType,
+        postActionType: state.posts.postActionType,
         postPayload: state.posts.postPayload,
         loading: state.posts.loading,
         currentPostIdx: state.posts.currentPostIdx,
+        menuActionType: state.menus.menuActionType,
         menuList: state.menus.menuList,
         selectedMenuIdx: state.menus.selectedMenuIdx,
         selectedSubmenuIdx: state.menus.selectedSubmenuIdx,

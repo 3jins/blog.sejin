@@ -52,7 +52,7 @@ class Nav extends Component {
                     <tr>
                         <td className="typed-td">
                             ${' '}
-                            <Typist avgTypingDelay={100} cursor={cursorOption}>
+                            <Typist key={this.props.titleForDesign} avgTypingDelay={100} cursor={cursorOption}>
                                 <Typist.Delay ms={1000}/>
                                 {this.props.titleForDesign}
                             </Typist>

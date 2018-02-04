@@ -1,6 +1,7 @@
 import {CHANGE_MENU, CHANGE_SUBMENU, EXCHANGE_PREVIEWS, CHANGE_MENU_FINISHED} from "../actions/menus";
 
 const initialState = {
+    menuActionType: '',
     selectedMenuIdx: 0,
     selectedSubmenuIdx: 0,
     scroll: false,
@@ -41,7 +42,7 @@ const initialState = {
         },
         {
             'title': 'Blog',
-            'titleForDesign': 'ls works',
+            'titleForDesign': 'ls posts',
             'submenuList': [
                 {
                     'title': 'tech',
@@ -62,6 +63,7 @@ export default (state=initialState, action) => {
         case CHANGE_MENU:
             return {
                 ...state,
+                menuActionType: action.type,
                 selectedMenuIdx: action.menuIdx,
                 selectedSubmenuIdx: 0,
                 scroll: true,
@@ -69,6 +71,7 @@ export default (state=initialState, action) => {
         case CHANGE_SUBMENU:
             return {
                 ...state,
+                menuActionType: action.type,
                 selectedSubmenuIdx: action.submenuIdx,
                 scroll: true,
                 exchange: action.exchange,
@@ -76,6 +79,7 @@ export default (state=initialState, action) => {
         case CHANGE_MENU_FINISHED:
             return {
                 ...state,
+                menuActionType: action.type,
                 scroll: false,
                 exchange: false
             };
