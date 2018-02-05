@@ -4,6 +4,11 @@ module.exports = {
         path: __dirname + "/public",
         filename: "bundle.js"
     },
+    devServer: {
+        historyApiFallback: {
+            index: __dirname + "/public/"
+        }
+    },
     module: {
         rules:[
             {

@@ -11,6 +11,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var posts = [];
 var mdPath = process.cwd() + '/md_files';
 
+var extensionCutter = function extensionCutter(name) {
+    var idx = name.lastIndexOf(".");
+    return name.substring(0, idx);
+};
+
 var readFiles = function readFiles(curPath) {
     var belongToMajor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     var belongToMinor = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
@@ -23,6 +28,7 @@ var readFiles = function readFiles(curPath) {
 
         files.map(function (file) {
             var fullPath = curPath + '/' + file;
+            var fileName = extensionCutter(file);
             if (_fs2.default.statSync(fullPath).isFile()) {
                 // file
                 _fs2.default.readFile(fullPath, 'utf-8', function (error, data) {
@@ -30,7 +36,7 @@ var readFiles = function readFiles(curPath) {
                         posts[posts.length] = new _models.Post({
                             belongToMajor: belongToMajor,
                             belongToMinor: belongToMinor,
-                            title: file,
+                            title: fileName,
                             dateCreated: fileStat.ctime,
                             dateUpdated: fileStat.mtime,
                             content: data

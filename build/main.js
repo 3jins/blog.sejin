@@ -12,6 +12,10 @@ var _post = require('./routes/post');
 
 var _post2 = _interopRequireDefault(_post);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -20,6 +24,10 @@ var port = 5913;
 app.use(_express2.default.static(__dirname + "/../public"));
 app.use('/posts', _posts2.default);
 app.use('/post', _post2.default);
+app.get('/*', function (req, res) {
+    res.sendFile(_path2.default.resolve(__dirname + "/../public/index.html"));
+});
+console.log(__dirname + "/../public/index.html");
 
 app.listen(port, function () {
     console.log('Express listening on port', port);

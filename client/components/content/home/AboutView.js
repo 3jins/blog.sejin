@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import { Markdown } from 'react-showdown';
-import { capitalizeFirstLetter } from "../../utils/stringModifier";
+import { capitalizeFirstLetter } from "../../../utils/stringModifier";
 
 class ContentView extends Component {
     constructor(props) {

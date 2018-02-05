@@ -1,17 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import * as actions from '../../actions';
+import * as actions from '../../../actions';
 
 import NoPostPreview from './NoPostPreview';
-import LoadingView from './LoadingView';
+import LoadingView from '../LoadingView';
 import AboutView from './AboutView';
 import ContentPreview from './ContentPreview';
-import ContentView from './ContentView';
 import scrollToComponent from 'react-scroll-to-component';
-import {getMenuHeight} from "../../utils/unitConverter";
+import {getMenuHeight} from "../../../utils/unitConverter";
+
 
 class Contents extends Component {
-
     constructor(props) {
         super(props);
         this.postPositions = [];
@@ -83,7 +82,7 @@ class Contents extends Component {
     render() {
         const renderLoading = () => {
             return (
-                <LoadingView/>
+                <LoadingView isTable={true}/>
             );
         };
 
@@ -128,59 +127,24 @@ class Contents extends Component {
             }
         };
 
-        if (this.props.loading) {
-            return (
-                <div className="content">
-                    <div className="content-preview">
-                        <table>
-                            <tbody>
-                            {renderLoading()}
-                            </tbody>
-                        </table>
-                    </div>
+        const postList = this.props.postPayload;
+        return (
+            <div className="content">
+                <div className="content-preview">
+                    <table>
+                        <tbody>
+                        {this.props.loading && renderLoading()}
+                        {!this.props.loading && renderContents(postList, this.props.menuList, this.props.selectedMenuIdx)}
+                        </tbody>
+                    </table>
                 </div>
-            );
-        }
-        else {
-            switch(this.props.postActionType) {
-                case 'FETCH_POSTS':
-                    const postList = this.props.postPayload;
-                    return (
-                        <div className="content">
-                            <div className="content-preview">
-                                <table>
-                                    <tbody>
-                                    {renderContents(postList, this.props.menuList, this.props.selectedMenuIdx)}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    );
-                case 'FETCH_POST':
-                    const post = this.props.postPayload[0];
-                    return (
-                        <div className={"content"}>
-                            <div className={"content-view"}>
-                                <ContentView
-                                    key={post._id}
-                                    id={post._id}
-                                    belongToMajor={post.belongToMajor}
-                                    belongToMinor={post.belongToMinor}
-                                    title={post.title}
-                                    content={post.content}
-                                    dataUpdated={post.dataUpdated}
-                                />
-                            </div>
-                        </div>
-                    );
-            }
-        }
+            </div>
+        );
     }
 }
 
 export default connect(
     (state) => ({
-        postActionType: state.posts.postActionType,
         postPayload: state.posts.postPayload,
         loading: state.posts.loading,
         currentPostIdx: state.posts.currentPostIdx,
@@ -199,8 +163,8 @@ export default connect(
                     dispatch(actions.fetchSuccess(response));
                 });
         },
-        handleFetchPost: (url, postId) => {
-            const pendingResult = dispatch(actions.fetchPost(url, postId));
+        handleFetchPost: (url, postID) => {
+            const pendingResult = dispatch(actions.fetchPost(url, postID));
             pendingResult.postPayload
                 .then((response) => {
                     dispatch(actions.fetchSuccess(response));

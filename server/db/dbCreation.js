@@ -4,6 +4,11 @@ import fs from 'fs';
 let posts = [];
 const mdPath = process.cwd() + '/md_files';
 
+const extensionCutter = function(name) {
+    const idx = name.lastIndexOf(".");
+    return name.substring(0, idx);
+};
+
 const readFiles = function(curPath, belongToMajor=null, belongToMinor=null) {
     return fs.readdir(curPath, (error, files) => {
         if(error) {
@@ -13,13 +18,14 @@ const readFiles = function(curPath, belongToMajor=null, belongToMinor=null) {
 
         files.map((file) => {
             const fullPath = curPath + '/' + file;
+            const fileName = extensionCutter(file);
             if(fs.statSync(fullPath).isFile()) {    // file
                 fs.readFile(fullPath, 'utf-8', (error, data) => {
                     fs.stat(fullPath, (error, fileStat) => {
                         posts[posts.length] = new Post({
                             belongToMajor: belongToMajor,
                             belongToMinor: belongToMinor,
-                            title: file,
+                            title: fileName,
                             dateCreated: fileStat.ctime,
                             dateUpdated: fileStat.mtime,
                             content: data,

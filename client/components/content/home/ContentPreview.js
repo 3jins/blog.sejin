@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import {Markdown} from 'react-showdown';
-import {
-    BrowserRouter as Router,
-    Route,
-    Link
-} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 class ContentPreview extends Component {
     constructor(props) {
@@ -15,7 +11,7 @@ class ContentPreview extends Component {
         this.title = props.title;
         this.content = props.content;
         this.dataUpdated = props.dataUpdated;
-        this.onReadMore = props.onReadMore;
+        // this.onReadMore = props.onReadMore;
     }
 
 
@@ -23,12 +19,11 @@ class ContentPreview extends Component {
         return (
             <tr>
                 <td id={this.id} className={["content-preview", this.belongToMajor].join(' ')}>
+                    <h1>{this.title}</h1>
                     <Markdown markup={this.content}/>
                     <div className={"read-more"}>
-                        <Router>
-                            <Link to={this.id} onClick={() => this.onReadMore('/post', this.id)}>Read more</Link>
-                            {/*<p onClick={() => this.onReadMore('/post', this.id)}>Read more</p>*/}
-                        </Router>
+                        <Link to={["/postviewer", this.id].join('/')}>Read more</Link>
+                        {/*<p onClick={() => this.onReadMore('/post', this.id)}>Read more</p>*/}
                     </div>
                 </td>
             </tr>

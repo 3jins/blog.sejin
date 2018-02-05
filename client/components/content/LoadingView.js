@@ -2,13 +2,22 @@ import React, {Component} from 'react';
 
 class LoadingPreview extends Component {
     render() {
-        return(
-            <tr>
-                <td>
+        if(this.props.isTable) {
+            return (
+                <tr>
+                    <td>
+                        <p>loading...</p>
+                    </td>
+                </tr>
+            );
+        }
+        else {
+            return (
+                <div>
                     <p>loading...</p>
-                </td>
-            </tr>
-        );
+                </div>
+            )
+        }
     }
 }
 
