@@ -24,32 +24,35 @@ router.get('/:nav/:subnav?', function (req, res) {
     if (typeof subnav !== 'undefined') {
         queryJson["belongToMinor"] = subnav;
     }
-    switch (nav) {
-        case 'About':
-            _models.Post.find(queryJson).sort('dateCreated').exec(function (err, posts) {
-                if (err) {
-                    console.log(err);
-                    return res.status(500).json({
-                        message: 'Could not retrieve works'
-                    });
-                }
-                res.json(posts);
+    // switch(nav) {
+    //     case 'About':
+    //         Post
+    //             .find(queryJson)
+    //             .sort('dateCreated')
+    //             .exec(function (err, posts) {
+    //                 if (err) {
+    //                     console.log(err);
+    //                     return res.status(500).json({
+    //                         message: 'Could not retrieve works'
+    //                     });
+    //                 }
+    //                 res.json(posts);
+    //             });
+    //         break;
+    //     case 'Works':
+    //     case 'Blog':
+    _models.Post.find(queryJson).sort({ 'dateCreated': -1 }).exec(function (err, posts) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                message: 'Could not retrieve works'
             });
-            break;
-        case 'Works':
-        case 'Blog':
-            _models.Post.find(queryJson).sort({ 'dateCreated': -1 }).exec(function (err, posts) {
-                if (err) {
-                    console.log(err);
-                    return res.status(500).json({
-                        message: 'Could not retrieve works'
-                    });
-                }
-                res.json(posts);
-            });
-            break;
+        }
+        res.json(posts);
+    });
+    // break;
 
-    }
+    // }
 });
 
 exports.default = router;

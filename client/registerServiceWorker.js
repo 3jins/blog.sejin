@@ -60,8 +60,8 @@ function registerValidSW(swUrl) {
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a
-              // "Contents is cached for offline use." message.
-              console.log('Contents is cached for offline use.');
+              // "AboutContents is cached for offline use." message.
+              console.log('AboutContents is cached for offline use.');
             }
           }
         };

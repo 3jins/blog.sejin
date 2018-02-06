@@ -1,15 +1,9 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 
 class NavItems extends Component {
-    constructor(props) {
-        super(props);
-        this.menuTitle = props.menuTitle;
-        this.menuIdx = props.menuIdx;
-        this.exchange = props.exchange;
-    }
-
     componentWillReceiveProps(nextProps) {
-        if(this.menuTitle !== nextProps.menuTitle) {
+        if (this.menuTitle !== nextProps.menuTitle) {
             this.menuTitle = nextProps.menuTitle;
         }
     }
@@ -17,9 +11,16 @@ class NavItems extends Component {
     render() {
         return (
             <td>
-                <p onClick={() => this.props.onSelected(this.menuIdx, this.props.exchange)}>
-                    {this.menuTitle}
+                {this.props.level === 0 &&
+                <Link to={"/nav/" + this.props.menuTitle}>
+                    {this.props.menuTitle}
+                </Link>
+                }
+                {this.props.level > 0 &&
+                <p onClick={() => this.props.onSelected(this.props.menuIdx)}>
+                    {this.props.menuTitle}
                 </p>
+                }
             </td>
         );
     }

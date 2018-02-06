@@ -5,7 +5,6 @@ const initialState = {
     selectedMenuIdx: 0,
     selectedSubmenuIdx: 0,
     scroll: false,
-    exchange: false,
     menuList: [
         {
             'title': 'About',
@@ -74,14 +73,12 @@ export default (state=initialState, action) => {
                 menuActionType: action.type,
                 selectedSubmenuIdx: action.submenuIdx,
                 scroll: true,
-                exchange: action.exchange,
             };
         case CHANGE_MENU_FINISHED:
             return {
                 ...state,
                 menuActionType: action.type,
                 scroll: false,
-                exchange: false
             };
         default:
             return state;

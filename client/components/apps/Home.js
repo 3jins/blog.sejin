@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../../actions';
 import Nav from '../nav/Nav';
-import Contents from '../content/home/Contents';
+import AboutContents from '../content/home/about/AboutContents';
+import WorksContents from '../content/home/works/WorksContents';
+import BlogContents from '../content/home/blog/BlogContents';
 import Footer from '../footer/Footer';
-
 
 class Home extends Component {
     componentDidMount() {
@@ -15,10 +16,24 @@ class Home extends Component {
         );
     }
     render() {
+        const renderContents = (menuTitle) => {
+            if(typeof menuTitle === 'undefined') {
+                menuTitle = 'About';
+            }
+            switch(menuTitle) {
+                case 'About':
+                    return <AboutContents/>;
+                case 'Works':
+                    return <WorksContents/>;
+                case 'Blog':
+                    return <BlogContents/>
+            }
+        };
+
         return (
             <div>
                 <Nav/>
-                <Contents/>
+                {renderContents(this.props.match.params.title)}
                 <Footer/>
             </div>
         );

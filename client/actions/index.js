@@ -76,16 +76,11 @@ export function changeMenu(menuIdx) {
     };
 }
 
-export function changeSubmenu(submenuIdx, exchange) {
-    const changedState = {
+export function changeSubmenu(submenuIdx) {
+    return {
         type: menus.CHANGE_SUBMENU,
         submenuIdx: submenuIdx,
-        exchange: false,
     };
-    if(exchange) {
-        changedState['exchange'] = true;
-    }
-    return changedState;
 }
 
 export function changeMenuFinished() {

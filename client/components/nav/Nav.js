@@ -19,17 +19,13 @@ class Nav extends Component {
         };
 
         const mapMenuToComponent = (menuList, level, selectedMenuIdx = 0) => {
-            let onSelected = this.props.handleChangeMenu;
-            let exchange = false;
-            if (level === 1) {
-                onSelected = this.props.handleChangeSubmenu;
-                if (selectedMenuIdx > 0) {
-                    exchange = true;
-                }
-            }
+            // let exchange = false;
+            // if (level === 1 && selectedMenuIdx > 0) {
+            //     exchange = true;
+            // }
             return menuList.map((navMenu, menuIdx) => {
-                return <NavItem key={menuIdx} menuTitle={navMenu.title} menuIdx={menuIdx}
-                                onSelected={onSelected} exchange={exchange}/>
+                return <NavItem key={menuIdx} level={level} menuTitle={navMenu.title} menuIdx={menuIdx}
+                                onSelected={this.props.handleChangeSubmenu}/>
             });
         };
 
@@ -89,9 +85,8 @@ export default connect(
         isSubnavSticky: state.scrolls.areNavsSticky.isSubnavSticky,
     }),
     (dispatch) => ({
-        handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),
-        handleChangeSubmenu: (submenuIdx, exchange) => {
-            dispatch(actions.changeSubmenu(submenuIdx, exchange));
+        handleChangeSubmenu: (submenuIdx) => {
+            dispatch(actions.changeSubmenu(submenuIdx));
         },
     }),
 )(Nav);
