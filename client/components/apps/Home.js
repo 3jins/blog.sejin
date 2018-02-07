@@ -26,7 +26,7 @@ class Home extends Component {
                 case 'Works':
                     return <WorksContents/>;
                 case 'Blog':
-                    return <BlogContents/>
+                    return <BlogContents/>;
             }
         };
 

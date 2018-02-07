@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import scrollToComponent from 'react-scroll-to-component';
 import * as actions from '../../../../actions';
-
 import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import WorksPreview from './WorksPreview';
+import {getMenuHeight} from "../../../../utils/unitConverter";
 
 
 class WorksContents extends Component {
     constructor(props) {
         super(props);
-        this.postPositions = [];
+        this.contentPosition = null;
     }
 
     componentWillMount() {
@@ -26,13 +27,36 @@ class WorksContents extends Component {
             );
         }
         if (nextProps.scroll) {
-            // TODO: It needs deceleration effect.
-            (function scrollToTop () {
-                if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
-                    window.scrollBy(0, -50);
-                    setTimeout(scrollToTop, 10);
-                }
-            }());
+            switch(nextProps.menuActionType) {
+                case 'CHANGE_MENU':
+                    if (nextProps.scroll) {
+                        // TODO: It needs deceleration effect.
+                        (function scrollToTop() {
+                            if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
+                                window.scrollBy(0, -50);
+                                setTimeout(scrollToTop, 10);
+                            }
+                        }());
+                    }
+                    break;
+                case 'CHANGE_SUBMENU':
+                    scrollToComponent(
+                        this.contentPosition,
+                        {
+                            align: 'top',
+                            duration: 500,
+                            offset: -getMenuHeight(),
+                        }
+                    );
+                    // // TODO: It needs deceleration effect.
+                    // (function scrollToTop () {
+                    //     if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
+                    //         window.scrollBy(0, -50);
+                    //         setTimeout(scrollToTop, 10);
+                    //     }
+                    // }());
+                    break;
+            }
 
             this.props.handleScrollToComponentFinished();
         }
@@ -53,11 +77,8 @@ class WorksContents extends Component {
             if(postList.length === 0) {
                 return <NoPostPreview/>
             }
-            return postList.map((post, idx) => {
+            return postList.map((post) => {
                 return <WorksPreview
-                    ref={(section) => {
-                        this.postPositions[idx] = section;
-                    }}
                     key={post._id}
                     id={post._id}
                     belongToMajor={post.belongToMajor}
@@ -75,7 +96,9 @@ class WorksContents extends Component {
             <div className="content">
                 <div className="content-preview">
                     <table>
-                        <tbody>
+                        <tbody ref={(section) => {
+                            this.contentPosition = section;
+                        }}>
                         {this.props.loading && renderLoading()}
                         {!this.props.loading && renderContents(postList)}
                         </tbody>

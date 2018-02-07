@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import scrollToComponent from 'react-scroll-to-component';
 import * as actions from '../../../../actions';
-
 import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import AboutContent from './AboutContent';
-import scrollToComponent from 'react-scroll-to-component';
 import {getMenuHeight} from "../../../../utils/unitConverter";
 
 
 class AboutContents extends Component {
     constructor(props) {
         super(props);
-        this.postPositions = [];
+        this.contentPositions = [];
     }
 
     componentWillMount() {
@@ -30,21 +29,25 @@ class AboutContents extends Component {
         if (nextProps.scroll) {
             switch(nextProps.menuActionType) {
                 case 'CHANGE_MENU':
-                    // TODO: It needs deceleration effect.
-                    (function scrollToTop () {
-                        if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
-                            window.scrollBy(0, -50);
-                            setTimeout(scrollToTop, 10);
-                        }
-                    }());
+                    if (nextProps.scroll) {
+                        // TODO: It needs deceleration effect.
+                        (function scrollToTop () {
+                            if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
+                                window.scrollBy(0, -50);
+                                setTimeout(scrollToTop, 10);
+                            }
+                        }());
+                    }
                     break;
                 case 'CHANGE_SUBMENU':
-                    const scrollOptions = {
-                        align: 'top',
-                        duration: 500,
-                        offset: -getMenuHeight(),
-                    };
-                    scrollToComponent(this.postPositions[nextProps.selectedSubmenuIdx], scrollOptions);
+                    scrollToComponent(
+                        this.contentPositions[nextProps.selectedSubmenuIdx],
+                        {
+                            align: 'top',
+                            duration: 500,
+                            offset: -getMenuHeight(),
+                        }
+                    );
                     break;
             }
 
@@ -70,7 +73,7 @@ class AboutContents extends Component {
             return postList.map((post, idx) => {
                 return <AboutContent
                     ref={(section) => {
-                        this.postPositions[idx] = section;
+                        this.contentPositions[idx] = section;
                     }}
                     key={post._id}
                     belongToMajor={post.belongToMajor}
