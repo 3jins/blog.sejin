@@ -11504,16 +11504,6 @@ var AboutContent = function (_Component) {
 
     _createClass(AboutContent, [{
         key: 'render',
-
-        // constructor(props) {
-        //     super(props);
-        //     this.belongToMajor = props.belongToMajor;
-        //     this.belongToMinor = props.belongToMinor;
-        //     this.title = props.title;
-        //     this.content = props.content;
-        //     this.dataUpdated = props.dataUpdated;
-        // }
-
         value: function render() {
             return _react2.default.createElement(
                 'tr',
