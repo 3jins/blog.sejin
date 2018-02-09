@@ -7,7 +7,7 @@ const post = new mongoose.Schema({
     dateCreated: {type: Date, required: true, unique: false},
     dateUpdated: {type: Date, required: true, unique: false},
     content: {type: String, required: false, unique: false},
-    tag: {type: String, required: false, unique: false},
+    tags: {type: Array, required: false, unique: false},
     belongToMajor: {type: String, required: true, unique: false},
     belongToMinor: {type: String, required: true, unique: false},
 });

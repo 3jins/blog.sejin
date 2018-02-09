@@ -18,6 +18,22 @@ var extensionCutter = function extensionCutter(name) {
     return name.substring(0, idx);
 };
 
+var tagSeparator = function tagSeparator(str) {
+    var tags = str.split("#");
+    var result = {};
+    result['title'] = tags[0];
+    tags.shift();
+    result['tags'] = tags;
+    console.log(tags);
+    console.log(tags[0]);
+    console.log(tags);
+    console.log(result);
+    if (typeof result['tags'] === 'undefined') {
+        console.log("[Warning] There is no tag: " + str);
+    }
+    return result;
+};
+
 var readFiles = function readFiles(curPath) {
     var belongToMajor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     var belongToMinor = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
@@ -30,15 +46,17 @@ var readFiles = function readFiles(curPath) {
 
         files.map(function (file) {
             var fullPath = curPath + '/' + file;
-            var fileName = extensionCutter(file);
             if (_fs2.default.statSync(fullPath).isFile()) {
                 // file
+                var titleTag = tagSeparator(extensionCutter(file));
+                console.log(titleTag);
                 _fs2.default.readFile(fullPath, 'utf-8', function (error, data) {
                     _fs2.default.stat(fullPath, function () {
                         posts[posts.length] = new _models.Post({
                             belongToMajor: belongToMajor,
                             belongToMinor: belongToMinor,
-                            title: fileName,
+                            title: titleTag['title'],
+                            tag: titleTag['tag'],
                             dateCreated: new Date().getTime(),
                             dateUpdated: new Date().getTime(),
                             content: data
