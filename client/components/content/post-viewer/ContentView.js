@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../../../actions';
-import {Markdown} from 'react-showdown';
+import {translateTable} from "../../../utils/mdModifier";
 import LoadingView from '../LoadingView';
 
 class ContentView extends Component {
@@ -21,9 +21,9 @@ class ContentView extends Component {
                     <LoadingView isTable={false}/>
                     }
                     {this.props.postPayload.length > 0 &&
-                    <div>
+                    <div className={"md"}>
                         <h1>{this.props.postPayload[0].title}</h1>
-                        <Markdown markup={this.props.postPayload[0].content}/>
+                        {translateTable(this.props.postPayload[0].content)}
                     </div>
                     }
                 </div>
