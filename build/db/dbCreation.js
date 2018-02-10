@@ -8,6 +8,8 @@ var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
 
+var _arrayComparer = require('../utils/arrayComparer');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var posts = [];
@@ -28,6 +30,27 @@ var tagSeparator = function tagSeparator(str) {
         console.log("[Warning] There is no tag: " + str);
     }
     return result;
+};
+
+var addTags = function addTags(tags) {
+    if ((typeof tags === 'undefined' ? 'undefined' : _typeof(tags)) === undefined) {
+        return;
+    }
+    tags.map(function (tag) {
+        _models.Tag.find({ 'tagName': tag }).then(function (docs) {
+            if (docs.length === 0) {
+                new _models.Tag({ tagName: tag }).save().then(function () {
+                    console.log("Succeeded to save a tag: " + tag);
+                }).catch(function (err) {
+                    console.log("Failed to save a tag: " + tag);
+                    return console.error(err);
+                });
+            }
+        }).catch(function (err) {
+            console.log("Failed to search a tag: " + tag);
+            return console.error(err);
+        });
+    });
 };
 
 var readFiles = function readFiles(curPath) {
@@ -51,7 +74,7 @@ var readFiles = function readFiles(curPath) {
                             belongToMajor: belongToMajor,
                             belongToMinor: belongToMinor,
                             title: titleTag['title'],
-                            tag: titleTag['tag'],
+                            tags: titleTag['tags'],
                             dateCreated: new Date().getTime(),
                             dateUpdated: new Date().getTime(),
                             content: data
@@ -87,6 +110,7 @@ var savePostsInOrder = function savePostsInOrder(idx, limit) {
         if (docs.length === 0) {
             /* if there isn't (create) */
             posts[idx].save().then(function () {
+                addTags(posts[idx].tags);
                 console.log("Succeeded to save: " + posts[idx].title);
                 savePostsInOrder(++idx, limit);
             }).catch(function (err) {
@@ -95,23 +119,22 @@ var savePostsInOrder = function savePostsInOrder(idx, limit) {
             });
         } else {
             docs.map(function (doc) {
-                if (posts[idx].content !== doc.content) {
+                if (posts[idx].content !== doc.content || !(0, _arrayComparer.isEqual)(posts[idx].tags, doc.tags)) {
                     /* if there is (update) */
-                    posts[idx]._id = doc._id;
-                    posts[idx].dateCreated = doc.dateCreated;
-
-                    _models.Post.update({ _id: doc._id }, { $set: posts[idx] }).then(function () {
+                    _models.Post.update({ _id: doc._id }, {
+                        content: posts[idx].content,
+                        tags: posts[idx].tags
+                    }).then(function () {
+                        addTags(posts[idx].tags);
                         console.log("Succeeded to update: " + posts[idx].title);
                         savePostsInOrder(++idx, limit);
                     }).catch(function (err) {
                         console.log("Failed to save: " + posts[idx].title);
                         return console.error(err);
                     });
-                    var updateObject = _models.Post.update({ _id: doc._id }, { $set: posts[idx] });
-                    console.log(typeof updateObject === 'undefined' ? 'undefined' : _typeof(updateObject));
                 } else {
                     /* if there is (pass) */
-                    console.log("pass: " + posts[idx].title);
+                    console.log("Pass: " + posts[idx].title);
                     savePostsInOrder(++idx, limit);
                 }
             });
@@ -122,5 +145,6 @@ var savePostsInOrder = function savePostsInOrder(idx, limit) {
 // TODO : Implement asynchronous logic without using setTimeout
 readFiles(mdPath);
 setTimeout(function () {
+    console.log(posts[0].tags);
     savePostsInOrder(0, posts.length);
 }, 1000);

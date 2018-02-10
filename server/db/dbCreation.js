@@ -1,5 +1,6 @@
-import {Post, UpdatedData} from './models';
+import {Post, Tag} from './models';
 import fs from 'fs';
+import {isEqual} from "../utils/arrayComparer";
 
 let posts = [];
 const mdPath = process.cwd() + '/md_files';
@@ -21,6 +22,31 @@ const tagSeparator = function (str) {
     return result;
 };
 
+const addTags = function(tags) {
+    if(typeof tags === undefined) {
+        return;
+    }
+    tags.map((tag) => {
+        Tag.find({'tagName': tag})
+            .then((docs) => {
+                if(docs.length === 0) {
+                    new Tag({tagName: tag}).save()
+                        .then(() => {
+                            console.log("Succeeded to save a tag: " + tag);
+                        })
+                        .catch((err) => {
+                            console.log("Failed to save a tag: " + tag);
+                            return console.error(err);
+                        });
+                }
+            })
+            .catch((err) => {
+                console.log("Failed to search a tag: " + tag);
+                return console.error(err);
+            })
+    });
+};
+
 const readFiles = function (curPath, belongToMajor = null, belongToMinor = null) {
     return fs.readdir(curPath, (error, files) => {
         if (error) {
@@ -38,7 +64,7 @@ const readFiles = function (curPath, belongToMajor = null, belongToMinor = null)
                             belongToMajor: belongToMajor,
                             belongToMinor: belongToMinor,
                             title: titleTag['title'],
-                            tag: titleTag['tag'],
+                            tags: titleTag['tags'],
                             dateCreated: new Date().getTime(),
                             dateUpdated: new Date().getTime(),
                             content: data,
@@ -78,6 +104,7 @@ const savePostsInOrder = (idx, limit) => {
                 /* if there isn't (create) */
                 posts[idx].save()
                     .then(() => {
+                        addTags(posts[idx].tags);
                         console.log("Succeeded to save: " + posts[idx].title);
                         savePostsInOrder(++idx, limit);
                     })
@@ -88,13 +115,17 @@ const savePostsInOrder = (idx, limit) => {
             }
             else {
                 docs.map((doc) => {
-                    if (posts[idx].content !== doc.content) {
+                    if (posts[idx].content !== doc.content || !isEqual(posts[idx].tags, doc.tags)) {
                         /* if there is (update) */
-                        posts[idx]._id = doc._id;
-                        posts[idx].dateCreated = doc.dateCreated;
-
-                        Post.update({_id: doc._id}, {$set: posts[idx]})
+                        Post.update(
+                                {_id: doc._id},
+                                {
+                                    content: posts[idx].content,
+                                    tags: posts[idx].tags,
+                                }
+                            )
                             .then(() => {
+                                addTags(posts[idx].tags);
                                 console.log("Succeeded to update: " + posts[idx].title);
                                 savePostsInOrder(++idx, limit);
                             })
@@ -102,12 +133,10 @@ const savePostsInOrder = (idx, limit) => {
                                 console.log("Failed to save: " + posts[idx].title);
                                 return console.error(err);
                             });
-                        const updateObject = Post.update({_id: doc._id}, {$set: posts[idx]});
-                        console.log(typeof updateObject);
                     }
                     else {
                         /* if there is (pass) */
-                        console.log("pass: " + posts[idx].title);
+                        console.log("Pass: " + posts[idx].title);
                         savePostsInOrder(++idx, limit);
                     }
                 });
@@ -119,7 +148,6 @@ const savePostsInOrder = (idx, limit) => {
 // TODO : Implement asynchronous logic without using setTimeout
 readFiles(mdPath);
 setTimeout(() => {
+    console.log(posts[0].tags);
     savePostsInOrder(0, posts.length);
 }, 1000);
-
-

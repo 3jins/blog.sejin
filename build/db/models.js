@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Post = undefined;
+exports.Tag = exports.Post = undefined;
 
 var _dbConnection = require('./dbConnection');
 
@@ -23,6 +23,12 @@ var post = new _dbConnection.mongoose.Schema({
     belongToMinor: { type: String, required: true, unique: false }
 });
 
+var tag = new _dbConnection.mongoose.Schema({
+    tagName: { type: String, required: true, unique: true }
+});
+
 var Post = _dbConnection.mongoose.model("Post", post, "posts");
+var Tag = _dbConnection.mongoose.model("Tag", tag, "tags");
 
 exports.Post = Post;
+exports.Tag = Tag;

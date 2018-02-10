@@ -12,6 +12,11 @@ const post = new mongoose.Schema({
     belongToMinor: {type: String, required: true, unique: false},
 });
 
-const Post = mongoose.model("Post", post, "posts");
+const tag = new mongoose.Schema({
+    tagName: {type: String, required: true, unique: true},
+});
 
-export { Post };
+const Post = mongoose.model("Post", post, "posts");
+const Tag = mongoose.model("Tag", tag, "tags");
+
+export { Post, Tag };
