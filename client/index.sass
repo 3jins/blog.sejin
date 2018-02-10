@@ -34,7 +34,6 @@ body
   padding: 0
 
 a
-  color: $primary-color
   text-decoration: none
 
 /* markdown */
@@ -50,6 +49,8 @@ a
   font: $menu-base-pixel "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
   text-align: center
   height: 100vh
+  a
+    color: $primary-color
   .sticky
     z-index: 10
   .main-nav
@@ -122,6 +123,8 @@ a
   background-color: $secondary-bg-color
   font: $content-base-pixel "Bitstream Vera Sans Mono", "나눔바른고딕 Light", "Source Code Pro", "Lucida Grande", Helvetica, Arial, sans-serif
   line-height: 2em
+  a
+    color: $link-color
 
   /* main */
   .content-preview
@@ -185,6 +188,8 @@ a
   background-color: $primary-bg-color
   font: $menu-base-pixel "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
   height: calc(100vh - #{$menu-height})
+  a
+    color: $primary-color
   .v-center-table
     padding-top: 5em
     padding-left: $side-margin
