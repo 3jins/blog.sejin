@@ -24,10 +24,6 @@ var tagSeparator = function tagSeparator(str) {
     result['title'] = tags[0];
     tags.shift();
     result['tags'] = tags;
-    console.log(tags);
-    console.log(tags[0]);
-    console.log(tags);
-    console.log(result);
     if (typeof result['tags'] === 'undefined') {
         console.log("[Warning] There is no tag: " + str);
     }
@@ -49,7 +45,6 @@ var readFiles = function readFiles(curPath) {
             if (_fs2.default.statSync(fullPath).isFile()) {
                 // file
                 var titleTag = tagSeparator(extensionCutter(file));
-                console.log(titleTag);
                 _fs2.default.readFile(fullPath, 'utf-8', function (error, data) {
                     _fs2.default.stat(fullPath, function () {
                         posts[posts.length] = new _models.Post({

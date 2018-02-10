@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../../../actions';
-import {translateTable} from "../../../utils/mdModifier";
+import {mdConverter} from "../../../utils/mdModifier";
 import LoadingView from '../LoadingView';
 
 class ContentView extends Component {
@@ -23,7 +23,7 @@ class ContentView extends Component {
                     {this.props.postPayload.length > 0 &&
                     <div className={"md"}>
                         <h1>{this.props.postPayload[0].title}</h1>
-                        {translateTable(this.props.postPayload[0].content)}
+                        {mdConverter(this.props.postPayload[0].content)}
                     </div>
                     }
                 </div>

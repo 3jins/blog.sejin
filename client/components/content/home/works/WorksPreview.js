@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
-import {translateTable} from "../../../../utils/mdModifier";
+import {mdConverter} from "../../../../utils/mdModifier";
 
 class WorksPreview extends Component {
     render() {
@@ -8,7 +8,7 @@ class WorksPreview extends Component {
             <tr>
                 <td id={this.props.id} className={["content-preview", this.props.belongToMajor].join(' ')}>
                     <h1>{this.props.title}</h1>
-                    {translateTable(this.props.content)}
+                    {mdConverter(this.props.content)}
                     <div className={"read-more"}>
                         <Link to={["/postviewer", this.props.id].join('/')}>Read more</Link>
                     </div>
