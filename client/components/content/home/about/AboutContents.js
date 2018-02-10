@@ -86,7 +86,7 @@ class AboutContents extends Component {
         const postList = this.props.postPayload;
         return (
             <div className="content">
-                <div className="content-preview">
+                <div>
                     <table>
                         <tbody>
                         {this.props.loading && renderLoading()}

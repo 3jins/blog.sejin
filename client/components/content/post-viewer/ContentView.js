@@ -17,6 +17,7 @@ class ContentView extends Component {
         return (
             <div className="content">
                 <div className="content-view">
+
                     {this.props.postPayload.length === 0 &&
                     <LoadingView isTable={false}/>
                     }
@@ -36,6 +37,7 @@ export default ContentView = connect(
     (state) => ({
         postPayload: state.posts.postPayload,
         currentPostIdx: state.posts.currentPostIdx,
+        tags: state.posts.postPayload.tags,
     }),
     (dispatch) => ({
         handleFetchPost: (url, postID) => {

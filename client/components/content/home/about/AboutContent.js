@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { Markdown } from 'react-showdown';
-import { capitalizeFirstLetter } from "../../../../utils/stringModifier";
+import { capitalizeFirstLetter, decapitalizeFirstLetter } from "../../../../utils/stringModifier";
 
 class AboutContent extends Component {
     render() {
@@ -10,7 +10,7 @@ class AboutContent extends Component {
                 <td className={["subtitle", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
                     <h3>{capitalizeFirstLetter(this.props.belongToMinor)}</h3>
                 </td>
-                <td className={["content-body", this.props.belongToMajor].join(' ')}>
+                <td className={["content-body", decapitalizeFirstLetter(this.props.belongToMajor)].join(' ')}>
                     <Markdown markup={this.props.content}/>
                 </td>
             </tr>

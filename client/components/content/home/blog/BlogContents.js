@@ -94,7 +94,7 @@ class BlogContents extends Component {
         const postList = this.props.postPayload;
         return (
             <div className="content">
-                <div className="content-preview">
+                <div>
                     <table>
                         <tbody ref={(section) => {
                             this.contentPosition = section;
@@ -112,6 +112,7 @@ class BlogContents extends Component {
 export default connect(
     (state) => ({
         postPayload: state.posts.postPayload,
+        tags: state.posts.postPayload.tags,
         loading: state.posts.loading,
         currentPostIdx: state.posts.currentPostIdx,
         menuActionType: state.menus.menuActionType,
