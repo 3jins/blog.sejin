@@ -8,11 +8,11 @@ class WorksPreview extends Component {
         return (
             <tr>
                 <td id={this.props.id} className={["content-preview", decapitalizeFirstLetter(this.props.belongToMajor)].join(' ')}>
-                    <div>
+                    <div className="content-preview-div">
                         <h1>{this.props.title}</h1>
                         {mdConverter(this.props.content)}
                     </div>
-                    <div className={"read-more"}>
+                    <div className="read-more">
                         <Link to={["/postviewer", this.props.id].join('/')}>Read more</Link>
                     </div>
                 </td>

@@ -84,6 +84,7 @@ class BlogContents extends Component {
                     belongToMajor={post.belongToMajor}
                     belongToMinor={post.belongToMinor}
                     title={post.title}
+                    tags={post.tags}
                     content={post.content}
                     dataUpdated={post.dataUpdated}
                     onReadMore={this.props.handleFetchPost}
@@ -112,7 +113,6 @@ class BlogContents extends Component {
 export default connect(
     (state) => ({
         postPayload: state.posts.postPayload,
-        tags: state.posts.postPayload.tags,
         loading: state.posts.loading,
         currentPostIdx: state.posts.currentPostIdx,
         menuActionType: state.menus.menuActionType,

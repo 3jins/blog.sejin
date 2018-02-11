@@ -942,6 +942,25 @@ module.exports = function (TYPE, $create) {
 
 /***/ }),
 /* 33 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(476);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(478);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
+
+/***/ }),
+/* 34 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -970,7 +989,7 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1457,7 +1476,7 @@ if (__webpack_require__(8)) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Map = __webpack_require__(161);
@@ -1511,25 +1530,6 @@ module.exports = {
   key: toMetaKey,
   exp: exp
 };
-
-
-/***/ }),
-/* 36 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(476);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(197);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(478);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
 
 
 /***/ }),
@@ -2026,7 +2026,7 @@ module.exports = Duplex;
 
 /*<replacement>*/
 var util = __webpack_require__(69);
-util.inherits = __webpack_require__(33);
+util.inherits = __webpack_require__(34);
 /*</replacement>*/
 
 var Readable = __webpack_require__(211);
@@ -7482,7 +7482,7 @@ Writable.WritableState = WritableState;
 
 /*<replacement>*/
 var util = __webpack_require__(69);
-util.inherits = __webpack_require__(33);
+util.inherits = __webpack_require__(34);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -11143,7 +11143,7 @@ var _NavItem = __webpack_require__(486);
 
 var _NavItem2 = _interopRequireDefault(_NavItem);
 
-var _reactRedux = __webpack_require__(36);
+var _reactRedux = __webpack_require__(33);
 
 var _actions = __webpack_require__(51);
 
@@ -11311,7 +11311,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(36);
+var _reactRedux = __webpack_require__(33);
 
 var _reactScrollToComponent = __webpack_require__(86);
 
@@ -11500,7 +11500,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(36);
+var _reactRedux = __webpack_require__(33);
 
 var _reactShowdown = __webpack_require__(203);
 
@@ -11816,7 +11816,7 @@ function Parser(cbs, options){
 	if(this._cbs.onparserinit) this._cbs.onparserinit(this);
 }
 
-__webpack_require__(33)(Parser, __webpack_require__(88).EventEmitter);
+__webpack_require__(34)(Parser, __webpack_require__(88).EventEmitter);
 
 Parser.prototype._updatePosition = function(initialOffset){
 	if(this.endIndex === null){
@@ -13071,7 +13071,7 @@ function Stream(cbs, options){
 	});
 }
 
-__webpack_require__(33)(Stream, WritableStream);
+__webpack_require__(34)(Stream, WritableStream);
 
 WritableStream.prototype._write = function(chunk, encoding, cb){
 	if(chunk instanceof Buffer) chunk = this._decoder.write(chunk);
@@ -13151,7 +13151,7 @@ function _isUint8Array(obj) {
 
 /*<replacement>*/
 var util = __webpack_require__(69);
-util.inherits = __webpack_require__(33);
+util.inherits = __webpack_require__(34);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -14265,7 +14265,7 @@ var Duplex = __webpack_require__(52);
 
 /*<replacement>*/
 var util = __webpack_require__(69);
-util.inherits = __webpack_require__(33);
+util.inherits = __webpack_require__(34);
 /*</replacement>*/
 
 util.inherits(Transform, Duplex);
@@ -17428,7 +17428,7 @@ $export($export.G + $export.W + $export.F * !__webpack_require__(80).ABV, {
 /* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(34)('Int8', 1, function (init) {
+__webpack_require__(35)('Int8', 1, function (init) {
   return function Int8Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -17439,7 +17439,7 @@ __webpack_require__(34)('Int8', 1, function (init) {
 /* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(34)('Uint8', 1, function (init) {
+__webpack_require__(35)('Uint8', 1, function (init) {
   return function Uint8Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -17450,7 +17450,7 @@ __webpack_require__(34)('Uint8', 1, function (init) {
 /* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(34)('Uint8', 1, function (init) {
+__webpack_require__(35)('Uint8', 1, function (init) {
   return function Uint8ClampedArray(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -17461,7 +17461,7 @@ __webpack_require__(34)('Uint8', 1, function (init) {
 /* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(34)('Int16', 2, function (init) {
+__webpack_require__(35)('Int16', 2, function (init) {
   return function Int16Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -17472,7 +17472,7 @@ __webpack_require__(34)('Int16', 2, function (init) {
 /* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(34)('Uint16', 2, function (init) {
+__webpack_require__(35)('Uint16', 2, function (init) {
   return function Uint16Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -17483,7 +17483,7 @@ __webpack_require__(34)('Uint16', 2, function (init) {
 /* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(34)('Int32', 4, function (init) {
+__webpack_require__(35)('Int32', 4, function (init) {
   return function Int32Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -17494,7 +17494,7 @@ __webpack_require__(34)('Int32', 4, function (init) {
 /* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(34)('Uint32', 4, function (init) {
+__webpack_require__(35)('Uint32', 4, function (init) {
   return function Uint32Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -17505,7 +17505,7 @@ __webpack_require__(34)('Uint32', 4, function (init) {
 /* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(34)('Float32', 4, function (init) {
+__webpack_require__(35)('Float32', 4, function (init) {
   return function Float32Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -17516,7 +17516,7 @@ __webpack_require__(34)('Float32', 4, function (init) {
 /* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(34)('Float64', 8, function (init) {
+__webpack_require__(35)('Float64', 8, function (init) {
   return function Float64Array(data, byteOffset, length) {
     return init(this, data, byteOffset, length);
   };
@@ -18563,7 +18563,7 @@ $export($export.S, 'Promise', { 'try': function (callbackfn) {
 /* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(35);
+var metadata = __webpack_require__(36);
 var anObject = __webpack_require__(1);
 var toMetaKey = metadata.key;
 var ordinaryDefineOwnMetadata = metadata.set;
@@ -18577,7 +18577,7 @@ metadata.exp({ defineMetadata: function defineMetadata(metadataKey, metadataValu
 /* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(35);
+var metadata = __webpack_require__(36);
 var anObject = __webpack_require__(1);
 var toMetaKey = metadata.key;
 var getOrCreateMetadataMap = metadata.map;
@@ -18598,7 +18598,7 @@ metadata.exp({ deleteMetadata: function deleteMetadata(metadataKey, target /* , 
 /* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(35);
+var metadata = __webpack_require__(36);
 var anObject = __webpack_require__(1);
 var getPrototypeOf = __webpack_require__(21);
 var ordinaryHasOwnMetadata = metadata.has;
@@ -18623,7 +18623,7 @@ metadata.exp({ getMetadata: function getMetadata(metadataKey, target /* , target
 
 var Set = __webpack_require__(163);
 var from = __webpack_require__(172);
-var metadata = __webpack_require__(35);
+var metadata = __webpack_require__(36);
 var anObject = __webpack_require__(1);
 var getPrototypeOf = __webpack_require__(21);
 var ordinaryOwnMetadataKeys = metadata.keys;
@@ -18646,7 +18646,7 @@ metadata.exp({ getMetadataKeys: function getMetadataKeys(target /* , targetKey *
 /* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(35);
+var metadata = __webpack_require__(36);
 var anObject = __webpack_require__(1);
 var ordinaryGetOwnMetadata = metadata.get;
 var toMetaKey = metadata.key;
@@ -18661,7 +18661,7 @@ metadata.exp({ getOwnMetadata: function getOwnMetadata(metadataKey, target /* , 
 /* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(35);
+var metadata = __webpack_require__(36);
 var anObject = __webpack_require__(1);
 var ordinaryOwnMetadataKeys = metadata.keys;
 var toMetaKey = metadata.key;
@@ -18675,7 +18675,7 @@ metadata.exp({ getOwnMetadataKeys: function getOwnMetadataKeys(target /* , targe
 /* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(35);
+var metadata = __webpack_require__(36);
 var anObject = __webpack_require__(1);
 var getPrototypeOf = __webpack_require__(21);
 var ordinaryHasOwnMetadata = metadata.has;
@@ -18697,7 +18697,7 @@ metadata.exp({ hasMetadata: function hasMetadata(metadataKey, target /* , target
 /* 408 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var metadata = __webpack_require__(35);
+var metadata = __webpack_require__(36);
 var anObject = __webpack_require__(1);
 var ordinaryHasOwnMetadata = metadata.has;
 var toMetaKey = metadata.key;
@@ -18712,7 +18712,7 @@ metadata.exp({ hasOwnMetadata: function hasOwnMetadata(metadataKey, target /* , 
 /* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $metadata = __webpack_require__(35);
+var $metadata = __webpack_require__(36);
 var anObject = __webpack_require__(1);
 var aFunction = __webpack_require__(13);
 var toMetaKey = $metadata.key;
@@ -19856,7 +19856,7 @@ var _reducers = __webpack_require__(472);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
-var _reactRedux = __webpack_require__(36);
+var _reactRedux = __webpack_require__(33);
 
 var _Home = __webpack_require__(485);
 
@@ -42098,7 +42098,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(36);
+var _reactRedux = __webpack_require__(33);
 
 var _actions = __webpack_require__(51);
 
@@ -49350,7 +49350,7 @@ function FeedHandler(callback, options){
 	this.init(callback, options);
 }
 
-__webpack_require__(33)(FeedHandler, DomHandler);
+__webpack_require__(34)(FeedHandler, DomHandler);
 
 FeedHandler.prototype.init = DomHandler;
 
@@ -49450,7 +49450,7 @@ function Stream(options){
 	Parser.call(this, new Cbs(this), options);
 }
 
-__webpack_require__(33)(Stream, Parser);
+__webpack_require__(34)(Stream, Parser);
 
 Stream.prototype.readable = true;
 
@@ -49506,7 +49506,7 @@ Object.keys(EVENTS).forEach(function(name){
 module.exports = Stream;
 
 var EE = __webpack_require__(88).EventEmitter;
-var inherits = __webpack_require__(33);
+var inherits = __webpack_require__(34);
 
 inherits(Stream, EE);
 Stream.Readable = __webpack_require__(133);
@@ -50280,7 +50280,7 @@ var Transform = __webpack_require__(215);
 
 /*<replacement>*/
 var util = __webpack_require__(69);
-util.inherits = __webpack_require__(33);
+util.inherits = __webpack_require__(34);
 /*</replacement>*/
 
 util.inherits(PassThrough, Transform);
@@ -52284,7 +52284,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(36);
+var _reactRedux = __webpack_require__(33);
 
 var _reactScrollToComponent = __webpack_require__(86);
 
@@ -52517,7 +52517,7 @@ var WorksPreview = function (_Component) {
                     { id: this.props.id, className: ["content-preview", (0, _stringModifier.decapitalizeFirstLetter)(this.props.belongToMajor)].join(' ') },
                     _react2.default.createElement(
                         'div',
-                        null,
+                        { className: 'content-preview-div' },
                         _react2.default.createElement(
                             'h1',
                             null,
@@ -52527,7 +52527,7 @@ var WorksPreview = function (_Component) {
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: "read-more" },
+                        { className: 'read-more' },
                         _react2.default.createElement(
                             _reactRouterDom.Link,
                             { to: ["/postviewer", this.props.id].join('/') },
@@ -52561,7 +52561,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(36);
+var _reactRedux = __webpack_require__(33);
 
 var _reactScrollToComponent = __webpack_require__(86);
 
@@ -52675,6 +52675,7 @@ var BlogContents = function (_Component) {
                         belongToMajor: post.belongToMajor,
                         belongToMinor: post.belongToMinor,
                         title: post.title,
+                        tags: post.tags,
                         content: post.content,
                         dataUpdated: post.dataUpdated,
                         onReadMore: _this2.props.handleFetchPost
@@ -52760,6 +52761,8 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(33);
+
 var _reactRouterDom = __webpack_require__(84);
 
 var _mdModifier = __webpack_require__(138);
@@ -52796,6 +52799,11 @@ var BlogPreview = function (_Component) {
                         'h3',
                         null,
                         (0, _stringModifier.capitalizeFirstLetter)(this.props.belongToMinor)
+                    ),
+                    _react2.default.createElement(
+                        'h4',
+                        null,
+                        this.props.tags[0]
                     )
                 ),
                 _react2.default.createElement(
@@ -52803,7 +52811,7 @@ var BlogPreview = function (_Component) {
                     { id: this.props.id, className: ["content-preview", (0, _stringModifier.decapitalizeFirstLetter)(this.props.belongToMajor)].join(' ') },
                     _react2.default.createElement(
                         'div',
-                        null,
+                        { className: 'content-preview-div' },
                         _react2.default.createElement(
                             'h1',
                             null,
@@ -52813,7 +52821,7 @@ var BlogPreview = function (_Component) {
                     ),
                     _react2.default.createElement(
                         'div',
-                        { className: "read-more" },
+                        { className: 'read-more' },
                         _react2.default.createElement(
                             _reactRouterDom.Link,
                             { to: ["/postviewer", this.props.id].join('/') },
@@ -52828,7 +52836,13 @@ var BlogPreview = function (_Component) {
     return BlogPreview;
 }(_react.Component);
 
-exports.default = BlogPreview;
+exports.default = (0, _reactRedux.connect)(function (state) {
+    return {
+        isSubnavSticky: state.scrolls.areNavsSticky.isSubnavSticky
+    };
+}, function () {
+    return {};
+})(BlogPreview);
 
 /***/ }),
 /* 535 */
@@ -52925,7 +52939,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(36);
+var _reactRedux = __webpack_require__(33);
 
 var _reactScrollToComponent = __webpack_require__(86);
 
@@ -53035,7 +53049,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(36);
+var _reactRedux = __webpack_require__(33);
 
 var _actions = __webpack_require__(51);
 
@@ -53211,7 +53225,7 @@ exports = module.exports = __webpack_require__(545)(false);
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n@keyframes bg-color-secondary-to-light {\n  from {\n    background-color: white; }\n  to {\n    background-color: #e0e0e0; } }\n\n@keyframes bg-color-light-to-secondary {\n  from {\n    background-color: #e0e0e0; }\n  to {\n    background-color: white; } }\n\nbody {\n  width: 100%;\n  margin: 0;\n  padding: 0; }\n\na {\n  text-decoration: none; }\n\n/* markdown */\n.md table {\n  line-height: 1.2em;\n  width: 100%; }\n\n.nav {\n  color: white;\n  background-color: black;\n  font: 14px \"Source Code Pro\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Bitstream Vera Sans Mono\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  text-align: center;\n  height: 100vh; }\n  .nav a {\n    color: white; }\n  .nav .sticky {\n    z-index: 10; }\n  .nav .main-nav {\n    height: 4em; }\n    .nav .main-nav .nav-menu-table-wrapper {\n      width: 100%;\n      background-color: black;\n      height: calc(4em / 2);\n      padding: calc(4em / 4) 0; }\n      .nav .main-nav .nav-menu-table-wrapper.sticky {\n        position: fixed;\n        top: 0;\n        padding: 0; }\n      .nav .main-nav .nav-menu-table-wrapper .nav-menu-table {\n        margin: 0 auto;\n        table-layout: fixed; }\n        .nav .main-nav .nav-menu-table-wrapper .nav-menu-table td {\n          width: 10em; }\n          .nav .main-nav .nav-menu-table-wrapper .nav-menu-table td p {\n            cursor: pointer;\n            margin: 0; }\n  .nav .v-center-table {\n    width: 100%;\n    height: calc(100% - 2 * 4em); }\n    .nav .v-center-table td {\n      font-size: 4em; }\n    .nav .v-center-table .Typist {\n      display: inline; }\n      .nav .v-center-table .Typist .Cursor--blinking {\n        animation-name: blinker;\n        animation-duration: 0.7s;\n        animation-timing-function: linear;\n        animation-iteration-count: infinite; }\n\n@keyframes blinker {\n  0% {\n    opacity: 1.0; }\n  50% {\n    opacity: 0.0; }\n  100% {\n    opacity: 1.0; } }\n  .nav .subnav {\n    color: black;\n    background-color: white;\n    height: 4em; }\n    .nav .subnav .subnav-menu-table-wrapper {\n      width: 100%;\n      height: calc(4em / 2);\n      padding: calc(4em / 4) 0;\n      animation-name: bg-color-light-to-secondary;\n      animation-duration: 0.5s; }\n      .nav .subnav .subnav-menu-table-wrapper.sticky {\n        position: fixed;\n        background-color: #e0e0e0;\n        animation-name: bg-color-secondary-to-light;\n        animation-duration: 0.5s;\n        top: calc(4em / 2);\n        padding: 0; }\n      .nav .subnav .subnav-menu-table-wrapper .subnav-menu-table {\n        margin: 0 auto;\n        table-layout: fixed; }\n        .nav .subnav .subnav-menu-table-wrapper .subnav-menu-table td {\n          width: 10em; }\n          .nav .subnav .subnav-menu-table-wrapper .subnav-menu-table td p {\n            cursor: pointer;\n            margin: 0; }\n\n.content {\n  color: black;\n  background-color: white;\n  font: 16px \"Bitstream Vera Sans Mono\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Source Code Pro\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  line-height: 2em;\n  /* main */\n  /* post body */ }\n  .content a {\n    color: #8080ff; }\n  .content > div {\n    min-height: calc(100vh - 4em); }\n    .content > div table {\n      width: 100%;\n      border: 0;\n      border-spacing: 0;\n      /* subtitle */ }\n      .content > div table .subtitle {\n        width: 12em;\n        vertical-align: top;\n        padding: 3em 0;\n        text-align: center;\n        background-color: white;\n        animation-name: bg-color-light-to-secondary;\n        animation-duration: 0.5s; }\n        .content > div table .subtitle.sticky {\n          background-color: #e0e0e0;\n          animation-name: bg-color-secondary-to-light;\n          animation-duration: 0.5s; }\n        .content > div table .subtitle h3 {\n          font-family: \"Source Code Pro\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Bitstream Vera Sans Mono\", \"Lucida Grande\", Helvetica, Arial, sans-serif; }\n      .content > div table .about > div, .content > div table .blog > div {\n        margin: 3em 6em; }\n      .content > div table .works {\n        padding: 3em 12em; }\n      .content > div table .content-preview {\n        position: relative; }\n        .content > div table .content-preview > div {\n          height: calc(70vh - 2em);\n          overflow: hidden; }\n        .content > div table .content-preview::after {\n          content: '';\n          position: absolute;\n          width: 100%;\n          height: 10em;\n          top: calc(70vh - 10em + 1.1em);\n          left: 0;\n          background: linear-gradient(transparent 0px, #fff); }\n        .content > div table .content-preview .read-more {\n          margin: 0 auto;\n          height: 2em;\n          text-align: center; }\n          .content > div table .content-preview .read-more > a {\n            color: #8080ff;\n            margin: 0; }\n  .content .content-view {\n    min-height: calc(100vh - 4em);\n    margin: 3em 12em; }\n\n.footer {\n  color: #e0e0e0;\n  background-color: black;\n  font: 14px \"Source Code Pro\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Bitstream Vera Sans Mono\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  height: calc(100vh - 4em); }\n  .footer a {\n    color: white; }\n  .footer .v-center-table {\n    padding-top: 5em;\n    padding-left: 12em;\n    padding-right: 12em;\n    width: 100%; }\n    .footer .v-center-table td .contact-table {\n      margin: 0 auto;\n      padding-top: 10%;\n      text-align: center; }\n      .footer .v-center-table td .contact-table tr {\n        height: 5em; }\n        .footer .v-center-table td .contact-table tr td {\n          width: 5em; }\n          .footer .v-center-table td .contact-table tr td img {\n            height: 2em; }\n    .footer .v-center-table td .copyright {\n      padding-top: 10%;\n      width: 100%;\n      text-align: center;\n      color: #e0e0e0;\n      font-size: 1em; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n@keyframes bg-color-secondary-to-light {\n  from {\n    background-color: white; }\n  to {\n    background-color: #e0e0e0; } }\n\n@keyframes bg-color-light-to-secondary {\n  from {\n    background-color: #e0e0e0; }\n  to {\n    background-color: white; } }\n\nbody {\n  width: 100%;\n  margin: 0;\n  padding: 0; }\n\na {\n  text-decoration: none; }\n\n/* markdown */\n.md table {\n  line-height: 1.2em;\n  width: 100%; }\n\n.nav {\n  color: white;\n  background-color: black;\n  font: 14px \"Source Code Pro\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Bitstream Vera Sans Mono\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  text-align: center;\n  height: 100vh; }\n  .nav a {\n    color: white; }\n  .nav .sticky {\n    z-index: 10; }\n  .nav .main-nav {\n    height: 4em; }\n    .nav .main-nav .nav-menu-table-wrapper {\n      width: 100%;\n      background-color: black;\n      height: calc(4em / 2);\n      padding: calc(4em / 4) 0; }\n      .nav .main-nav .nav-menu-table-wrapper.sticky {\n        position: fixed;\n        top: 0;\n        padding: 0; }\n      .nav .main-nav .nav-menu-table-wrapper .nav-menu-table {\n        margin: 0 auto;\n        table-layout: fixed; }\n        .nav .main-nav .nav-menu-table-wrapper .nav-menu-table td {\n          width: 10em; }\n          .nav .main-nav .nav-menu-table-wrapper .nav-menu-table td p {\n            cursor: pointer;\n            margin: 0; }\n  .nav .v-center-table {\n    width: 100%;\n    height: calc(100% - 2 * 4em); }\n    .nav .v-center-table td {\n      font-size: 4em; }\n    .nav .v-center-table .Typist {\n      display: inline; }\n      .nav .v-center-table .Typist .Cursor--blinking {\n        animation-name: blinker;\n        animation-duration: 0.7s;\n        animation-timing-function: linear;\n        animation-iteration-count: infinite; }\n\n@keyframes blinker {\n  0% {\n    opacity: 1.0; }\n  50% {\n    opacity: 0.0; }\n  100% {\n    opacity: 1.0; } }\n  .nav .subnav {\n    color: black;\n    background-color: white;\n    height: 4em; }\n    .nav .subnav .subnav-menu-table-wrapper {\n      width: 100%;\n      height: calc(4em / 2);\n      padding: calc(4em / 4) 0;\n      animation-name: bg-color-light-to-secondary;\n      animation-duration: 0.5s; }\n      .nav .subnav .subnav-menu-table-wrapper.sticky {\n        position: fixed;\n        background-color: #e0e0e0;\n        animation-name: bg-color-secondary-to-light;\n        animation-duration: 0.5s;\n        top: calc(4em / 2);\n        padding: 0; }\n      .nav .subnav .subnav-menu-table-wrapper .subnav-menu-table {\n        margin: 0 auto;\n        table-layout: fixed; }\n        .nav .subnav .subnav-menu-table-wrapper .subnav-menu-table td {\n          width: 10em; }\n          .nav .subnav .subnav-menu-table-wrapper .subnav-menu-table td p {\n            cursor: pointer;\n            margin: 0; }\n\n.content {\n  color: black;\n  background-color: white;\n  font: 16px \"Bitstream Vera Sans Mono\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Source Code Pro\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  line-height: 2em;\n  /* main */\n  /* post body */ }\n  .content a {\n    color: #8080ff; }\n  .content > div table {\n    width: 100%;\n    border: 0;\n    border-spacing: 0;\n    /* subtitle */ }\n    .content > div table .subtitle {\n      width: 12em;\n      vertical-align: top;\n      padding: 3em 0;\n      text-align: center;\n      background-color: white;\n      animation-name: bg-color-light-to-secondary;\n      animation-duration: 0.5s; }\n      .content > div table .subtitle.sticky {\n        background-color: #e0e0e0;\n        animation-name: bg-color-secondary-to-light;\n        animation-duration: 0.5s;\n        font-family: \"Source Code Pro\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Bitstream Vera Sans Mono\", \"Lucida Grande\", Helvetica, Arial, sans-serif; }\n    .content > div table .about > div, .content > div table .blog > div {\n      margin: 3em 6em; }\n    .content > div table .works {\n      padding: 3em 12em; }\n    .content > div table .blog {\n      padding: 3em 0; }\n      .content > div table .blog > div {\n        margin: 0 6em; }\n    .content > div table .content-preview {\n      position: relative; }\n      .content > div table .content-preview .content-preview-div {\n        height: calc(70vh - 2em);\n        overflow: hidden; }\n        .content > div table .content-preview .content-preview-div:after {\n          content: '';\n          position: absolute;\n          width: 100%;\n          height: 10em;\n          top: calc(70vh - 10em + 1.1em);\n          left: 0;\n          background: linear-gradient(transparent 0px, #fff); }\n      .content > div table .content-preview .read-more {\n        margin: 0 auto;\n        height: 2em;\n        text-align: center; }\n        .content > div table .content-preview .read-more > a {\n          color: #8080ff;\n          margin: 0; }\n  .content .content-view {\n    margin: 3em 12em; }\n\n.footer {\n  color: #e0e0e0;\n  background-color: black;\n  font: 14px \"Source Code Pro\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Bitstream Vera Sans Mono\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  height: calc(100vh - 4em); }\n  .footer a {\n    color: white; }\n  .footer .v-center-table {\n    padding-top: 5em;\n    padding-left: 12em;\n    padding-right: 12em;\n    width: 100%; }\n    .footer .v-center-table td .contact-table {\n      margin: 0 auto;\n      padding-top: 10%;\n      text-align: center; }\n      .footer .v-center-table td .contact-table tr {\n        height: 5em; }\n        .footer .v-center-table td .contact-table tr td {\n          width: 5em; }\n          .footer .v-center-table td .contact-table tr td img {\n            height: 2em; }\n    .footer .v-center-table td .copyright {\n      padding-top: 10%;\n      width: 100%;\n      text-align: center;\n      color: #e0e0e0;\n      font-size: 1em; }\n", ""]);
 
 // exports
 

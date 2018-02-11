@@ -128,7 +128,6 @@ a
 
   /* main */
   >div
-    min-height: calc(100vh - #{$menu-height})
     table
       width: 100%
       border: 0
@@ -147,7 +146,6 @@ a
           background-color: $light-color
           animation-name: bg-color-secondary-to-light
           animation-duration: $color-change-duration
-        h3
           font-family: "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
 
       .about, .blog
@@ -155,22 +153,26 @@ a
           margin: $top-bottom-margin $nested-side-margin
       .works
         padding: $top-bottom-margin $side-margin
+      .blog
+        padding: $top-bottom-margin 0
+        > div
+          margin: 0 $nested-side-margin
 
       .content-preview
         $read-more-height: 2em
         position: relative
-        > div
+        .content-preview-div
           height: calc(70vh - #{$read-more-height})
           overflow: hidden
-        &::after
-          $after-fade-out-height: 10em
-          content: ''
-          position: absolute
-          width: 100%
-          height: $after-fade-out-height
-          top: calc(70vh - #{$after-fade-out-height} + 1.1em) // I have no idea why it needs additional 1.1em
-          left: 0
-          background: linear-gradient(transparent 0px, #fff)
+          &:after
+            $after-fade-out-height: 10em
+            content: ''
+            position: absolute
+            width: 100%
+            height: $after-fade-out-height
+            top: calc(70vh - #{$after-fade-out-height} + 1.1em) // I have no idea why it needs additional 1.1em
+            left: 0
+            background: linear-gradient(transparent 0px, #fff)
         .read-more
           margin: 0 auto
           height: $read-more-height
@@ -181,7 +183,6 @@ a
 
   /* post body */
   .content-view
-    min-height: calc(100vh - #{$menu-height})
     margin: $top-bottom-margin $side-margin
 
 
