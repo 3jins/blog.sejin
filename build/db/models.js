@@ -24,7 +24,9 @@ var post = new _dbConnection.mongoose.Schema({
 });
 
 var tag = new _dbConnection.mongoose.Schema({
-    tagName: { type: String, required: true, unique: true }
+    tagName: { type: String, required: true, unique: true },
+    belongToMinor: { type: String, required: true, unique: false },
+    postList: { type: Array, required: true, unique: false }
 });
 
 var Post = _dbConnection.mongoose.model("Post", post, "posts");

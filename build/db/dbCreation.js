@@ -1,7 +1,5 @@
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _models = require('./models');
 
 var _fs = require('fs');
@@ -32,17 +30,41 @@ var tagSeparator = function tagSeparator(str) {
     return result;
 };
 
-var addTags = function addTags(tags) {
-    if ((typeof tags === 'undefined' ? 'undefined' : _typeof(tags)) === undefined) {
+var addFirst = function addFirst(arr, element) {
+    arr.revers();
+    arr.push(element);
+    arr.reverse();
+    return arr;
+};
+
+var addTags = function addTags(tags, belongToMinor, postID) {
+    if (!tags || !belongToMinor || !postID) {
+        console.log("tags: " + tags + " / belongToMinor: " + belongToMinor + " / postID: " + postID);
         return;
     }
     tags.map(function (tag) {
         _models.Tag.find({ 'tagName': tag }).then(function (docs) {
             if (docs.length === 0) {
-                new _models.Tag({ tagName: tag }).save().then(function () {
+                // new tag
+                new _models.Tag({
+                    tagName: tag,
+                    belongToMinor: belongToMinor,
+                    postList: [postID]
+                }).save().then(function () {
                     console.log("Succeeded to save a tag: " + tag);
                 }).catch(function (err) {
                     console.log("Failed to save a tag: " + tag);
+                    return console.error(err);
+                });
+            } else {
+                // existing tag
+                var doc = docs[0];
+                _models.Tag.update({ tagName: tag }, {
+                    postList: addFirst(doc.postList, postID)
+                }).then(function () {
+                    console.log("Succeeded to update a tag: " + tag);
+                }).catch(function (err) {
+                    console.log("Failed to update a tag: " + tag);
                     return console.error(err);
                 });
             }
@@ -110,7 +132,7 @@ var savePostsInOrder = function savePostsInOrder(idx, limit) {
         if (docs.length === 0) {
             /* if there isn't (create) */
             posts[idx].save().then(function () {
-                addTags(posts[idx].tags);
+                addTags(posts[idx].tags, posts[idx].belongToMinor, posts[idx]._id);
                 console.log("Succeeded to save: " + posts[idx].title);
                 savePostsInOrder(++idx, limit);
             }).catch(function (err) {
@@ -125,7 +147,7 @@ var savePostsInOrder = function savePostsInOrder(idx, limit) {
                         content: posts[idx].content,
                         tags: posts[idx].tags
                     }).then(function () {
-                        addTags(posts[idx].tags);
+                        addTags(posts[idx].tags, posts[idx].belongToMinor, posts[idx]._id);
                         console.log("Succeeded to update: " + posts[idx].title);
                         savePostsInOrder(++idx, limit);
                     }).catch(function (err) {

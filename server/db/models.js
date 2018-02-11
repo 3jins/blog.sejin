@@ -14,6 +14,8 @@ const post = new mongoose.Schema({
 
 const tag = new mongoose.Schema({
     tagName: {type: String, required: true, unique: true},
+    belongToMinor: {type: String, required: true, unique: false},
+    postList: {type: Array, required: true, unique: false},
 });
 
 const Post = mongoose.model("Post", post, "posts");

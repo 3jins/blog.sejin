@@ -5,12 +5,12 @@ import {isEqual} from "../utils/arrayComparer";
 let posts = [];
 const mdPath = process.cwd() + '/md_files';
 
-const extensionCutter = function (name) {
+const extensionCutter = (name) => {
     const idx = name.lastIndexOf(".");
     return name.substring(0, idx);
 };
 
-const tagSeparator = function (str) {
+const tagSeparator = (str) => {
     const tags = str.split("#");
     const result = {};
     result['title'] = tags[0];
@@ -22,20 +22,48 @@ const tagSeparator = function (str) {
     return result;
 };
 
-const addTags = function(tags) {
-    if(typeof tags === undefined) {
+const addFirst = (arr, element) => {
+    arr.revers();
+    arr.push(element);
+    arr.reverse();
+    return arr;
+};
+
+const addTags = function(tags, belongToMinor, postID) {
+    if(!tags || !belongToMinor || !postID) {
+        console.log("tags: " + tags + " / belongToMinor: " + belongToMinor + " / postID: " + postID)
         return;
     }
     tags.map((tag) => {
         Tag.find({'tagName': tag})
             .then((docs) => {
-                if(docs.length === 0) {
-                    new Tag({tagName: tag}).save()
+                if(docs.length === 0) {     // new tag
+                    new Tag({
+                        tagName: tag,
+                        belongToMinor: belongToMinor,
+                        postList: [postID],
+                    }).save()
                         .then(() => {
                             console.log("Succeeded to save a tag: " + tag);
                         })
                         .catch((err) => {
                             console.log("Failed to save a tag: " + tag);
+                            return console.error(err);
+                        });
+                }
+                else {      // existing tag
+                    const doc = docs[0];
+                    Tag.update(
+                        {tagName: tag},
+                        {
+                            postList: addFirst(doc.postList, postID),
+                        }
+                    )
+                        .then(() => {
+                            console.log("Succeeded to update a tag: " + tag);
+                        })
+                        .catch((err) => {
+                            console.log("Failed to update a tag: " + tag);
                             return console.error(err);
                         });
                 }
@@ -104,7 +132,7 @@ const savePostsInOrder = (idx, limit) => {
                 /* if there isn't (create) */
                 posts[idx].save()
                     .then(() => {
-                        addTags(posts[idx].tags);
+                        addTags(posts[idx].tags, posts[idx].belongToMinor, posts[idx]._id);
                         console.log("Succeeded to save: " + posts[idx].title);
                         savePostsInOrder(++idx, limit);
                     })
@@ -125,7 +153,7 @@ const savePostsInOrder = (idx, limit) => {
                                 }
                             )
                             .then(() => {
-                                addTags(posts[idx].tags);
+                                addTags(posts[idx].tags, posts[idx].belongToMinor, posts[idx]._id);
                                 console.log("Succeeded to update: " + posts[idx].title);
                                 savePostsInOrder(++idx, limit);
                             })
