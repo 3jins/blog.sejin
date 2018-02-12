@@ -6,11 +6,23 @@ import { capitalizeFirstLetter, decapitalizeFirstLetter } from "../../../../util
 
 class BlogPreview extends Component {
     render() {
+        const renderTags = (tags, belongToMinor) => {
+            return tags.map((tag) => {
+                if(tag.belongToMinor === belongToMinor) {
+                    return (
+                        <h5 key={tag.tagName}>
+                            #{tag.tagName} ({tag.postList.length})
+                        </h5>
+                    );
+                }
+            });
+        } ;
+
         return (
             <tr>
                 <td className={["subtitle", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
                     <h3>{capitalizeFirstLetter(this.props.belongToMinor)}</h3>
-                    <h4>{this.props.tags[0]}</h4>
+                    {renderTags(this.props.tags, this.props.belongToMinor)}
                 </td>
                 <td id={this.props.id} className={["content-preview", decapitalizeFirstLetter(this.props.belongToMajor)].join(' ')}>
                     <div className="content-preview-div">

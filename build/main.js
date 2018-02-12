@@ -12,6 +12,10 @@ var _post = require('./routes/post');
 
 var _post2 = _interopRequireDefault(_post);
 
+var _tags = require('./routes/tags');
+
+var _tags2 = _interopRequireDefault(_tags);
+
 var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
@@ -24,6 +28,7 @@ var port = 5913;
 app.use(_express2.default.static(__dirname + "/../public"));
 app.use('/posts', _posts2.default);
 app.use('/post', _post2.default);
+app.use('/tags', _tags2.default);
 app.get('/*', function (req, res) {
     res.sendFile(_path2.default.resolve(__dirname + "/../public/index.html"));
 });

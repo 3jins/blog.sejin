@@ -113,7 +113,6 @@ export default connect(
     (state) => ({
         postPayload: state.posts.postPayload,
         loading: state.posts.loading,
-        currentPostIdx: state.posts.currentPostIdx,
         menuActionType: state.menus.menuActionType,
         menuList: state.menus.menuList,
         // selectedMenuIdx: state.menus.selectedMenuIdx,
@@ -122,8 +121,8 @@ export default connect(
     }),
     (dispatch) => ({
         handleFetchPosts: (url, belongToMajor, belongToMinor) => {
-            const pendingResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor));
-            pendingResult.postPayload
+            const pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor));
+            pendedPostResult.postPayload
                 .then((response) => {
                     dispatch(actions.fetchSuccess(response));
                 });

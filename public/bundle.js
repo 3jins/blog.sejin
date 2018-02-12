@@ -1849,6 +1849,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.fetchPosts = fetchPosts;
 exports.fetchPost = fetchPost;
+exports.fetchTags = fetchTags;
 exports.createPost = createPost;
 exports.fetchSuccess = fetchSuccess;
 exports.changeMenu = changeMenu;
@@ -1886,7 +1887,6 @@ function fetchPosts(url, belongToMajor, belongToMinor) {
         method: 'get',
         headers: headers
     }).then(function (res) {
-        // console.log(res);
         return res.json();
     }).catch(function (err) {
         return console.log(err);
@@ -1917,6 +1917,24 @@ function fetchPost(url, postID) {
     };
 }
 
+function fetchTags(url, belongToMinor) {
+    console.log(url + "/" + belongToMinor);
+    var tagPayload = fetch(url + "/" + belongToMinor, {
+        method: 'get',
+        headers: headers
+    }).then(function (res) {
+        return res.json();
+    }).catch(function (err) {
+        return console.log(err);
+    });
+
+    return {
+        type: posts.FETCH_TAGS,
+        areTagsLoading: true,
+        tagPayload: tagPayload
+    };
+}
+
 function createPost(jsonData) {
     // const request = fetch('/create_post', {
     //     method: 'post',
@@ -1928,11 +1946,18 @@ function createPost(jsonData) {
 }
 
 function fetchSuccess(postPayload) {
-    return {
+    var tagPayload = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+
+    var result = {
         type: posts.FETCH_SUCCESS,
         loading: false,
         postPayload: postPayload
     };
+    if (tagPayload) {
+        result['tagPayload'] = tagPayload;
+    }
+
+    return result;
 }
 
 /*********/
@@ -10664,13 +10689,13 @@ function compose() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-// list
-var FETCH_POSTS = exports.FETCH_POSTS = "FETCH_POSTS";
-var FETCH_SUCCESS = exports.FETCH_SUCCESS = "FETCH_SUCCESS";
 // export const CREATE_POST = "CREATE_POST";   // C
+var FETCH_POSTS = exports.FETCH_POSTS = "FETCH_POSTS"; // R
 var FETCH_POST = exports.FETCH_POST = "FETCH_POST"; // R
+var FETCH_TAGS = exports.FETCH_TAGS = "FETCH_TAGS"; // R
 // export const UPDATE_POST = "UPDATE_POST";   // U
 // export const DELETE_POST = "DELETE_POST";   // D
+var FETCH_SUCCESS = exports.FETCH_SUCCESS = "FETCH_SUCCESS";
 
 /***/ }),
 /* 194 */
@@ -11453,7 +11478,6 @@ exports.default = (0, _reactRedux.connect)(function (state) {
     return {
         postPayload: state.posts.postPayload,
         loading: state.posts.loading,
-        currentPostIdx: state.posts.currentPostIdx,
         menuActionType: state.menus.menuActionType,
         menuList: state.menus.menuList,
         // selectedMenuIdx: state.menus.selectedMenuIdx,
@@ -11463,8 +11487,8 @@ exports.default = (0, _reactRedux.connect)(function (state) {
 }, function (dispatch) {
     return {
         handleFetchPosts: function handleFetchPosts(url, belongToMajor, belongToMinor) {
-            var pendingResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor));
-            pendingResult.postPayload.then(function (response) {
+            var pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor));
+            pendedPostResult.postPayload.then(function (response) {
                 dispatch(actions.fetchSuccess(response));
             });
         },
@@ -41346,6 +41370,7 @@ var _posts = __webpack_require__(193);
 var initialState = {
     postActionType: 'FETCH_POSTS',
     postPayload: [],
+    tagPayload: [],
     loading: false
 };
 
@@ -41357,18 +41382,25 @@ exports.default = function () {
         case _posts.FETCH_POSTS:
             return _extends({}, state, {
                 postActionType: action.type,
-                postPayload: action.postPayload,
+                // postPayload: action.postPayload,
                 loading: action.loading
             });
         case _posts.FETCH_POST:
             return _extends({}, state, {
                 postActionType: action.type,
-                postPayload: action.postPayload,
+                // postPayload: action.postPayload,
                 loading: action.loading
             });
+        case _posts.FETCH_TAGS:
+            return _extends({}, state, {
+                // tagPayload: action.tagPayload,
+                loading: action.loading
+            });
+            break;
         case _posts.FETCH_SUCCESS:
             return _extends({}, state, {
                 postPayload: action.postPayload,
+                tagPayload: action.tagPayload,
                 loading: action.loading
             });
         default:
@@ -52436,7 +52468,6 @@ exports.default = (0, _reactRedux.connect)(function (state) {
     return {
         postPayload: state.posts.postPayload,
         loading: state.posts.loading,
-        currentPostIdx: state.posts.currentPostIdx,
         menuActionType: state.menus.menuActionType,
         menuList: state.menus.menuList,
         // selectedMenuIdx: state.menus.selectedMenuIdx,
@@ -52446,8 +52477,8 @@ exports.default = (0, _reactRedux.connect)(function (state) {
 }, function (dispatch) {
     return {
         handleFetchPosts: function handleFetchPosts(url, belongToMajor, belongToMinor) {
-            var pendingResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor));
-            pendingResult.postPayload.then(function (response) {
+            var pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor));
+            pendedPostResult.postPayload.then(function (response) {
                 dispatch(actions.fetchSuccess(response));
             });
         },
@@ -52616,7 +52647,9 @@ var BlogContents = function (_Component) {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
             if (nextProps.menuActionType === 'CHANGE_MENU_FINISHED' && this.props.menuActionType !== nextProps.menuActionType) {
-                this.props.handleFetchPosts('/posts', this.props.menuList[2].title, this.props.menuList[2].submenuList[this.props.selectedSubmenuIdx].title);
+                var belongToMajor = this.props.menuList[2].title;
+                var belongToMinor = this.props.menuList[2].submenuList[this.props.selectedSubmenuIdx].title;
+                this.props.handleFetchPosts('/posts', belongToMajor, belongToMinor);
             }
             if (nextProps.scroll) {
                 switch (nextProps.menuActionType) {
@@ -52653,7 +52686,7 @@ var BlogContents = function (_Component) {
     }, {
         key: 'shouldComponentUpdate',
         value: function shouldComponentUpdate(nextProps) {
-            return nextProps.postPayload.length > 0 || this.props.loading !== nextProps.loading;
+            return nextProps.postPayload.length > 0 || nextProps.tagPayload.length > 0 || this.props.loading !== nextProps.loading;
         }
     }, {
         key: 'render',
@@ -52664,7 +52697,7 @@ var BlogContents = function (_Component) {
                 return _react2.default.createElement(_LoadingView2.default, { isTable: true });
             };
 
-            var renderContents = function renderContents(postList) {
+            var renderContents = function renderContents(postList, tagList) {
                 if (postList.length === 0) {
                     return _react2.default.createElement(_NoPostPreview2.default, null);
                 }
@@ -52675,7 +52708,7 @@ var BlogContents = function (_Component) {
                         belongToMajor: post.belongToMajor,
                         belongToMinor: post.belongToMinor,
                         title: post.title,
-                        tags: post.tags,
+                        tags: tagList,
                         content: post.content,
                         dataUpdated: post.dataUpdated,
                         onReadMore: _this2.props.handleFetchPost
@@ -52683,7 +52716,6 @@ var BlogContents = function (_Component) {
                 });
             };
 
-            var postList = this.props.postPayload;
             return _react2.default.createElement(
                 'div',
                 { className: 'content' },
@@ -52698,8 +52730,8 @@ var BlogContents = function (_Component) {
                             { ref: function ref(section) {
                                     _this2.contentPosition = section;
                                 } },
-                            this.props.loading && renderLoading(),
-                            !this.props.loading && renderContents(postList)
+                            (this.props.loading || this.props.areTagsLoading) && renderLoading(),
+                            !(this.props.loading || this.props.areTagsLoading) && renderContents(this.props.postPayload, this.props.tagPayload)
                         )
                     )
                 )
@@ -52714,7 +52746,7 @@ exports.default = (0, _reactRedux.connect)(function (state) {
     return {
         postPayload: state.posts.postPayload,
         loading: state.posts.loading,
-        currentPostIdx: state.posts.currentPostIdx,
+        tagPayload: state.posts.tagPayload,
         menuActionType: state.menus.menuActionType,
         menuList: state.menus.menuList,
         // selectedMenuIdx: state.menus.selectedMenuIdx,
@@ -52724,15 +52756,25 @@ exports.default = (0, _reactRedux.connect)(function (state) {
 }, function (dispatch) {
     return {
         handleFetchPosts: function handleFetchPosts(url, belongToMajor, belongToMinor) {
-            var pendingResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor));
-            pendingResult.postPayload.then(function (response) {
-                dispatch(actions.fetchSuccess(response));
+            var pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor));
+            pendedPostResult.postPayload.then(function (postPayload) {
+                // dispatch(actions.fetchSuccess(postPayload));
+                var pendedTagResult = dispatch(actions.fetchTags('/tags', belongToMinor));
+                pendedTagResult.tagPayload.then(function (tagPayload) {
+                    dispatch(actions.fetchSuccess(postPayload, tagPayload));
+                });
             });
         },
         handleFetchPost: function handleFetchPost(url, postID) {
-            var pendingResult = dispatch(actions.fetchPost(url, postID));
-            pendingResult.postPayload.then(function (response) {
+            var pendedResult = dispatch(actions.fetchPost(url, postID));
+            pendedResult.postPayload.then(function (response) {
                 dispatch(actions.fetchSuccess(response));
+            });
+        },
+        handleFetchTags: function handleFetchTags(url, belongToMinor) {
+            var pendedTagResult = dispatch(actions.fetchTags(url, belongToMinor));
+            pendedTagResult.tagPayload.then(function (response) {
+                dispatch(actions.fetchTagSuccess(response));
             });
         },
         handleScrollToComponentFinished: function handleScrollToComponentFinished() {
@@ -52789,6 +52831,22 @@ var BlogPreview = function (_Component) {
     _createClass(BlogPreview, [{
         key: 'render',
         value: function render() {
+            var renderTags = function renderTags(tags, belongToMinor) {
+                return tags.map(function (tag) {
+                    if (tag.belongToMinor === belongToMinor) {
+                        return _react2.default.createElement(
+                            'h5',
+                            { key: tag.tagName },
+                            '#',
+                            tag.tagName,
+                            ' (',
+                            tag.postList.length,
+                            ')'
+                        );
+                    }
+                });
+            };
+
             return _react2.default.createElement(
                 'tr',
                 null,
@@ -52800,11 +52858,7 @@ var BlogPreview = function (_Component) {
                         null,
                         (0, _stringModifier.capitalizeFirstLetter)(this.props.belongToMinor)
                     ),
-                    _react2.default.createElement(
-                        'h4',
-                        null,
-                        this.props.tags[0]
-                    )
+                    renderTags(this.props.tags, this.props.belongToMinor)
                 ),
                 _react2.default.createElement(
                     'td',

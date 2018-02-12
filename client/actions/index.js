@@ -18,10 +18,7 @@ export function fetchPosts(url, belongToMajor, belongToMinor) {
         method: 'get',
         headers: headers
     })
-        .then(res => {
-            // console.log(res);
-            return res.json();
-        })
+        .then(res => res.json())
         .catch(err => console.log(err));
 
     return {
@@ -47,6 +44,22 @@ export function fetchPost(url, postID) {
     }
 }
 
+export function fetchTags(url, belongToMinor) {
+    console.log(url + "/" + belongToMinor);
+    const tagPayload = fetch(url + "/" + belongToMinor, {
+        method: 'get',
+        headers: headers
+    })
+        .then(res => res.json())
+        .catch(err => console.log(err));
+
+    return {
+        type: posts.FETCH_TAGS,
+        areTagsLoading: true,
+        tagPayload: tagPayload,
+    };
+}
+
 export function createPost(jsonData) {
     // const request = fetch('/create_post', {
     //     method: 'post',
@@ -57,12 +70,17 @@ export function createPost(jsonData) {
     //     .catch(err => console.log(err));
 }
 
-export function fetchSuccess(postPayload) {
-    return {
+export function fetchSuccess(postPayload, tagPayload=undefined) {
+    const result = {
         type: posts.FETCH_SUCCESS,
         loading: false,
         postPayload: postPayload,
+    };
+    if(tagPayload) {
+        result['tagPayload'] = tagPayload;
     }
+
+    return result;
 }
 
 
