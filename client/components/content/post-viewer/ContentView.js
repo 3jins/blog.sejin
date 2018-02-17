@@ -30,6 +30,10 @@ class ContentView extends Component {
         };
         const belongToMajor = getBelongToMajor(this.props.postPayload);
         const belongToMinor = getBelongToMinor(this.props.postPayload);
+        let currentTags = [];
+        if(this.props.postPayload.length > 0) {
+            currentTags = this.props.postPayload[0].tags;
+        }
 
         return (
             <div className="content">
@@ -41,6 +45,7 @@ class ContentView extends Component {
                             {belongToMajor !== 'Works' &&
                             <ContentViewSubtitle
                                 tagPayload={this.props.tagPayload}
+                                currentTags={currentTags}
                                 belongToMinor={belongToMinor}
                             />}
                             <ContentViewContent

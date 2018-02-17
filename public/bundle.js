@@ -19876,11 +19876,11 @@ var _PostViewer = __webpack_require__(542);
 
 var _PostViewer2 = _interopRequireDefault(_PostViewer);
 
-var _NoMatch = __webpack_require__(546);
+var _NoMatch = __webpack_require__(547);
 
 var _NoMatch2 = _interopRequireDefault(_NoMatch);
 
-__webpack_require__(547);
+__webpack_require__(548);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53237,6 +53237,10 @@ var ContentView = function (_Component) {
             };
             var belongToMajor = getBelongToMajor(this.props.postPayload);
             var belongToMinor = getBelongToMinor(this.props.postPayload);
+            var currentTags = [];
+            if (this.props.postPayload.length > 0) {
+                currentTags = this.props.postPayload[0].tags;
+            }
 
             return _react2.default.createElement(
                 'div',
@@ -53256,6 +53260,7 @@ var ContentView = function (_Component) {
                                 this.props.loading && _react2.default.createElement(_LoadingView2.default, { isTable: true }),
                                 belongToMajor !== 'Works' && _react2.default.createElement(_ContentViewSubtitle2.default, {
                                     tagPayload: this.props.tagPayload,
+                                    currentTags: currentTags,
                                     belongToMinor: belongToMinor
                                 }),
                                 _react2.default.createElement(_ContentViewContent2.default, {
@@ -53400,6 +53405,8 @@ var _LoadingView = __webpack_require__(52);
 
 var _LoadingView2 = _interopRequireDefault(_LoadingView);
 
+var _arrayComparer = __webpack_require__(546);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -53420,15 +53427,16 @@ var ContentViewSubtitle = function (_Component) {
     _createClass(ContentViewSubtitle, [{
         key: 'render',
         value: function render() {
-            var renderTags = function renderTags(tags, belongToMinor) {
+            var renderTags = function renderTags(tags, currentTags, belongToMinor) {
                 if (!tags || tags.length === 0) {
                     return _react2.default.createElement(_LoadingView2.default, { isTable: false });
                 }
                 return tags.map(function (tag) {
+                    console.log((0, _arrayComparer.isContainStr)(currentTags, tag.tagName));
                     if (tag.belongToMinor === belongToMinor) {
                         return _react2.default.createElement(
                             'h5',
-                            { key: tag.tagName },
+                            { key: tag.tagName, className: (0, _arrayComparer.isContainStr)(currentTags, tag.tagName) ? "selected" : "unselected" },
                             '#',
                             tag.tagName,
                             ' (',
@@ -53447,7 +53455,7 @@ var ContentViewSubtitle = function (_Component) {
                     null,
                     this.props.belongToMinor
                 ),
-                renderTags(this.props.tagPayload, this.props.belongToMinor)
+                renderTags(this.props.tagPayload, this.props.currentTags, this.props.belongToMinor)
             );
         }
     }]);
@@ -53465,6 +53473,69 @@ exports.default = ContentViewSubtitle = (0, _reactRedux.connect)(function (state
 
 /***/ }),
 /* 546 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var isEqual = function isEqual(arr1, arr2) {
+    if (!arr1 || !arr2) {
+        console.log("[isEqual] At least one parameter is undefined or null");
+        return false;
+    }
+    var len1 = arr1.length;
+    var len2 = arr2.length;
+
+    if (len1 !== len2) {
+        return false;
+    }
+    for (var i = 0; i < len1; i++) {
+        if (arr1[i] instanceof Array && arr2[i] instanceof Array) {
+            if (!isEqual(arr1[i], arr2[i])) {
+                return false;
+            }
+        } else if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
+var isContainStr = function isContainStr(arr, str) {
+    if (!arr || !str) {
+        console.log("[isContainStr] At least one parameter is undefined or null");
+        return false;
+    }
+    var len = arr.length;
+
+    for (var i = 0; i < len; i++) {
+        if (arr[i] === str) {
+            return true;
+        }
+    }
+    return false;
+};
+
+(function () {
+    [1, 2, 3].map(function (e) {
+        console.log(e);
+        if (e === 1) {
+            console.log("I'm here");
+            return true;
+        }
+    });
+    return false;
+})();
+
+exports.isEqual = isEqual;
+exports.isContainStr = isContainStr;
+
+/***/ }),
+/* 547 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53514,13 +53585,13 @@ var NoMatch = function (_Component) {
 exports.default = NoMatch;
 
 /***/ }),
-/* 547 */
+/* 548 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(548);
+var content = __webpack_require__(549);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -53528,7 +53599,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(550)(content, options);
+var update = __webpack_require__(551)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -53545,21 +53616,21 @@ if(false) {
 }
 
 /***/ }),
-/* 548 */
+/* 549 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(549)(false);
+exports = module.exports = __webpack_require__(550)(false);
 // imports
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n@keyframes bg-color-secondary-to-light {\n  from {\n    background-color: white; }\n  to {\n    background-color: #e0e0e0; } }\n\n@keyframes bg-color-light-to-secondary {\n  from {\n    background-color: #e0e0e0; }\n  to {\n    background-color: white; } }\n\nbody {\n  width: 100%;\n  margin: 0;\n  padding: 0; }\n\na {\n  text-decoration: none; }\n\n/* markdown */\n.md table {\n  line-height: 1.2em;\n  width: 100%; }\n\n.nav {\n  color: white;\n  background-color: black;\n  font: 14px \"Source Code Pro\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Bitstream Vera Sans Mono\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  text-align: center;\n  height: 100vh; }\n  .nav a {\n    color: white; }\n  .nav .sticky {\n    z-index: 10; }\n  .nav .main-nav {\n    height: 4em; }\n    .nav .main-nav .nav-menu-table-wrapper {\n      width: 100%;\n      background-color: black;\n      height: calc(4em / 2);\n      padding: calc(4em / 4) 0; }\n      .nav .main-nav .nav-menu-table-wrapper.sticky {\n        position: fixed;\n        top: 0;\n        padding: 0; }\n      .nav .main-nav .nav-menu-table-wrapper .nav-menu-table {\n        margin: 0 auto;\n        table-layout: fixed; }\n        .nav .main-nav .nav-menu-table-wrapper .nav-menu-table td {\n          width: 10em; }\n          .nav .main-nav .nav-menu-table-wrapper .nav-menu-table td p {\n            cursor: pointer;\n            margin: 0; }\n  .nav .v-center-table {\n    width: 100%;\n    height: calc(100% - 2 * 4em); }\n    .nav .v-center-table td {\n      font-size: 4em; }\n    .nav .v-center-table .Typist {\n      display: inline; }\n      .nav .v-center-table .Typist .Cursor--blinking {\n        animation-name: blinker;\n        animation-duration: 0.7s;\n        animation-timing-function: linear;\n        animation-iteration-count: infinite; }\n\n@keyframes blinker {\n  0% {\n    opacity: 1.0; }\n  50% {\n    opacity: 0.0; }\n  100% {\n    opacity: 1.0; } }\n  .nav .subnav {\n    color: black;\n    background-color: white;\n    height: 4em; }\n    .nav .subnav .subnav-menu-table-wrapper {\n      width: 100%;\n      height: calc(4em / 2);\n      padding: calc(4em / 4) 0;\n      animation-name: bg-color-light-to-secondary;\n      animation-duration: 0.5s; }\n      .nav .subnav .subnav-menu-table-wrapper.sticky {\n        position: fixed;\n        background-color: #e0e0e0;\n        animation-name: bg-color-secondary-to-light;\n        animation-duration: 0.5s;\n        top: calc(4em / 2);\n        padding: 0; }\n      .nav .subnav .subnav-menu-table-wrapper .subnav-menu-table {\n        margin: 0 auto;\n        table-layout: fixed; }\n        .nav .subnav .subnav-menu-table-wrapper .subnav-menu-table td {\n          width: 10em; }\n          .nav .subnav .subnav-menu-table-wrapper .subnav-menu-table td p {\n            cursor: pointer;\n            margin: 0; }\n\n.content {\n  color: black;\n  background-color: white;\n  font: 16px \"Bitstream Vera Sans Mono\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Source Code Pro\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  line-height: 2em;\n  /* main */\n  /* post body */ }\n  .content a {\n    color: #8080ff; }\n  .content > div table {\n    width: 100%;\n    border: 0;\n    border-spacing: 0;\n    /* subtitle */ }\n    .content > div table .subtitle {\n      width: 12em;\n      vertical-align: top;\n      padding: 3em 0;\n      text-align: center;\n      font-family: \"Source Code Pro\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Bitstream Vera Sans Mono\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n      background-color: white;\n      animation-name: bg-color-light-to-secondary;\n      animation-duration: 0.5s; }\n      .content > div table .subtitle.sticky {\n        background-color: #e0e0e0;\n        animation-name: bg-color-secondary-to-light;\n        animation-duration: 0.5s; }\n    .content > div table .about > div, .content > div table .blog > div {\n      margin: 3em 6em; }\n    .content > div table .works {\n      padding: 3em 12em; }\n    .content > div table .blog {\n      padding: 3em 0; }\n      .content > div table .blog > div {\n        margin: 0 6em; }\n    .content > div table .content-preview {\n      position: relative; }\n      .content > div table .content-preview .content-preview-div {\n        height: calc(70vh - 2em);\n        overflow: hidden; }\n        .content > div table .content-preview .content-preview-div:after {\n          content: '';\n          position: absolute;\n          width: 100%;\n          height: 10em;\n          top: calc(70vh - 10em + 1.1em);\n          left: 0;\n          background: linear-gradient(transparent 0px, #fff); }\n      .content > div table .content-preview .read-more {\n        margin: 0 auto;\n        height: 2em;\n        text-align: center; }\n        .content > div table .content-preview .read-more > a {\n          color: #8080ff;\n          margin: 0; }\n\n.footer {\n  color: #e0e0e0;\n  background-color: black;\n  font: 14px \"Source Code Pro\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Bitstream Vera Sans Mono\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  height: calc(100vh - 4em); }\n  .footer a {\n    color: white; }\n  .footer .v-center-table {\n    padding-top: 5em;\n    padding-left: 12em;\n    padding-right: 12em;\n    width: 100%; }\n    .footer .v-center-table td .contact-table {\n      margin: 0 auto;\n      padding-top: 10%;\n      text-align: center; }\n      .footer .v-center-table td .contact-table tr {\n        height: 5em; }\n        .footer .v-center-table td .contact-table tr td {\n          width: 5em; }\n          .footer .v-center-table td .contact-table tr td img {\n            height: 2em; }\n    .footer .v-center-table td .copyright {\n      padding-top: 10%;\n      width: 100%;\n      text-align: center;\n      color: #e0e0e0;\n      font-size: 1em; }\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n@keyframes bg-color-secondary-to-light {\n  from {\n    background-color: white; }\n  to {\n    background-color: #e0e0e0; } }\n\n@keyframes bg-color-light-to-secondary {\n  from {\n    background-color: #e0e0e0; }\n  to {\n    background-color: white; } }\n\nbody {\n  width: 100%;\n  margin: 0;\n  padding: 0; }\n\na {\n  text-decoration: none; }\n\n/* markdown */\n.md table {\n  line-height: 1.2em;\n  width: 100%; }\n\n.nav {\n  color: white;\n  background-color: black;\n  font: 14px \"Source Code Pro\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Bitstream Vera Sans Mono\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  text-align: center;\n  height: 100vh; }\n  .nav a {\n    color: white; }\n  .nav .sticky {\n    z-index: 10; }\n  .nav .main-nav {\n    height: 4em; }\n    .nav .main-nav .nav-menu-table-wrapper {\n      width: 100%;\n      background-color: black;\n      height: calc(4em / 2);\n      padding: calc(4em / 4) 0; }\n      .nav .main-nav .nav-menu-table-wrapper.sticky {\n        position: fixed;\n        top: 0;\n        padding: 0; }\n      .nav .main-nav .nav-menu-table-wrapper .nav-menu-table {\n        margin: 0 auto;\n        table-layout: fixed; }\n        .nav .main-nav .nav-menu-table-wrapper .nav-menu-table td {\n          width: 10em; }\n          .nav .main-nav .nav-menu-table-wrapper .nav-menu-table td p {\n            cursor: pointer;\n            margin: 0; }\n  .nav .v-center-table {\n    width: 100%;\n    height: calc(100% - 2 * 4em); }\n    .nav .v-center-table td {\n      font-size: 4em; }\n    .nav .v-center-table .Typist {\n      display: inline; }\n      .nav .v-center-table .Typist .Cursor--blinking {\n        animation-name: blinker;\n        animation-duration: 0.7s;\n        animation-timing-function: linear;\n        animation-iteration-count: infinite; }\n\n@keyframes blinker {\n  0% {\n    opacity: 1.0; }\n  50% {\n    opacity: 0.0; }\n  100% {\n    opacity: 1.0; } }\n  .nav .subnav {\n    color: black;\n    background-color: white;\n    height: 4em; }\n    .nav .subnav .subnav-menu-table-wrapper {\n      width: 100%;\n      height: calc(4em / 2);\n      padding: calc(4em / 4) 0;\n      animation-name: bg-color-light-to-secondary;\n      animation-duration: 0.5s; }\n      .nav .subnav .subnav-menu-table-wrapper.sticky {\n        position: fixed;\n        background-color: #e0e0e0;\n        animation-name: bg-color-secondary-to-light;\n        animation-duration: 0.5s;\n        top: calc(4em / 2);\n        padding: 0; }\n      .nav .subnav .subnav-menu-table-wrapper .subnav-menu-table {\n        margin: 0 auto;\n        table-layout: fixed; }\n        .nav .subnav .subnav-menu-table-wrapper .subnav-menu-table td {\n          width: 10em; }\n          .nav .subnav .subnav-menu-table-wrapper .subnav-menu-table td p {\n            cursor: pointer;\n            margin: 0; }\n\n.content {\n  color: black;\n  background-color: white;\n  font: 16px \"Bitstream Vera Sans Mono\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Source Code Pro\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  line-height: 2em;\n  /* main */\n  /* post body */ }\n  .content a {\n    color: #8080ff; }\n  .content > div table {\n    width: 100%;\n    border: 0;\n    border-spacing: 0;\n    /* subtitle */ }\n    .content > div table .subtitle {\n      width: 12em;\n      vertical-align: top;\n      padding: 3em 0;\n      text-align: center;\n      font-family: \"Source Code Pro\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Bitstream Vera Sans Mono\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n      background-color: white;\n      animation-name: bg-color-light-to-secondary;\n      animation-duration: 0.5s; }\n      .content > div table .subtitle.sticky {\n        background-color: #e0e0e0;\n        animation-name: bg-color-secondary-to-light;\n        animation-duration: 0.5s; }\n      .content > div table .subtitle h5 {\n        font-weight: normal; }\n      .content > div table .subtitle h5.selected {\n        font-weight: bold; }\n    .content > div table .about > div, .content > div table .blog > div {\n      margin: 3em 6em; }\n    .content > div table .works {\n      padding: 3em 12em; }\n    .content > div table .blog {\n      padding: 3em 0; }\n      .content > div table .blog > div {\n        margin: 0 6em; }\n    .content > div table .content-preview {\n      position: relative; }\n      .content > div table .content-preview .content-preview-div {\n        height: calc(70vh - 2em);\n        overflow: hidden; }\n        .content > div table .content-preview .content-preview-div:after {\n          content: '';\n          position: absolute;\n          width: 100%;\n          height: 10em;\n          top: calc(70vh - 10em + 1.1em);\n          left: 0;\n          background: linear-gradient(transparent 0px, #fff); }\n      .content > div table .content-preview .read-more {\n        margin: 0 auto;\n        height: 2em;\n        text-align: center; }\n        .content > div table .content-preview .read-more > a {\n          color: #8080ff;\n          margin: 0; }\n\n.footer {\n  color: #e0e0e0;\n  background-color: black;\n  font: 14px \"Source Code Pro\", \"\\B098\\B214\\BC14\\B978\\ACE0\\B515   Light\", \"Bitstream Vera Sans Mono\", \"Lucida Grande\", Helvetica, Arial, sans-serif;\n  height: calc(100vh - 4em); }\n  .footer a {\n    color: white; }\n  .footer .v-center-table {\n    padding-top: 5em;\n    padding-left: 12em;\n    padding-right: 12em;\n    width: 100%; }\n    .footer .v-center-table td .contact-table {\n      margin: 0 auto;\n      padding-top: 10%;\n      text-align: center; }\n      .footer .v-center-table td .contact-table tr {\n        height: 5em; }\n        .footer .v-center-table td .contact-table tr td {\n          width: 5em; }\n          .footer .v-center-table td .contact-table tr td img {\n            height: 2em; }\n    .footer .v-center-table td .copyright {\n      padding-top: 10%;\n      width: 100%;\n      text-align: center;\n      color: #e0e0e0;\n      font-size: 1em; }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 549 */
+/* 550 */
 /***/ (function(module, exports) {
 
 /*
@@ -53641,7 +53712,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 550 */
+/* 551 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -53697,7 +53768,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(551);
+var	fixUrls = __webpack_require__(552);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -54013,7 +54084,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 551 */
+/* 552 */
 /***/ (function(module, exports) {
 
 

@@ -23,4 +23,19 @@ const isEqual = (arr1, arr2) => {
     return true;
 };
 
-export {isEqual};
+const isContain = (arr, element) => {
+    if (!arr || !element) {
+        console.log("[isContain] At least one parameter is undefined or null");
+        return false;
+    }
+    const len = arr.length;
+
+    for (let i = 0; i < len; i++) {
+        if(arr[i] === element) {
+            return true;
+        }
+    }
+    return false;
+};
+
+export {isEqual, isContain};
