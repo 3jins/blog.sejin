@@ -11,6 +11,7 @@ const headers = {
 
 /*********/
 /* posts */
+
 /*********/
 export function fetchPosts(url, belongToMajor, belongToMinor) {
     console.log(url + "/" + belongToMajor + "/" + belongToMinor);
@@ -70,22 +71,19 @@ export function createPost(jsonData) {
     //     .catch(err => console.log(err));
 }
 
-export function fetchSuccess(postPayload, tagPayload=undefined) {
-    const result = {
+export function fetchSuccess(postPayload, tagPayload = []) {
+    return {
         type: posts.FETCH_SUCCESS,
         loading: false,
         postPayload: postPayload,
+        tagPayload: tagPayload,
     };
-    if(tagPayload) {
-        result['tagPayload'] = tagPayload;
-    }
-
-    return result;
 }
 
 
 /*********/
 /* menus */
+
 /*********/
 export function changeMenu(menuIdx) {
     return {
@@ -109,6 +107,7 @@ export function changeMenuFinished() {
 
 /***********/
 /* scrolls */
+
 /***********/
 export function scroll(scrollY, innerWindowHeight) {
     const basePx = getBasePx()['menu'];

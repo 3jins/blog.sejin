@@ -150,13 +150,6 @@ export default connect(
                     dispatch(actions.fetchSuccess(response));
                 });
         },
-        handleFetchTags: (url, belongToMinor) => {
-            const pendedTagResult = dispatch(actions.fetchTags(url, belongToMinor));
-            pendedTagResult.tagPayload
-                .then((response) => {
-                    dispatch(actions.fetchTagSuccess(response));
-                });
-        },
         handleScrollToComponentFinished: () => dispatch(actions.changeMenuFinished()),
         handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),
     }),
