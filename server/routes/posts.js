@@ -27,7 +27,7 @@ router.get('/:nav/:subnav?', function(req, res) {
     //                 res.json(posts);
     //             });
     //         break;
-    //     case 'Works':
+    //     case 'WorksContent':
     //     case 'Blog':
             Post
                 .find(queryJson)

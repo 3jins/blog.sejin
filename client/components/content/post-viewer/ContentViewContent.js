@@ -4,10 +4,6 @@ import LoadingView from '../LoadingView';
 import {decapitalizeFirstLetter} from "../../../utils/stringModifier";
 
 class ContentViewContent extends Component {
-    // shouldComponentUpdate(nextProps) {
-    //     return nextProps.postPayload.length > 0;
-    // }
-
     render() {
         const renderContents = (postPayload) => {
             if (!postPayload || postPayload.length === 0) {

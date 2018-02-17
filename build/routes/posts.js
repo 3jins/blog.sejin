@@ -39,7 +39,7 @@ router.get('/:nav/:subnav?', function (req, res) {
     //                 res.json(posts);
     //             });
     //         break;
-    //     case 'Works':
+    //     case 'WorksContent':
     //     case 'Blog':
     _models.Post.find(queryJson).sort({ 'dateCreated': -1 }).exec(function (err, posts) {
         if (err) {

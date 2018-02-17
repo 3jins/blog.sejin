@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import LoadingView from '../LoadingView';
+import {capitalizeFirstLetter} from "../../../../utils/stringModifier";
+import LoadingPreview from "../../LoadingView";
 
-class ContentViewSubtitle extends Component {
+class BlogSubtitle extends Component {
     render() {
-        const renderTags = (tags, belongToMinor) => {
-            if (!tags || tags.length === 0) {
-                return <LoadingView isTable={false}/>;
+        const renderTags = (tagPayload, belongToMinor) => {
+            console.log(tagPayload);
+            if(!tagPayload || tagPayload.length === 0) {
+                return <LoadingPreview isTable={false}/>
             }
-            return tags.map((tag) => {
+            return tagPayload.map((tag) => {
                 if (tag.belongToMinor === belongToMinor) {
                     return (
                         <h5 key={tag.tagName}>
@@ -21,16 +23,16 @@ class ContentViewSubtitle extends Component {
 
         return (
             <td className={["subtitle", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
-                <h3>{this.props.belongToMinor}</h3>
+                <h3>{capitalizeFirstLetter(this.props.belongToMinor)}</h3>
                 {renderTags(this.props.tagPayload, this.props.belongToMinor)}
             </td>
         );
     }
 }
 
-export default ContentViewSubtitle = connect(
+export default connect(
     (state) => ({
         isSubnavSticky: state.scrolls.areNavsSticky.isSubnavSticky,
     }),
-    (dispatch) => ({}),
-)(ContentViewSubtitle);
+    () => ({}),
+)(BlogSubtitle);

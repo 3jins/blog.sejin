@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../../actions';
 import Nav from '../nav/Nav';
-import AboutContents from '../content/home/about/AboutContents';
-import WorksContents from '../content/home/works/WorksContents';
-import BlogContents from '../content/home/blog/BlogContents';
+import About from '../content/home/about/About';
+import Works from '../content/home/works/Works';
+import Blog from '../content/home/blog/Blog';
 import Footer from '../footer/Footer';
 
 class Home extends Component {
@@ -22,11 +22,11 @@ class Home extends Component {
             }
             switch(menuTitle) {
                 case 'About':
-                    return <AboutContents/>;
+                    return <About/>;
                 case 'Works':
-                    return <WorksContents/>;
+                    return <Works/>;
                 case 'Blog':
-                    return <BlogContents/>;
+                    return <Blog/>;
             }
         };
 

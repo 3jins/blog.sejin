@@ -6,12 +6,13 @@ import ContentViewContent from "./ContentViewContent";
 import ContentViewSubtitle from "./ContentViewSubtitle";
 
 class ContentView extends Component {
-    shouldComponentUpdate(nextProps) {
-        return nextProps.postPayload.length > 0 || nextProps.tagPayload.length > 0;
+    constructor(props) {
+        super(props);
+        this.props.handleFetchPost('/post', this.props.postID);
     }
 
-    componentDidMount() {
-        this.props.handleFetchPost('/post', this.props.postID);
+    shouldComponentUpdate(nextProps) {
+        return nextProps.postPayload.length > 0 || nextProps.tagPayload.length > 0;
     }
 
     render() {

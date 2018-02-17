@@ -6,15 +6,13 @@ import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import AboutContent from './AboutContent';
 import {getMenuHeight} from "../../../../utils/unitConverter";
+import AboutSubtitle from "./AboutSubtitle";
 
 
-class AboutContents extends Component {
+class About extends Component {
     constructor(props) {
         super(props);
         this.contentPositions = [];
-    }
-
-    componentWillMount() {
         this.props.handleChangeMenu(0);
     }
 
@@ -27,11 +25,11 @@ class AboutContents extends Component {
             );
         }
         if (nextProps.scroll) {
-            switch(nextProps.menuActionType) {
+            switch (nextProps.menuActionType) {
                 case 'CHANGE_MENU':
                     if (nextProps.scroll) {
                         // TODO: It needs deceleration effect.
-                        (function scrollToTop () {
+                        (function scrollToTop() {
                             if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
                                 window.scrollBy(0, -50);
                                 setTimeout(scrollToTop, 10);
@@ -50,7 +48,6 @@ class AboutContents extends Component {
                     );
                     break;
             }
-
             this.props.handleScrollToComponentFinished();
         }
     }
@@ -66,31 +63,33 @@ class AboutContents extends Component {
             );
         };
 
-        const renderContents = (postList) => {
-            if(postList.length === 0) {
-                return <NoPostPreview/>
+        const renderContents = (postPayload) => {
+            if (!postPayload || postPayload.length === 0) {
+                return <NoPostPreview/>;
             }
-            return postList.map((post, idx) => {
-                return <AboutContent
-                    ref={(section) => {
-                        this.contentPositions[idx] = section;
-                    }}
-                    key={post._id}
-                    belongToMajor={post.belongToMajor}
-                    belongToMinor={post.belongToMinor}
-                    content={post.content}
-                />
+            return postPayload.map((post, idx) => {
+                return (
+                    <tr key={post._id}>
+                        <AboutSubtitle belongToMinor={post.belongToMinor}/>
+                        <AboutContent
+                            ref={(section) => {
+                                this.contentPositions[idx] = section;
+                            }}
+                            belongToMajor={post.belongToMajor}
+                            content={post.content}
+                        />
+                    </tr>
+                );
             });
         };
 
-        const postList = this.props.postPayload;
         return (
             <div className="content">
                 <div>
                     <table>
                         <tbody>
                         {this.props.loading && renderLoading()}
-                        {!this.props.loading && renderContents(postList)}
+                        {!this.props.loading && renderContents(this.props.postPayload)}
                         </tbody>
                     </table>
                 </div>
@@ -105,7 +104,6 @@ export default connect(
         loading: state.posts.loading,
         menuActionType: state.menus.menuActionType,
         menuList: state.menus.menuList,
-        // selectedMenuIdx: state.menus.selectedMenuIdx,
         selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
         scroll: state.menus.scroll,
     }),
@@ -118,8 +116,8 @@ export default connect(
                 });
         },
         handleFetchPost: (url, postID) => {
-            const pendingResult = dispatch(actions.fetchPost(url, postID));
-            pendingResult.postPayload
+            const pendedPostResult = dispatch(actions.fetchPost(url, postID));
+            pendedPostResult.postPayload
                 .then((response) => {
                     dispatch(actions.fetchSuccess(response));
                 });
@@ -127,4 +125,4 @@ export default connect(
         handleScrollToComponentFinished: () => dispatch(actions.changeMenuFinished()),
         handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),
     }),
-)(AboutContents);
+)(About);
