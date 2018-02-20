@@ -27,33 +27,20 @@ var isEqual = function isEqual(arr1, arr2) {
     return true;
 };
 
-var isContainStr = function isContainStr(arr, str) {
-    if (!arr || !str) {
-        console.log("[isContainStr] At least one parameter is undefined or null");
+var isContain = function isContain(arr, element) {
+    if (!arr || !element) {
+        console.log("[isContain] At least one parameter is undefined or null");
         return false;
     }
     var len = arr.length;
 
     for (var i = 0; i < len; i++) {
-        if (arr[i] === str) {
+        if (arr[i] === element) {
             return true;
         }
     }
     return false;
 };
-// isContainStr(["1", "2"], "3");
-// isContainStr(["1", "2"], "2");
-
-(function () {
-    [1, 2, 3].map(function (e) {
-        console.log(e);
-        if (e === 1) {
-            console.log("I'm here");
-            return true;
-        }
-    });
-    return false;
-})();
 
 exports.isEqual = isEqual;
-exports.isContainStr = isContainStr;
+exports.isContain = isContain;

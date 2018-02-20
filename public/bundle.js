@@ -53432,11 +53432,10 @@ var ContentViewSubtitle = function (_Component) {
                     return _react2.default.createElement(_LoadingView2.default, { isTable: false });
                 }
                 return tags.map(function (tag) {
-                    console.log((0, _arrayComparer.isContainStr)(currentTags, tag.tagName));
                     if (tag.belongToMinor === belongToMinor) {
                         return _react2.default.createElement(
                             'h5',
-                            { key: tag.tagName, className: (0, _arrayComparer.isContainStr)(currentTags, tag.tagName) ? "selected" : "unselected" },
+                            { key: tag.tagName, className: (0, _arrayComparer.isContain)(currentTags, tag.tagName) ? "selected" : "unselected" },
                             '#',
                             tag.tagName,
                             ' (',
@@ -53505,34 +53504,23 @@ var isEqual = function isEqual(arr1, arr2) {
     return true;
 };
 
-var isContainStr = function isContainStr(arr, str) {
-    if (!arr || !str) {
-        console.log("[isContainStr] At least one parameter is undefined or null");
+var isContain = function isContain(arr, element) {
+    if (!arr || !element) {
+        console.log("[isContain] At least one parameter is undefined or null");
         return false;
     }
     var len = arr.length;
 
     for (var i = 0; i < len; i++) {
-        if (arr[i] === str) {
+        if (arr[i] === element) {
             return true;
         }
     }
     return false;
 };
 
-(function () {
-    [1, 2, 3].map(function (e) {
-        console.log(e);
-        if (e === 1) {
-            console.log("I'm here");
-            return true;
-        }
-    });
-    return false;
-})();
-
 exports.isEqual = isEqual;
-exports.isContainStr = isContainStr;
+exports.isContain = isContain;
 
 /***/ }),
 /* 547 */

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
-import {mdConverter} from "../../../../utils/mdModifier";
-import {decapitalizeFirstLetter} from "../../../../utils/stringModifier";
+import {mdConverter} from "../../../../../server/utils/mdModifier";
+import {decapitalizeFirstLetter} from "../../../../../server/utils/stringModifier";
 
 class BlogContent extends Component {
     render() {

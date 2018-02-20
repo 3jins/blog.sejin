@@ -5,7 +5,7 @@ import * as actions from '../../actions';
 import Nav from '../nav/Nav';
 import ContentView from '../content/post-viewer/ContentView';
 import Footer from '../footer/Footer';
-import {getMenuHeight} from "../../utils/unitConverter";
+import {getMenuHeight} from "../../../server/utils/unitConverter";
 
 class PostViewer extends Component {
     constructor(props) {

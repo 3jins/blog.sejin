@@ -5,7 +5,7 @@ import * as actions from '../../../../actions';
 import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import AboutContent from './AboutContent';
-import {getMenuHeight} from "../../../../utils/unitConverter";
+import {getMenuHeight} from "../../../../../server/utils/unitConverter";
 import AboutSubtitle from "./AboutSubtitle";
 
 

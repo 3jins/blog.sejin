@@ -6,7 +6,7 @@ import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import BlogContent from './BlogContent';
 import BlogSubtitle from './BlogSubtitle';
-import {getMenuHeight} from "../../../../utils/unitConverter";
+import {getMenuHeight} from "../../../../../server/utils/unitConverter";
 
 
 class Blog extends Component {

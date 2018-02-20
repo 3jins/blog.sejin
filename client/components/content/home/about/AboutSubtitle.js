@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {capitalizeFirstLetter} from "../../../../utils/stringModifier";
+import {capitalizeFirstLetter} from "../../../../../server/utils/stringModifier";
 
 class AboutContents extends Component {
     render() {

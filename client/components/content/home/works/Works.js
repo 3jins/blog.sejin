@@ -5,7 +5,7 @@ import * as actions from '../../../../actions';
 import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import WorksContent from './WorksContent';
-import {getMenuHeight} from "../../../../utils/unitConverter";
+import {getMenuHeight} from "../../../../../server/utils/unitConverter";
 
 
 class Works extends Component {

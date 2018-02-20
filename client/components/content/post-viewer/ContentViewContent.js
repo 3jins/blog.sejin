@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {mdConverter} from "../../../utils/mdModifier";
+import {mdConverter} from "../../../../server/utils/mdModifier";
 import LoadingView from '../LoadingView';
-import {decapitalizeFirstLetter} from "../../../utils/stringModifier";
+import {decapitalizeFirstLetter} from "../../../../server/utils/stringModifier";
 
 class ContentViewContent extends Component {
     render() {

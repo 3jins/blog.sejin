@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Markdown} from 'react-showdown';
-import {decapitalizeFirstLetter} from "../../../../utils/stringModifier";
+import {decapitalizeFirstLetter} from "../../../../../server/utils/stringModifier";
 
 class AboutContent extends Component {
     render() {
