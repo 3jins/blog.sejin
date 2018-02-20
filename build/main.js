@@ -23,7 +23,7 @@ var _path2 = _interopRequireDefault(_path);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
-var port = 5913;
+var port = process.env.SERVER_ENV === 'development' ? 5913 : 80;
 
 app.use(_express2.default.static(__dirname + "/../public"));
 app.use('/posts', _posts2.default);

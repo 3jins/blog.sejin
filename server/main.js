@@ -5,7 +5,7 @@ import tags from './routes/tags';
 import path from 'path';
 
 const app = express();
-const port = 5913;
+const port = process.env.SERVER_ENV === 'development' ? 5913 : 80;
 
 app.use(express.static(__dirname + "/../public"));
 app.use('/posts', posts);
