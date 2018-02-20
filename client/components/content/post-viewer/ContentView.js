@@ -51,6 +51,7 @@ class ContentView extends Component {
                             <ContentViewContent
                                 postPayload={this.props.postPayload}
                                 belongToMajor={belongToMajor}
+                                postID={this.props.postID}
                             />
                         </tr>
                         </tbody>
