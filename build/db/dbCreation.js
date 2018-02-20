@@ -85,7 +85,9 @@ var readFiles = function readFiles(curPath) {
             return error;
         }
 
-        files.map(function (file) {
+        files.filter(function (file) {
+            return file !== '.git';
+        }).map(function (file) {
             var fullPath = curPath + '/' + file;
             if (_fs2.default.statSync(fullPath).isFile()) {
                 // file
@@ -151,7 +153,7 @@ var savePostsInOrder = function savePostsInOrder(idx, limit) {
                         console.log("Succeeded to update: " + posts[idx].title);
                         savePostsInOrder(++idx, limit);
                     }).catch(function (err) {
-                        console.log("Failed to save: " + posts[idx].title);
+                        console.log("Failed to update: " + posts[idx].title);
                         return console.error(err);
                     });
                 } else {

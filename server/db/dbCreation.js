@@ -82,7 +82,7 @@ const readFiles = function (curPath, belongToMajor = null, belongToMinor = null)
             return error;
         }
 
-        files.map((file) => {
+        files.filter((file) => file !== '.git').map((file) => {
             const fullPath = curPath + '/' + file;
             if (fs.statSync(fullPath).isFile()) {    // file
                 const titleTag = tagSeparator(extensionCutter(file));
@@ -158,7 +158,7 @@ const savePostsInOrder = (idx, limit) => {
                                 savePostsInOrder(++idx, limit);
                             })
                             .catch((err) => {
-                                console.log("Failed to save: " + posts[idx].title);
+                                console.log("Failed to update: " + posts[idx].title);
                                 return console.error(err);
                             });
                     }
