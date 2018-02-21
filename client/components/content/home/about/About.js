@@ -19,7 +19,7 @@ class About extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.menuActionType === 'CHANGE_MENU_FINISHED' && this.props.menuActionType !== nextProps.menuActionType) {
+        if (nextProps.menuActionType === 'CHANGE_MENU_FINISHED' && this.props.menuActionType === 'CHANGE_MENU') {
             this.props.handleFetchPosts(
                 '/posts',
                 this.menuList[this.menuIdx].title,
