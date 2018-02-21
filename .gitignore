@@ -131,5 +131,7 @@ build/routes/*.js
 
 # posting content files
 *.md
+md_files/.git/*
+md_files/.git/.*
 
 # End of https://www.gitignore.io/api/node,webstorm
