@@ -5,45 +5,26 @@ const router = express.Router();
 router.get('/:nav/:subnav?', function(req, res) {
     const nav = req.params.nav;
     const subnav = req.params.subnav;
-    const queryJson = {
+    const findJson = {
         "belongToMajor": nav,
     };
+    const sortJson = nav === 'About' ? "dateCreated" : {"dateCreated": -1};
 
     if(typeof subnav !== 'undefined') {
-        queryJson["belongToMinor"] = subnav;
+        findJson["belongToMinor"] = subnav;
     }
-    // switch(nav) {
-    //     case 'About':
-    //         Post
-    //             .find(queryJson)
-    //             .sort('dateCreated')
-    //             .exec(function (err, posts) {
-    //                 if (err) {
-    //                     console.log(err);
-    //                     return res.status(500).json({
-    //                         message: 'Could not retrieve works'
-    //                     });
-    //                 }
-    //                 res.json(posts);
-    //             });
-    //         break;
-    //     case 'WorksContent':
-    //     case 'Blog':
-            Post
-                .find(queryJson)
-                .sort({'dateCreated': -1})
-                .exec(function (err, posts) {
-                    if (err) {
-                        console.log(err);
-                        return res.status(500).json({
-                            message: 'Could not retrieve works'
-                        });
-                    }
-                    res.json(posts);
+    Post
+        .find(findJson)
+        .sort(sortJson)
+        .exec(function (err, posts) {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: 'Could not retrieve works'
                 });
-            // break;
-
-    // }
+            }
+            res.json(posts);
+        });
 });
 
 export default router;
