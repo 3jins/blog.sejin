@@ -15,25 +15,26 @@ class Home extends Component {
             true
         );
     }
+
     render() {
-        const renderContents = (menuTitle) => {
-            if(typeof menuTitle === 'undefined') {
+        const renderContents = (menuTitle, submenuTitle) => {
+            if (typeof menuTitle === 'undefined') {
                 menuTitle = 'About';
             }
-            switch(menuTitle) {
+            switch (menuTitle) {
                 case 'About':
                     return <About/>;
                 case 'Works':
-                    return <Works/>;
+                    return <Works belongToMajor={menuTitle} belongToMinor={submenuTitle}/>;
                 case 'Blog':
-                    return <Blog/>;
+                    return <Blog belongToMajor={menuTitle} belongToMinor={submenuTitle}/>;
             }
         };
 
         return (
             <div>
                 <Nav/>
-                {renderContents(this.props.match.params.title)}
+                {renderContents(this.props.match.params.title, this.props.match.params.subtitle)}
                 <Footer/>
             </div>
         );

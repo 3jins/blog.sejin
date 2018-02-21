@@ -21,15 +21,9 @@ ReactDOM.render(
         <Router>
             <Switch>
                 <Route exact path="/" component={Home}/>
-                <Route path="/nav/:title" component={Home}/>
+                <Route path="/nav/:title/:subtitle?" component={Home}/>
                 <Route path="/postviewer/:id" component={PostViewer}/>
                 <Route component={NoMatch}/>
-                {/*<Route path="/" component={Home}>*/}
-                    {/*<Route path="/about" component={AboutView}/>*/}
-                    {/*<Route path="/works" component={Contents}/>*/}
-                    {/*<Route path="/blog" component={Contents}/>*/}
-                    {/**/}
-                {/*</Route>*/}
             </Switch>
         </Router>
     </Provider>,

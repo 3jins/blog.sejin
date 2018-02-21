@@ -4,11 +4,19 @@ import * as actions from '../../../actions';
 import LoadingView from '../LoadingView';
 import ContentViewContent from "./ContentViewContent";
 import ContentViewSubtitle from "./ContentViewSubtitle";
+import constants from "../../../constants";
 
 class ContentView extends Component {
     constructor(props) {
         super(props);
-        this.props.handleFetchPost('/post', this.props.postID);
+        this.menuList = constants.menuList;
+        props.handleFetchPost('/post', props.postID);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.postPayload.length > 0) {
+            this.props.handleChangeMenu(nextProps.postPayload, this.menuList);
+        }
     }
 
     shouldComponentUpdate(nextProps) {
@@ -84,6 +92,14 @@ export default ContentView = connect(
                             dispatch(actions.fetchSuccess(postPayload, tagPayload));
                         })
                 });
+        },
+        handleChangeMenu: (postPayload, menuList) => {
+            const belongToMajor = postPayload[0].belongToMajor;
+            menuList.map((menu, idx) => {
+                if(menu.title === belongToMajor) {
+                    dispatch(actions.changeMenu(idx));
+                }
+            });
         },
     }),
 )(ContentView);

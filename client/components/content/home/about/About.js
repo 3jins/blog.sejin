@@ -7,20 +7,22 @@ import LoadingView from '../../LoadingView';
 import AboutContent from './AboutContent';
 import {getMenuHeight} from "../../../../../server/utils/unitConverter";
 import AboutSubtitle from "./AboutSubtitle";
-
+import components from "../../../../constants";
 
 class About extends Component {
     constructor(props) {
         super(props);
         this.contentPositions = [];
-        this.props.handleChangeMenu(0);
+        this.menuList = components.menuList;
+        this.menuIdx = 0;
+        props.handleChangeMenu(this.menuIdx);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.menuActionType === 'CHANGE_MENU_FINISHED' && this.props.menuActionType !== nextProps.menuActionType) {
             this.props.handleFetchPosts(
                 '/posts',
-                this.props.menuList[0].title,
+                this.menuList[this.menuIdx].title,
                 '',
             );
         }
@@ -103,7 +105,6 @@ export default connect(
         postPayload: state.posts.postPayload,
         loading: state.posts.loading,
         menuActionType: state.menus.menuActionType,
-        menuList: state.menus.menuList,
         selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
         scroll: state.menus.scroll,
     }),

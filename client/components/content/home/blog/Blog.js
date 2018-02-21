@@ -7,23 +7,28 @@ import LoadingView from '../../LoadingView';
 import BlogContent from './BlogContent';
 import BlogSubtitle from './BlogSubtitle';
 import {getMenuHeight} from "../../../../../server/utils/unitConverter";
-
+import components from "../../../../constants";
 
 class Blog extends Component {
     constructor(props) {
         super(props);
         this.contentsStartPosition = null;
-        this.props.handleChangeMenu(2);
+        this.menuList = components.menuList;
+        this.menuIdx = 2;
+        props.handleFetchPosts(
+            '/posts',
+            props.belongToMajor,
+            props.belongToMinor ? props.belongToMinor : this.menuList[this.menuIdx].submenuList[0].title,
+        );
+        props.handleChangeMenu(this.menuIdx);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.menuActionType === 'CHANGE_MENU_FINISHED' && this.props.menuActionType !== nextProps.menuActionType) {
-            const belongToMajor = this.props.menuList[2].title;
-            const belongToMinor = this.props.menuList[2].submenuList[this.props.selectedSubmenuIdx].title;
+        if (this.props.belongToMinor !== nextProps.belongToMinor) {
             this.props.handleFetchPosts(
                 '/posts',
-                belongToMajor,
-                belongToMinor
+                nextProps.belongToMajor,
+                nextProps.belongToMinor
             );
         }
         if (nextProps.scroll) {
@@ -105,8 +110,7 @@ class Blog extends Component {
                     </table>
                 </div>
             </div>
-        )
-            ;
+        );
     }
 }
 
@@ -116,7 +120,6 @@ export default connect(
         loading: state.posts.loading,
         tagPayload: state.posts.tagPayload,
         menuActionType: state.menus.menuActionType,
-        menuList: state.menus.menuList,
         selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
         scroll: state.menus.scroll,
     }),

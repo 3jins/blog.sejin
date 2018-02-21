@@ -6,27 +6,32 @@ import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import WorksContent from './WorksContent';
 import {getMenuHeight} from "../../../../../server/utils/unitConverter";
-
+import constants from "../../../../constants";
 
 class Works extends Component {
     constructor(props) {
         super(props);
         this.contentsStartPosition = null;
-        this.props.handleChangeMenu(1);
+        this.menuList = constants.menuList;
+        this.menuIdx = 1;
+        props.handleFetchPosts(
+            '/posts',
+            props.belongToMajor,
+            props.belongToMinor ? props.belongToMinor : this.menuList[this.menuIdx].submenuList[0].title,
+        );
+        props.handleChangeMenu(this.menuIdx);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.menuActionType === 'CHANGE_MENU_FINISHED' && this.props.menuActionType !== nextProps.menuActionType) {
-            const belongToMajor = this.props.menuList[1].title;
-            const belongToMinor = this.props.menuList[1].submenuList[this.props.selectedSubmenuIdx].title;
+        if (this.props.belongToMinor !== nextProps.belongToMinor) {
             this.props.handleFetchPosts(
                 '/posts',
-                belongToMajor,
-                belongToMinor
+                nextProps.belongToMajor,
+                nextProps.belongToMinor
             );
         }
         if (nextProps.scroll) {
-            switch(nextProps.menuActionType) {
+            switch (nextProps.menuActionType) {
                 case 'CHANGE_MENU':
                     if (nextProps.scroll) {
                         // TODO: It needs deceleration effect.
@@ -65,7 +70,7 @@ class Works extends Component {
         };
 
         const renderContents = (postPayload) => {
-            if(!postPayload || postPayload.length === 0) {
+            if (!postPayload || postPayload.length === 0) {
                 return <NoPostPreview/>
             }
             return postPayload.map((post) => {
@@ -108,7 +113,6 @@ export default connect(
         postPayload: state.posts.postPayload,
         loading: state.posts.loading,
         menuActionType: state.menus.menuActionType,
-        menuList: state.menus.menuList,
         selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
         scroll: state.menus.scroll,
     }),

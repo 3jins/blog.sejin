@@ -9,18 +9,38 @@ class NavItems extends Component {
     }
 
     render() {
+        const makeNavLink = (menuTitle, upperMenuTitle, menuIdx, onSelected) => {
+            if (upperMenuTitle === '') {     // nav
+                return (
+                    <Link to={["/nav", menuTitle].join('/')} onClick={() => onSelected(menuIdx)}>
+                        {menuTitle}
+                    </Link>
+                );
+            }
+            else if (upperMenuTitle === "About") {   // subnav in About
+                return (
+                    <p onClick={() => onSelected(menuIdx)}>
+                        {menuTitle}
+                    </p>
+                );
+            }
+            else {  // subnav in Works or Blog
+                return (
+                    <Link to={["/nav", upperMenuTitle, menuTitle].join('/')} onClick={() => onSelected(menuIdx)}>
+                        {menuTitle}
+                    </Link>
+                );
+            }
+        };
+
         return (
             <td>
-                {this.props.level === 0 &&
-                <Link to={"/nav/" + this.props.menuTitle}>
-                    {this.props.menuTitle}
-                </Link>
-                }
-                {this.props.level > 0 &&
-                <p onClick={() => this.props.onSelected(this.props.menuIdx)}>
-                    {this.props.menuTitle}
-                </p>
-                }
+                {makeNavLink(
+                    this.props.menuTitle,
+                    this.props.upperMenuTitle,
+                    this.props.menuIdx,
+                    this.props.onSelected
+                )}
             </td>
         );
     }

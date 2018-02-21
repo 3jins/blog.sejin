@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import NavItem from './NavItem';
-
 import {connect} from 'react-redux';
 import * as actions from '../../actions';
-
 import Typist from 'react-typist';
-
+import components from "../../constants";
 
 class Nav extends Component {
+    constructor(props) {
+        super(props);
+        this.menuList = components.menuList;
+    }
 
     render() {
         const cursorOption = {
@@ -17,15 +19,17 @@ class Nav extends Component {
             hideWhenDone: false,
             hideWhenDoneDelay: 1000,
         };
+        const titleForDesign = this.menuList[this.props.selectedMenuIdx].titleForDesign;
 
-        const mapMenuToComponent = (menuList, level, selectedMenuIdx = 0) => {
-            // let exchange = false;
-            // if (level === 1 && selectedMenuIdx > 0) {
-            //     exchange = true;
-            // }
+        const mapMenuToComponent = (menuList, upperMenuTitle = "") => {
             return menuList.map((navMenu, menuIdx) => {
-                return <NavItem key={menuIdx} level={level} menuTitle={navMenu.title} menuIdx={menuIdx}
-                                onSelected={this.props.handleChangeSubmenu}/>
+                return <NavItem
+                    key={menuIdx}
+                    menuTitle={navMenu.title}
+                    menuIdx={menuIdx}
+                    upperMenuTitle={upperMenuTitle}
+                    onSelected={this.props.handleChangeSubmenu}
+                />;
             });
         };
 
@@ -37,7 +41,7 @@ class Nav extends Component {
                         <table className="nav-menu-table">
                             <tbody>
                             <tr>
-                                {mapMenuToComponent(this.props.menuList, 0)}
+                                {mapMenuToComponent(this.menuList)}
                             </tr>
                             </tbody>
                         </table>
@@ -48,9 +52,9 @@ class Nav extends Component {
                     <tr>
                         <td className="typed-td">
                             ${' '}
-                            <Typist key={this.props.titleForDesign} avgTypingDelay={100} cursor={cursorOption}>
+                            <Typist key={titleForDesign} avgTypingDelay={100} cursor={cursorOption}>
                                 <Typist.Delay ms={1000}/>
-                                {this.props.titleForDesign}
+                                {titleForDesign}
                             </Typist>
                         </td>
                     </tr>
@@ -62,7 +66,10 @@ class Nav extends Component {
                         <table className="subnav-menu-table">
                             <tbody>
                             <tr>
-                                {mapMenuToComponent(this.props.submenuList, 1, this.props.selectedMenuIdx)}
+                                {mapMenuToComponent(
+                                    components.menuList[this.props.selectedMenuIdx].submenuList,
+                                    this.menuList[this.props.selectedMenuIdx].title
+                                )}
                             </tr>
                             </tbody>
                         </table>
@@ -73,14 +80,10 @@ class Nav extends Component {
     }
 }
 
-
 export default connect(
     (state) => ({
         selectedMenuIdx: state.menus.selectedMenuIdx,
         selectedSubmenuIdx: state.menus.selectedSubenuIdx,
-        menuList: state.menus.menuList,
-        submenuList: state.menus.menuList[state.menus.selectedMenuIdx].submenuList,
-        titleForDesign: state.menus.menuList[state.menus.selectedMenuIdx].titleForDesign,
         isNavSticky: state.scrolls.areNavsSticky.isNavSticky,
         isSubnavSticky: state.scrolls.areNavsSticky.isSubnavSticky,
     }),

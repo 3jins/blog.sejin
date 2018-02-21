@@ -9,10 +9,9 @@ const headers = {
 };
 
 
-/*********/
-/* posts */
-
-/*********/
+/*********
+ * posts *
+ *********/
 export function fetchPosts(url, belongToMajor, belongToMinor) {
     console.log(url + "/" + belongToMajor + "/" + belongToMinor);
     const postPayload = fetch(url + "/" + belongToMajor + "/" + belongToMinor, {
@@ -81,10 +80,9 @@ export function fetchSuccess(postPayload, tagPayload = []) {
 }
 
 
-/*********/
-/* menus */
-
-/*********/
+/*********
+ * menus *
+ *********/
 export function changeMenu(menuIdx) {
     return {
         type: menus.CHANGE_MENU,
@@ -105,10 +103,9 @@ export function changeMenuFinished() {
     };
 }
 
-/***********/
-/* scrolls */
-
-/***********/
+/***********
+ * scrolls *
+ ***********/
 export function scroll(scrollY, innerWindowHeight) {
     const basePx = getBasePx()['menu'];
     const menuHeight = getMenuHeightRaw();
