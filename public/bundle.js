@@ -55185,7 +55185,8 @@ var Blog = function (_Component) {
             };
 
             var renderContents = function renderContents(postPayload, tagPayload) {
-                if (!postPayload || postPayload.length === 0) {
+                var numPosts = postPayload.length;
+                if (!postPayload || numPosts === 0) {
                     return _react2.default.createElement(_NoPostPreview2.default, null);
                 }
                 return postPayload.map(function (post, idx) {
@@ -55194,7 +55195,8 @@ var Blog = function (_Component) {
                         { key: post._id },
                         idx === 0 && _react2.default.createElement(_BlogSubtitle2.default, {
                             belongToMinor: post.belongToMinor,
-                            tagPayload: tagPayload
+                            tagPayload: tagPayload,
+                            numPosts: numPosts
                         }),
                         _react2.default.createElement(_BlogContent2.default, {
                             id: post._id,
@@ -55390,7 +55392,6 @@ var BlogSubtitle = function (_Component) {
         key: 'render',
         value: function render() {
             var renderTags = function renderTags(tagPayload, belongToMinor) {
-                console.log(tagPayload);
                 if (!tagPayload || tagPayload.length === 0) {
                     return _react2.default.createElement(_LoadingView2.default, { isTable: false });
                 }
@@ -55411,7 +55412,8 @@ var BlogSubtitle = function (_Component) {
 
             return _react2.default.createElement(
                 'td',
-                { className: ["subtitle", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ') },
+                { className: ["subtitle", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' '),
+                    rowSpan: this.props.numPosts },
                 _react2.default.createElement(
                     'h3',
                     null,

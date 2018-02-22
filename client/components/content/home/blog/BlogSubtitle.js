@@ -6,7 +6,6 @@ import LoadingPreview from "../../LoadingView";
 class BlogSubtitle extends Component {
     render() {
         const renderTags = (tagPayload, belongToMinor) => {
-            console.log(tagPayload);
             if(!tagPayload || tagPayload.length === 0) {
                 return <LoadingPreview isTable={false}/>
             }
@@ -22,7 +21,8 @@ class BlogSubtitle extends Component {
         };
 
         return (
-            <td className={["subtitle", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
+            <td className={["subtitle", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}
+            rowSpan={this.props.numPosts}>
                 <h3>{capitalizeFirstLetter(this.props.belongToMinor)}</h3>
                 {renderTags(this.props.tagPayload, this.props.belongToMinor)}
             </td>

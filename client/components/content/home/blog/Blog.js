@@ -75,7 +75,8 @@ class Blog extends Component {
         };
 
         const renderContents = (postPayload, tagPayload) => {
-            if (!postPayload || postPayload.length === 0) {
+            const numPosts = postPayload.length;
+            if (!postPayload || numPosts === 0) {
                 return <NoPostPreview/>;
             }
             return postPayload.map((post, idx) => {
@@ -85,6 +86,7 @@ class Blog extends Component {
                         <BlogSubtitle
                             belongToMinor={post.belongToMinor}
                             tagPayload={tagPayload}
+                            numPosts={numPosts}
                         />}
                         <BlogContent
                             id={post._id}
