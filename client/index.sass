@@ -173,14 +173,18 @@ a
         @media (max-width: $break)
           > div
             margin: $top-bottom-margin $nested-side-margin-small
-        //@media (max-width: $break-small)
-        //  > div
-        //    margin: $top-bottom-margin 1em
       .works
         padding: $top-bottom-margin $side-margin
       @media (max-width: $break)
         .works
           padding: $top-bottom-margin $nested-side-margin-small
+      .blog
+        padding: $top-bottom-margin 0
+        > div
+          margin: 0 $nested-side-margin
+        @media (max-width: $break)
+          > div
+            margin: 0 $nested-side-margin-small
 
       .content-preview
         $read-more-height: 2em
