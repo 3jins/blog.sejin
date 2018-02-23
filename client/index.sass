@@ -1,5 +1,4 @@
-$break-large: 800px
-$break-small: 500px
+$break: 800px
 
 $primary-color: rgb(255, 255, 255)
 $primary-bg-color: rgb(0, 0, 24)
@@ -15,6 +14,7 @@ $content-base-pixel: 16px
 $side-margin: 12em
 $top-bottom-margin: 3em
 $nested-side-margin: 6em
+$nested-side-margin-small: 10%
 $content-width: calc(100vw - #{$side-margin} - 2 * #{$nested-side-margin})
 
 $color-change-duration: 0.5s
@@ -155,11 +155,13 @@ a
           font-weight: normal
         h5.selected
           font-weight: bold
-      @media(max-width: $break-large)
+      @media(max-width: $break)
         .subtitle
-          //width: 25%
           width: 25%
           min-width: calc(#{$side-margin} / 2)
+      @media(max-width: $break)
+        .subtitle.post-viewer
+          display: none
 
       /* comment */
       .fb-comments-wrapper
@@ -168,17 +170,17 @@ a
       .about, .blog
         > div
           margin: $top-bottom-margin $nested-side-margin
-        @media (max-width: $break-large)
+        @media (max-width: $break)
           > div
-            margin: $top-bottom-margin 10%
+            margin: $top-bottom-margin $nested-side-margin-small
         //@media (max-width: $break-small)
         //  > div
         //    margin: $top-bottom-margin 1em
       .works
         padding: $top-bottom-margin $side-margin
-      @media (max-width: $break-large)
+      @media (max-width: $break)
         .works
-          padding: $top-bottom-margin 10%
+          padding: $top-bottom-margin $nested-side-margin-small
 
       .content-preview
         $read-more-height: 2em

@@ -21,7 +21,7 @@ class ContentViewSubtitle extends Component {
         };
 
         return (
-            <td className={["subtitle", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
+            <td className={["subtitle", "post-viewer", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
                 <h3>{this.props.belongToMinor}</h3>
                 {renderTags(this.props.tagPayload, this.props.currentTags, this.props.belongToMinor)}
             </td>
