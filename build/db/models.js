@@ -14,6 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 (0, _dbConnection2.default)('172.18.0.3', '172.18.0.2', 27017, 'blog');
 
 var post = new _dbConnection.mongoose.Schema({
+    postNo: { type: Number, required: true, unique: true },
     title: { type: String, required: true, unique: false },
     dateCreated: { type: Date, required: true, unique: false },
     dateUpdated: { type: Date, required: true, unique: false },

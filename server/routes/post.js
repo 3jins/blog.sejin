@@ -2,10 +2,10 @@ import express from 'express';
 import { Post } from '../db/models';
 const router = express.Router();
 
-router.get('/:postId', function(req, res) {
-    const postId = req.params.postId;
+router.get('/:postNo', function(req, res) {
+    const postNo = req.params.postNo;
     const queryJson = {
-        "_id": postId,
+        "postNo": postNo,
     };
 
     Post

@@ -14,18 +14,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var router = _express2.default.Router();
 
-router.get('/:nav/:subnav?', function (req, res) {
-    var nav = req.params.nav;
-    var subnav = req.params.subnav;
-    var findJson = {
-        "belongToMajor": nav
+router.get('/:postNo', function (req, res) {
+    var postNo = req.params.postNo;
+    var queryJson = {
+        "postNo": postNo
     };
-    var sortJson = nav === 'About' ? "postNo" : { "postNo": -1 };
 
-    if (typeof subnav !== 'undefined') {
-        findJson["belongToMinor"] = subnav;
-    }
-    _models.Post.find(findJson).sort(sortJson).exec(function (err, posts) {
+    _models.Post.find(queryJson).exec(function (err, posts) {
         if (err) {
             console.log(err);
             return res.status(500).json({

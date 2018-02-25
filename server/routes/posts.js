@@ -8,7 +8,7 @@ router.get('/:nav/:subnav?', function(req, res) {
     const findJson = {
         "belongToMajor": nav,
     };
-    const sortJson = nav === 'About' ? "dateCreated" : {"dateCreated": -1};
+    const sortJson = nav === 'About' ? "postNo" : {"postNo": -1};
 
     if(typeof subnav !== 'undefined') {
         findJson["belongToMinor"] = subnav;

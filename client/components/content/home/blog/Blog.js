@@ -89,7 +89,7 @@ class Blog extends Component {
                             numPosts={numPosts}
                         />}
                         <BlogContent
-                            id={post._id}
+                            postNo={post.postNo}
                             belongToMajor={post.belongToMajor}
                             title={post.title}
                             content={post.content}

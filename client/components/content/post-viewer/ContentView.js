@@ -10,7 +10,7 @@ class ContentView extends Component {
     constructor(props) {
         super(props);
         this.menuList = constants.menuList;
-        props.handleFetchPost('/post', props.postID);
+        props.handleFetchPost('/post', props.postNo);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -59,7 +59,7 @@ class ContentView extends Component {
                             <ContentViewContent
                                 postPayload={this.props.postPayload}
                                 belongToMajor={belongToMajor}
-                                postID={this.props.postID}
+                                postNo={this.props.postNo}
                             />
                         </tr>
                         </tbody>
@@ -76,14 +76,14 @@ export default ContentView = connect(
         tagPayload: state.posts.tagPayload,
     }),
     (dispatch) => ({
-        handleFetchPost: (url, postID) => {
-            const pendingResult = dispatch(actions.fetchPost(url, postID));
+        handleFetchPost: (url, postNo) => {
+            const pendingResult = dispatch(actions.fetchPost(url, postNo));
             pendingResult.postPayload
                 .then((response) => {
                     dispatch(actions.fetchSuccess(response));
                 });
 
-            const pendedPostResult = dispatch(actions.fetchPost(url, postID));
+            const pendedPostResult = dispatch(actions.fetchPost(url, postNo));
             pendedPostResult.postPayload
                 .then((postPayload) => {
                     const pendedTagResult = dispatch(actions.fetchTags('/tags', postPayload[0].belongToMinor));

@@ -78,7 +78,7 @@ class Works extends Component {
                     <tr key={post._id}>
                         <WorksContent
                             key={post._id}
-                            id={post._id}
+                            postNo={post.postNo}
                             belongToMajor={post.belongToMajor}
                             belongToMinor={post.belongToMinor}
                             title={post.title}
@@ -124,8 +124,8 @@ export default connect(
                     dispatch(actions.fetchSuccess(response));
                 });
         },
-        handleFetchPost: (url, postID) => {
-            const pendingResult = dispatch(actions.fetchPost(url, postID));
+        handleFetchPost: (url, postNo) => {
+            const pendingResult = dispatch(actions.fetchPost(url, postNo));
             pendingResult.postPayload
                 .then((response) => {
                     dispatch(actions.fetchSuccess(response));

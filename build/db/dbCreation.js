@@ -31,7 +31,7 @@ var tagSeparator = function tagSeparator(str) {
 };
 
 var addFirst = function addFirst(arr, element) {
-    arr.revers();
+    arr.reverse();
     arr.push(element);
     arr.reverse();
     return arr;
@@ -121,7 +121,7 @@ var readFiles = function readFiles(curPath) {
     });
 };
 
-var savePostsInOrder = function savePostsInOrder(idx, limit) {
+var savePostsInOrder = function savePostsInOrder(idx, limit, largestPostNoSoFar) {
     if (idx >= limit) {
         console.log("Save completed.");
         return;
@@ -133,10 +133,11 @@ var savePostsInOrder = function savePostsInOrder(idx, limit) {
     }).then(function (docs) {
         if (docs.length === 0) {
             /* if there isn't (create) */
+            posts[idx]['postNo'] = largestPostNoSoFar + idx + 1;
             posts[idx].save().then(function () {
                 addTags(posts[idx].tags, posts[idx].belongToMinor, posts[idx]._id);
                 console.log("Succeeded to save: " + posts[idx].title);
-                savePostsInOrder(++idx, limit);
+                savePostsInOrder(++idx, limit, largestPostNoSoFar);
             }).catch(function (err) {
                 console.log("Failed to save: " + posts[idx].title);
                 return console.error(err);
@@ -151,7 +152,7 @@ var savePostsInOrder = function savePostsInOrder(idx, limit) {
                     }).then(function () {
                         addTags(posts[idx].tags, posts[idx].belongToMinor, posts[idx]._id);
                         console.log("Succeeded to update: " + posts[idx].title);
-                        savePostsInOrder(++idx, limit);
+                        savePostsInOrder(++idx, limit, largestPostNoSoFar);
                     }).catch(function (err) {
                         console.log("Failed to update: " + posts[idx].title);
                         return console.error(err);
@@ -159,7 +160,7 @@ var savePostsInOrder = function savePostsInOrder(idx, limit) {
                 } else {
                     /* if there is (pass) */
                     console.log("Pass: " + posts[idx].title);
-                    savePostsInOrder(++idx, limit);
+                    savePostsInOrder(++idx, limit, largestPostNoSoFar);
                 }
             });
         }
@@ -170,5 +171,9 @@ var savePostsInOrder = function savePostsInOrder(idx, limit) {
 readFiles(mdPath);
 setTimeout(function () {
     console.log(posts[0].tags);
-    savePostsInOrder(0, posts.length);
+
+    _models.Post.find({}, { postNo: true }).sort({ postNo: -1 }).limit(1).then(function (result) {
+        var largestPostNoSoFar = result[0].postNo;
+        savePostsInOrder(0, posts.length, largestPostNoSoFar);
+    });
 }, 1000);

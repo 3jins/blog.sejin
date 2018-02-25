@@ -29,11 +29,12 @@ class PostViewer extends Component {
         );
     }
     render() {
+        console.log(this.props.match.params.postNo);
         return (
             <div>
                 <Nav/>
                 <ContentView
-                    postID={this.props.match.params.id}
+                    postNo={this.props.match.params.postNo}
                     ref={(section) => {
                         this.navPosition = section;
                     }}

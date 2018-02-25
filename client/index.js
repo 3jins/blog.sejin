@@ -22,7 +22,7 @@ ReactDOM.render(
             <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route path="/nav/:title/:subtitle?" component={Home}/>
-                <Route path="/postviewer/:id" component={PostViewer}/>
+                <Route path="/postviewer/:postNo" component={PostViewer}/>
                 <Route component={NoMatch}/>
             </Switch>
         </Router>

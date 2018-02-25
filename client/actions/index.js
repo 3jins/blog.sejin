@@ -28,9 +28,9 @@ export function fetchPosts(url, belongToMajor, belongToMinor) {
     };
 }
 
-export function fetchPost(url, postID) {
-    console.log(url + '/' + postID);
-    const postPayload = fetch(url + '/' + postID, {
+export function fetchPost(url, postNo) {
+    console.log(url + '/' + postNo);
+    const postPayload = fetch(url + '/' + postNo, {
         method: 'get',
         headers: headers
     })

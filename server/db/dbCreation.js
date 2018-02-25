@@ -23,21 +23,21 @@ const tagSeparator = (str) => {
 };
 
 const addFirst = (arr, element) => {
-    arr.revers();
+    arr.reverse();
     arr.push(element);
     arr.reverse();
     return arr;
 };
 
-const addTags = function(tags, belongToMinor, postID) {
-    if(!tags || !belongToMinor || !postID) {
+const addTags = function (tags, belongToMinor, postID) {
+    if (!tags || !belongToMinor || !postID) {
         console.log("tags: " + tags + " / belongToMinor: " + belongToMinor + " / postID: " + postID)
         return;
     }
     tags.map((tag) => {
         Tag.find({'tagName': tag})
             .then((docs) => {
-                if(docs.length === 0) {     // new tag
+                if (docs.length === 0) {     // new tag
                     new Tag({
                         tagName: tag,
                         belongToMinor: belongToMinor,
@@ -117,7 +117,7 @@ const readFiles = function (curPath, belongToMajor = null, belongToMinor = null)
     });
 };
 
-const savePostsInOrder = (idx, limit) => {
+const savePostsInOrder = (idx, limit, largestPostNoSoFar) => {
     if (idx >= limit) {
         console.log("Save completed.");
         return;
@@ -130,11 +130,12 @@ const savePostsInOrder = (idx, limit) => {
         (docs) => {
             if (docs.length === 0) {
                 /* if there isn't (create) */
+                posts[idx]['postNo'] = largestPostNoSoFar + idx + 1;
                 posts[idx].save()
                     .then(() => {
                         addTags(posts[idx].tags, posts[idx].belongToMinor, posts[idx]._id);
                         console.log("Succeeded to save: " + posts[idx].title);
-                        savePostsInOrder(++idx, limit);
+                        savePostsInOrder(++idx, limit, largestPostNoSoFar);
                     })
                     .catch((err) => {
                         console.log("Failed to save: " + posts[idx].title);
@@ -146,16 +147,16 @@ const savePostsInOrder = (idx, limit) => {
                     if (posts[idx].content !== doc.content || !isEqual(posts[idx].tags, doc.tags)) {
                         /* if there is (update) */
                         Post.update(
-                                {_id: doc._id},
-                                {
-                                    content: posts[idx].content,
-                                    tags: posts[idx].tags,
-                                }
-                            )
+                            {_id: doc._id},
+                            {
+                                content: posts[idx].content,
+                                tags: posts[idx].tags,
+                            }
+                        )
                             .then(() => {
                                 addTags(posts[idx].tags, posts[idx].belongToMinor, posts[idx]._id);
                                 console.log("Succeeded to update: " + posts[idx].title);
-                                savePostsInOrder(++idx, limit);
+                                savePostsInOrder(++idx, limit, largestPostNoSoFar);
                             })
                             .catch((err) => {
                                 console.log("Failed to update: " + posts[idx].title);
@@ -165,7 +166,7 @@ const savePostsInOrder = (idx, limit) => {
                     else {
                         /* if there is (pass) */
                         console.log("Pass: " + posts[idx].title);
-                        savePostsInOrder(++idx, limit);
+                        savePostsInOrder(++idx, limit, largestPostNoSoFar);
                     }
                 });
             }
@@ -177,5 +178,11 @@ const savePostsInOrder = (idx, limit) => {
 readFiles(mdPath);
 setTimeout(() => {
     console.log(posts[0].tags);
-    savePostsInOrder(0, posts.length);
+
+    Post.find({}, {postNo: true}).sort({postNo: -1}).limit(1).then(
+        (result) => {
+            const largestPostNoSoFar = result[0].postNo;
+            savePostsInOrder(0, posts.length, largestPostNoSoFar);
+        }
+    );
 }, 1000);
