@@ -124,11 +124,6 @@ fabric.properties
 # Sonarlint plugin
 .idea/sonarlint
 
-# webpack bundle files
-build/*.js
-build/db/*.js
-build/routes/*.js
-
 # posting content files
 *.md
 md_files/.git/*
