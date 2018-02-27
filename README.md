@@ -1,2 +1,2 @@
 # blog.sejin
-My blog
+Go -> [http://enhanced.kr](http://enhanced.kr)
