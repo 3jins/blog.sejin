@@ -10,7 +10,6 @@ var _arrayComparer = require('../utils/arrayComparer');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var posts = [];
 var mdPath = process.cwd() + '/md_files';
 
 var extensionCutter = function extensionCutter(name) {
@@ -30,150 +29,218 @@ var tagSeparator = function tagSeparator(str) {
     return result;
 };
 
+var checkPostIncluded = function checkPostIncluded(postList, post) {
+    if (!postList || !post) {
+        console.log("[checkPostIncluded] postList(" + postList + ") or post(" + post + ") is null or undefined.");
+    }
+    var numPosts = postList.length;
+    for (var i = 0; i < numPosts; i++) {
+        if (postList[i].title === post.title) {
+            return true;
+        }
+    }
+    return false;
+};
+
+var checkIfNeedUpdate = function checkIfNeedUpdate(dbPost, mdFile) {
+    return dbPost.title === mdFile.title && !(dbPost.content === mdFile.content && (0, _arrayComparer.isEqual)(dbPost.tags, mdFile.tags));
+};
+
+var getLargestPostNoSoFar = function getLargestPostNoSoFar(posts, numPosts) {
+    var largestPostNoSoFar = 0;
+    for (var i = 0; i < numPosts; i++) {
+        if (posts[i] > largestPostNoSoFar) {
+            largestPostNoSoFar = posts[i];
+        }
+    }
+    return largestPostNoSoFar;
+};
+
 var addFirst = function addFirst(arr, element) {
-    arr.reverse();
-    arr.push(element);
-    arr.reverse();
+    if (!(0, _arrayComparer.isContain)(arr, element)) {
+        arr.reverse();
+        arr.push(element);
+        arr.reverse();
+    }
     return arr;
 };
 
-var addTags = function addTags(tags, belongToMinor, postID) {
-    if (!tags || !belongToMinor || !postID) {
-        console.log("tags: " + tags + " / belongToMinor: " + belongToMinor + " / postID: " + postID);
-        return;
+var reconstructMds = function reconstructMds(mdFiles) {
+    if (!mdFiles) {
+        console.log("[reconstructMds] mdFiles is null or undefined.");
     }
-    tags.map(function (tag) {
-        _models.Tag.find({ 'tagName': tag }).then(function (docs) {
-            if (docs.length === 0) {
-                // new tag
-                new _models.Tag({
-                    tagName: tag,
-                    belongToMinor: belongToMinor,
-                    postList: [postID]
-                }).save().then(function () {
-                    console.log("Succeeded to save a tag: " + tag);
-                }).catch(function (err) {
-                    console.log("Failed to save a tag: " + tag);
-                    return console.error(err);
-                });
+    var numMds = mdFiles.length;
+    var mdSortedByTag = {};
+    for (var i = 0; i < numMds; i++) {
+        var addedTags = Object.keys(mdSortedByTag);
+        var mdFile = mdFiles[i];
+        var tags = mdFile.tags;
+        var numTags = tags.length;
+        for (var j = 0; j < numTags; j++) {
+            var tag = tags[j];
+            if ((0, _arrayComparer.isContain)(addedTags, tag)) {
+                // Modify an existing tag
+                addFirst(mdSortedByTag[tag].postList, mdFile.title);
             } else {
-                // existing tag
-                var doc = docs[0];
-                _models.Tag.update({ tagName: tag }, {
-                    postList: addFirst(doc.postList, postID)
-                }).then(function () {
-                    console.log("Succeeded to update a tag: " + tag);
-                }).catch(function (err) {
-                    console.log("Failed to update a tag: " + tag);
-                    return console.error(err);
-                });
+                // Add a new tag
+                mdSortedByTag[tag] = {
+                    tagName: tag,
+                    belongToMinor: mdFile.belongToMinor,
+                    postList: [mdFile.title]
+                };
             }
-        }).catch(function (err) {
-            console.log("Failed to search a tag: " + tag);
-            return console.error(err);
-        });
-    });
+        }
+    }
+
+    return mdSortedByTag;
 };
 
 var readFiles = function readFiles(curPath) {
     var belongToMajor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     var belongToMinor = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-    return _fs2.default.readdir(curPath, function (error, files) {
-        if (error) {
-            console.error(error);
-            return error;
-        }
+    var mds = [];
+    var files = _fs2.default.readdirSync(curPath);
+    var numFiles = files.length;
 
-        files.filter(function (file) {
-            return file !== '.git';
-        }).map(function (file) {
+    for (var i = 0; i < numFiles; i++) {
+        var file = files[i];
+        if (file !== '.git') {
             var fullPath = curPath + '/' + file;
             if (_fs2.default.statSync(fullPath).isFile()) {
                 // file
                 var titleTag = tagSeparator(extensionCutter(file));
-                _fs2.default.readFile(fullPath, 'utf-8', function (error, data) {
-                    _fs2.default.stat(fullPath, function () {
-                        posts[posts.length] = new _models.Post({
-                            belongToMajor: belongToMajor,
-                            belongToMinor: belongToMinor,
-                            title: titleTag['title'],
-                            tags: titleTag['tags'],
-                            dateCreated: new Date().getTime(),
-                            dateUpdated: new Date().getTime(),
-                            content: data
-                        });
-                    });
+                var data = _fs2.default.readFileSync(fullPath, 'utf-8');
+                mds[mds.length] = new _models.Post({
+                    belongToMajor: belongToMajor,
+                    belongToMinor: belongToMinor,
+                    title: titleTag['title'],
+                    tags: titleTag['tags'],
+                    dateCreated: new Date().getTime(),
+                    dateUpdated: new Date().getTime(),
+                    content: data
                 });
             } else {
                 // directory
                 if (belongToMajor === null) {
-                    readFiles(fullPath, file);
+                    mds = mds.concat(readFiles(fullPath, file));
                 } else {
                     if (belongToMinor === null) {
-                        readFiles(fullPath, belongToMajor, file.substr(1));
+                        mds = mds.concat(readFiles(fullPath, belongToMajor, file.substr(1)));
                     } else {
-                        readFiles(fullPath, belongToMajor, belongToMinor);
+                        mds = mds.concat(readFiles(fullPath, belongToMajor, belongToMinor));
                     }
                 }
             }
-        });
-    });
+        }
+    }
+
+    return mds;
 };
 
-var savePostsInOrder = function savePostsInOrder(idx, limit, largestPostNoSoFar) {
-    if (idx >= limit) {
-        console.log("Save completed.");
-        return;
-    }
-    _models.Post.find({
-        title: posts[idx].title,
-        belongToMajor: posts[idx].belongToMajor,
-        belongToMinor: posts[idx].belongToMinor
-    }).then(function (docs) {
-        if (docs.length === 0) {
-            /* if there isn't (create) */
-            posts[idx]['postNo'] = largestPostNoSoFar + idx + 1;
-            posts[idx].save().then(function () {
-                addTags(posts[idx].tags, posts[idx].belongToMinor, posts[idx]._id);
-                console.log("Succeeded to save: " + posts[idx].title);
-                savePostsInOrder(++idx, limit, largestPostNoSoFar);
+_models.Post.find().then(function (posts) {
+    var mds = readFiles(mdPath);
+    var numMds = mds.length;
+    var numPosts = posts.length;
+    var largestPostNoSoFar = getLargestPostNoSoFar(posts, numPosts);
+
+    /* Add new posts or update changed posts to DB */
+
+    var _loop = function _loop(i) {
+        var mdFile = mds[i];
+        if (!checkPostIncluded(posts, mdFile)) {
+            // new file
+            mdFile.postNo = largestPostNoSoFar + i + 1;
+            mdFile.save().then(function () {
+                console.log("Succeeded to save: " + mdFile.title);
             }).catch(function (err) {
-                console.log("Failed to save: " + posts[idx].title);
+                console.log("Failed to save: " + mdFile.title);
                 return console.error(err);
             });
         } else {
-            docs.map(function (doc) {
-                if (posts[idx].content !== doc.content || !(0, _arrayComparer.isEqual)(posts[idx].tags, doc.tags)) {
-                    /* if there is (update) */
-                    _models.Post.update({ _id: doc._id }, {
-                        content: posts[idx].content,
-                        tags: posts[idx].tags
+            for (var j = 0; j < numPosts; j++) {
+                var _dbPost = posts[j];
+                if (checkIfNeedUpdate(_dbPost, mdFile)) {
+                    if (j === 0) {
+                        console.log(_dbPost.content);
+                        console.log(mdFile.content);
+                    }
+                    // update
+                    _models.Post.update({ _id: _dbPost._id }, {
+                        $set: {
+                            dateUpdated: new Date().getTime(),
+                            content: mdFile.content,
+                            tags: mdFile.tags
+                        }
                     }).then(function () {
-                        addTags(posts[idx].tags, posts[idx].belongToMinor, posts[idx]._id);
-                        console.log("Succeeded to update: " + posts[idx].title);
-                        savePostsInOrder(++idx, limit, largestPostNoSoFar);
+                        console.log("Succeeded to update: " + mdFile.title);
                     }).catch(function (err) {
-                        console.log("Failed to update: " + posts[idx].title);
+                        console.log("Failed to update: " + mdFile.title);
                         return console.error(err);
                     });
-                } else {
-                    /* if there is (pass) */
-                    console.log("Pass: " + posts[idx].title);
-                    savePostsInOrder(++idx, limit, largestPostNoSoFar);
                 }
+            }
+        }
+        console.log("Pass: " + mdFile.title);
+    };
+
+    for (var i = 0; i < numMds; i++) {
+        _loop(i);
+    }
+    console.log("Post addition/update are completed.");
+
+    /* Remove posts from DB */
+
+    var _loop2 = function _loop2(i) {
+        var dbPost = posts[i];
+        if (!checkPostIncluded(mds, dbPost)) {
+            // remove
+            _models.Post.remove({ _id: dbPost._id }).then(function () {
+                console.log("Succeeded to remove: " + dbPost.title);
+            }).catch(function (err) {
+                console.log("Failed to remove: " + dbPost.title);
+                return console.error(err);
             });
         }
-    });
-};
+    };
 
-// TODO : Implement asynchronous logic without using setTimeout
-readFiles(mdPath);
-setTimeout(function () {
-    console.log(posts[0].tags);
+    for (var i = 0; i < numPosts; i++) {
+        _loop2(i);
+    }
+    console.log("Post removal is completed.");
 
-    _models.Post.find({}, { postNo: true }).sort({ postNo: -1 }).limit(1).then(function (result) {
-        var largestPostNoSoFar = result[0].postNo;
-        savePostsInOrder(0, posts.length, largestPostNoSoFar);
-    });
-}, 1000);
+    /* Update tags of DB */
+    var mdsSortedByTag = reconstructMds(mds);
+    var tags = Object.keys(mdsSortedByTag);
+    var numTags = tags.length;
+
+    var _loop3 = function _loop3(i) {
+        var tagFromMd = tags[i];
+        var tagObject = mdsSortedByTag[tagFromMd];
+        _models.Tag.find({ tagName: tagFromMd.tagName }).then(function (docs) {
+            if (docs.length === 0) {
+                /* Create a new tag */
+                // console.log(mdsSortedByTag[tagFromMd]);
+                new _models.Tag(tagObject).save().then(function () {
+                    console.log("Succeeded to save a tag: " + tagFromMd);
+                }).catch(function (err) {
+                    console.log("Failed to save a tag: " + tagFromMd);
+                    return console.error(err);
+                });
+            } else {
+                /* Update the postList of the existing tag */
+                _models.Tag.update({ tagName: tagObject.tagName }, { $set: { postList: tagObject.postList } }).then(function () {
+                    console.log("Succeeded to update the postList from the tag: " + tagFromMd);
+                }).catch(function (err) {
+                    console.log("Failed to update the postList from the tag: " + tagFromMd);
+                    return console.error(err);
+                });
+            }
+        });
+    };
+
+    for (var i = 0; i < numTags; i++) {
+        _loop3(i);
+    }
+    console.log("Tag addition/update/removal are completed.");
+});

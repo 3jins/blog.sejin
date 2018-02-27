@@ -4,11 +4,11 @@ connectToDB('172.18.0.3', '172.18.0.2', 27017, 'blog');
 
 const post = new mongoose.Schema({
     postNo: {type: Number, required: true, unique: true},
-    title: {type: String, required: true, unique: false},
+    title: {type: String, required: true, unique: true},    // unique: mdFile cannot have unique keys like hash or postNo...
     dateCreated: {type: Date, required: true, unique: false},
     dateUpdated: {type: Date, required: true, unique: false},
     content: {type: String, required: false, unique: false},
-    tags: {type: Array, required: false, unique: false},
+    tags: {type: Array, required: false, unique: false},    // just a string array composed of tagNames
     belongToMajor: {type: String, required: true, unique: false},
     belongToMinor: {type: String, required: true, unique: false},
 });
