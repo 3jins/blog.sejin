@@ -6,8 +6,8 @@ import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import AboutContent from './AboutContent';
 import {getMenuHeight} from "../../../../../server/utils/unitConverter";
-import AboutSubtitle from "./AboutSubtitle";
 import components from "../../../../constants";
+import AboutSubtitle from "./AboutSubtitle";
 
 class About extends Component {
     constructor(props) {
@@ -61,7 +61,7 @@ class About extends Component {
     render() {
         const renderLoading = () => {
             return (
-                <LoadingView isTable={true}/>
+                <LoadingView isTable={false}/>
             );
         };
 
@@ -71,30 +71,26 @@ class About extends Component {
             }
             return postPayload.map((post, idx) => {
                 return (
-                    <tr key={post._id}>
+                    <div
+                        className="content-body"
+                        key={post._id}
+                        ref={(section) => {
+                            this.contentPositions[idx] = section;
+                        }}>
                         <AboutSubtitle belongToMinor={post.belongToMinor}/>
                         <AboutContent
-                            ref={(section) => {
-                                this.contentPositions[idx] = section;
-                            }}
-                            belongToMajor={post.belongToMajor}
                             content={post.content}
+                            belongToMajor={post.belongToMajor}
                         />
-                    </tr>
+                    </div>
                 );
             });
         };
 
         return (
             <div className="content">
-                <div>
-                    <table>
-                        <tbody>
-                        {this.props.loading && renderLoading()}
-                        {!this.props.loading && renderContents(this.props.postPayload)}
-                        </tbody>
-                    </table>
-                </div>
+                {this.props.loading && renderLoading()}
+                {!this.props.loading && renderContents(this.props.postPayload)}
             </div>
         );
     }

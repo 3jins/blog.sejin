@@ -21,11 +21,10 @@ class BlogSubtitle extends Component {
         };
 
         return (
-            <td className={["subtitle", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}
-            rowSpan={this.props.numPosts}>
+            <div className={["subtitle", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
                 <h3>{capitalizeFirstLetter(this.props.belongToMinor)}</h3>
                 {renderTags(this.props.tagPayload, this.props.belongToMinor)}
-            </td>
+            </div>
         );
     }
 }

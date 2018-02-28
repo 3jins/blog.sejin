@@ -9,13 +9,13 @@ class ContentViewContent extends Component {
         const renderContents = (postPayload) => {
             if (!postPayload || postPayload.length === 0) {
                 return (
-                    <td>
+                    <div>
                         <LoadingView isTable={false}/>
-                    </td>
+                    </div>
                 );
             }
             return (
-                <td className={decapitalizeFirstLetter(this.props.belongToMajor)}>
+                <div className={["content-view", decapitalizeFirstLetter(this.props.belongToMajor)].join(' ')}>
                     <div>
                         <h1>{postPayload[0].title}</h1>
                         {mdConverter(postPayload[0].content)}
@@ -30,7 +30,7 @@ class ContentViewContent extends Component {
                             />
                         </FacebookProvider>
                     </div>
-                </td>
+                </div>
             );
         };
 

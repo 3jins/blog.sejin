@@ -65,7 +65,7 @@ class Works extends Component {
     render() {
         const renderLoading = () => {
             return (
-                <LoadingView isTable={true}/>
+                <LoadingView isTable={false}/>
             );
         };
 
@@ -75,9 +75,8 @@ class Works extends Component {
             }
             return postPayload.map((post) => {
                 return (
-                    <tr key={post._id}>
+                    <div key={post._id} className="content-body">
                         <WorksContent
-                            key={post._id}
                             postNo={post.postNo}
                             belongToMajor={post.belongToMajor}
                             belongToMinor={post.belongToMinor}
@@ -86,23 +85,17 @@ class Works extends Component {
                             dataUpdated={post.dataUpdated}
                             onReadMore={this.props.handleFetchPost}
                         />
-                    </tr>
+                    </div>
                 );
             });
         };
 
         return (
-            <div className="content">
-                <div>
-                    <table>
-                        <tbody ref={(section) => {
-                            this.contentsStartPosition = section;
-                        }}>
-                        {this.props.loading && renderLoading()}
-                        {!this.props.loading && renderContents(this.props.postPayload)}
-                        </tbody>
-                    </table>
-                </div>
+            <div className="content" ref={(section) => {
+                this.contentsStartPosition = section;
+            }}>
+                {this.props.loading && renderLoading()}
+                {!this.props.loading && renderContents(this.props.postPayload)}
             </div>
         );
     }

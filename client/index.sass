@@ -31,6 +31,9 @@ $color-change-duration: 0.5s
   to
     background-color: $secondary-bg-color
 
+h2
+  margin-top: 2.8em
+
 body
   width: 100%
   margin: 0
@@ -122,6 +125,7 @@ a
             cursor: pointer
             margin: 0
 
+
 .content
   color: $secondary-color
   background-color: $secondary-bg-color
@@ -129,77 +133,57 @@ a
   line-height: 2em
   a
     color: $link-color
-
-  /* main */
-  > div
-    table
-      width: 100%
-      border: 0
-      border-spacing: 0
-
-      /* subtitle */
-      .subtitle
-        width: $side-margin
-        vertical-align: top
-        padding: $top-bottom-margin 0
-        text-align: center
-        font-family: "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
-        background-color: $secondary-bg-color
-        animation-name: bg-color-light-to-secondary
+  .content-body
+    display: flex
+    /* subtitle */
+    .subtitle
+      flex: 1
+      padding: $top-bottom-margin 0
+      text-align: center
+      font-family: "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
+      background-color: $secondary-bg-color
+      animation-name: bg-color-light-to-secondary
+      animation-duration: $color-change-duration
+      &.sticky
+        background-color: $light-color
+        animation-name: bg-color-secondary-to-light
         animation-duration: $color-change-duration
-        &.sticky
-          background-color: $light-color
-          animation-name: bg-color-secondary-to-light
-          animation-duration: $color-change-duration
-        h5
-          font-weight: normal
-        h5.selected
-          font-weight: bold
-      @media(max-width: $break)
-        .subtitle
-          width: 25%
-          min-width: calc(#{$side-margin} / 2)
-      @media(max-width: $break)
-        .subtitle.post-viewer
-          display: none
+      h5
+        font-weight: normal
+        margin: 0
+      h5.selected
+        font-weight: bold
 
-      /* comment */
-      .fb-comments-wrapper
-        margin: $top-bottom-margin 0
+    /* comment */
+    .fb-comments-wrapper
+      margin: $top-bottom-margin 0
 
+    /* body */
+    .about, .blog
+      margin: $top-bottom-margin $nested-side-margin
+    @media (max-width: $break)
       .about, .blog
-        > div
-          margin: $top-bottom-margin $nested-side-margin
-        @media (max-width: $break)
-          > div
-            margin: $top-bottom-margin $nested-side-margin-small
+        margin: $top-bottom-margin $nested-side-margin-small
+    .works
+      margin: $top-bottom-margin $side-margin
+    @media (max-width: $break)
       .works
-        padding: $top-bottom-margin $side-margin
-      @media (max-width: $break)
-        .works
-          padding: $top-bottom-margin $nested-side-margin-small
-      .blog
-        padding: $top-bottom-margin 0
-        > div
-          margin: 0 $nested-side-margin
-        @media (max-width: $break)
-          > div
-            margin: 0 $nested-side-margin-small
-
-      .content-preview
+        margin: $top-bottom-margin $nested-side-margin-small
+    .content-view-wrapper
+      flex: 5
+      .content-view
         $read-more-height: 2em
-        position: relative
-        .content-preview-div
-          height: calc(70vh - #{$read-more-height})
+        position: relative  // To make .content-preview::after cover other elements -> https://stackoverflow.com/questions/39690977/how-to-specify-a-divs-position-as-absolute-and-relative-at-the-same-time
+        .content-preview
+          height: calc(40vh - #{$read-more-height})
           overflow: hidden
-          &:after
-            $after-fade-out-height: 10em
+          &::after
+            $after-fade-out-height: 5em
             content: ''
             position: absolute
             width: 100%
             height: $after-fade-out-height
-            top: calc(70vh - #{$after-fade-out-height} + 1.1em)
-            // I have no idea why it needs additional 1.1em
+            top: calc(40vh - #{$after-fade-out-height} - #{$read-more-height})
             left: 0
             background: linear-gradient(rgba(255, 255, 255, 0) 0px, #fff)
         .read-more
@@ -209,10 +193,6 @@ a
           > a
             color: $link-color
             margin: 0
-
-/* post body */
-//.content-view
-//  margin: $top-bottom-margin $side-margin
 
 
 .footer

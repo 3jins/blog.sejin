@@ -7,8 +7,6 @@ import reducers from './reducers';
 import { Provider } from 'react-redux';
 
 import Home from './components/apps/Home';
-import AboutView from './components/content/home/about/AboutContent';
-import Contents from './components/content/home/about/About';
 import PostViewer from './components/apps/PostViewer';
 import NoMatch from './components/apps/NoMatch';
 import './index.sass';

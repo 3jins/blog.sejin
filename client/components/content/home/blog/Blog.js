@@ -68,48 +68,45 @@ class Blog extends Component {
     }
 
     render() {
+        const postPayload = this.props.postPayload;
+
+
         const renderLoading = () => {
             return (
-                <LoadingView isTable={true}/>
+                <LoadingView isTable={false}/>
             );
         };
 
-        const renderContents = (postPayload, tagPayload) => {
-            const numPosts = postPayload.length;
-            if (!postPayload || numPosts === 0) {
+        const renderContents = (postPayload) => {
+            if (!postPayload || postPayload.length === 0) {
                 return <NoPostPreview/>;
             }
-            return postPayload.map((post, idx) => {
+            return postPayload.map((post) => {
                 return (
-                    <tr key={post._id}>
-                        {idx === 0 &&
-                        <BlogSubtitle
-                            belongToMinor={post.belongToMinor}
-                            tagPayload={tagPayload}
-                            numPosts={numPosts}
-                        />}
-                        <BlogContent
-                            postNo={post.postNo}
-                            belongToMajor={post.belongToMajor}
-                            title={post.title}
-                            content={post.content}
-                            dataUpdated={post.dataUpdated}
-                            onReadMore={this.props.handleFetchPost}
-                        />
-                    </tr>
+                    <BlogContent
+                        key={post._id}
+                        postNo={post.postNo}
+                        belongToMajor={post.belongToMajor}
+                        title={post.title}
+                        content={post.content}
+                        dataUpdated={post.dataUpdated}
+                        onReadMore={this.props.handleFetchPost}
+                    />
                 );
             });
         };
 
         return (
-            <div className="content">
-                <div>
-                    <table>
-                        <tbody ref={(section) => this.contentsStartPosition = section}>
+            <div className="content" ref={(section) => this.contentsStartPosition = section}>
+                <div className="content-body">
+                    {postPayload.length > 0 && <BlogSubtitle
+                        belongToMinor={this.props.postPayload[0].belongToMinor}
+                        tagPayload={this.props.tagPayload}
+                    />}
+                    <div className={"content-view-wrapper"}>
                         {this.props.loading && renderLoading()}
                         {!this.props.loading && renderContents(this.props.postPayload, this.props.tagPayload)}
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
             </div>
         );

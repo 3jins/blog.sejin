@@ -6,16 +6,18 @@ import {decapitalizeFirstLetter} from "../../../../../server/utils/stringModifie
 class WorksContent extends Component {
     render() {
         return (
-            <td id={this.props.postNo}
-                className={["content-preview", decapitalizeFirstLetter(this.props.belongToMajor)].join(' ')}>
-                <div className="content-preview-div">
-                    <h1>{this.props.title}</h1>
-                    {mdConverter(this.props.content)}
+            <div className={"content-view-wrapper"}>
+                <div id={this.props.postNo}
+                     className={["content-view", decapitalizeFirstLetter(this.props.belongToMajor)].join(' ')}>
+                    <div className="content-preview">
+                        <h1>{this.props.title}</h1>
+                        {mdConverter(this.props.content)}
+                    </div>
+                    <div className="read-more">
+                        <Link to={["/postviewer", this.props.postNo].join('/')}>Read more</Link>
+                    </div>
                 </div>
-                <div className="read-more">
-                    <Link to={["/postviewer", this.props.postNo].join('/')}>Read more</Link>
-                </div>
-            </td>
+            </div>
         );
     }
 }

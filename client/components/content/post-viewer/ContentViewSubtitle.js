@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import LoadingView from '../LoadingView';
 import {isContain} from "../../../../server/utils/arrayComparer";
+import {capitalizeFirstLetter} from "../../../../build/utils/stringModifier";
 
 class ContentViewSubtitle extends Component {
     render() {
@@ -21,10 +22,10 @@ class ContentViewSubtitle extends Component {
         };
 
         return (
-            <td className={["subtitle", "post-viewer", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
-                <h3>{this.props.belongToMinor}</h3>
+            <div className={["subtitle", "post-viewer", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
+                <h3>{capitalizeFirstLetter(this.props.belongToMinor)}</h3>
                 {renderTags(this.props.tagPayload, this.props.currentTags, this.props.belongToMinor)}
-            </td>
+            </div>
         );
     }
 }

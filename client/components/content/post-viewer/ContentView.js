@@ -14,7 +14,7 @@ class ContentView extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.postPayload.length > 0) {
+        if (nextProps.postPayload.length > 0) {
             this.props.handleChangeMenu(nextProps.postPayload, this.menuList);
         }
     }
@@ -39,31 +39,27 @@ class ContentView extends Component {
         const belongToMajor = getBelongToMajor(this.props.postPayload);
         const belongToMinor = getBelongToMinor(this.props.postPayload);
         let currentTags = [];
-        if(this.props.postPayload.length > 0) {
+        if (this.props.postPayload.length > 0) {
             currentTags = this.props.postPayload[0].tags;
         }
 
         return (
             <div className="content">
-                <div>
-                    <table>
-                        <tbody>
-                        <tr>
-                            {this.props.loading && <LoadingView isTable={true}/>}
-                            {belongToMajor !== 'Works' &&
-                            <ContentViewSubtitle
-                                tagPayload={this.props.tagPayload}
-                                currentTags={currentTags}
-                                belongToMinor={belongToMinor}
-                            />}
-                            <ContentViewContent
-                                postPayload={this.props.postPayload}
-                                belongToMajor={belongToMajor}
-                                postNo={this.props.postNo}
-                            />
-                        </tr>
-                        </tbody>
-                    </table>
+                <div className="content-body">
+                    {this.props.loading && <LoadingView isTable={true}/>}
+                    {belongToMajor !== 'Works' &&
+                    <ContentViewSubtitle
+                        tagPayload={this.props.tagPayload}
+                        currentTags={currentTags}
+                        belongToMinor={belongToMinor}
+                    />}
+                    <div className={"content-view-wrapper"}>
+                        <ContentViewContent
+                            postPayload={this.props.postPayload}
+                            belongToMajor={belongToMajor}
+                            postNo={this.props.postNo}
+                        />
+                    </div>
                 </div>
             </div>
         );
@@ -96,7 +92,7 @@ export default ContentView = connect(
         handleChangeMenu: (postPayload, menuList) => {
             const belongToMajor = postPayload[0].belongToMajor;
             menuList.map((menu, idx) => {
-                if(menu.title === belongToMajor) {
+                if (menu.title === belongToMajor) {
                     dispatch(actions.changeMenu(idx));
                 }
             });
