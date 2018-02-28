@@ -49,8 +49,8 @@ var checkIfNeedUpdate = function checkIfNeedUpdate(dbPost, mdFile) {
 var getLargestPostNoSoFar = function getLargestPostNoSoFar(posts, numPosts) {
     var largestPostNoSoFar = 0;
     for (var i = 0; i < numPosts; i++) {
-        if (posts[i] > largestPostNoSoFar) {
-            largestPostNoSoFar = posts[i];
+        if (posts[i].postNo > largestPostNoSoFar) {
+            largestPostNoSoFar = posts[i].postNo;
         }
     }
     return largestPostNoSoFar;
@@ -217,7 +217,7 @@ _models.Post.find().then(function (posts) {
     var _loop3 = function _loop3(i) {
         var tagFromMd = tags[i];
         var tagObject = mdsSortedByTag[tagFromMd];
-        _models.Tag.find({ tagName: tagFromMd.tagName }).then(function (docs) {
+        _models.Tag.find({ tagName: tagFromMd }).then(function (docs) {
             if (docs.length === 0) {
                 /* Create a new tag */
                 // console.log(mdsSortedByTag[tagFromMd]);

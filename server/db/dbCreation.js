@@ -44,8 +44,8 @@ const checkIfNeedUpdate = (dbPost, mdFile) => {
 const getLargestPostNoSoFar = (posts, numPosts) => {
     let largestPostNoSoFar = 0;
     for (let i = 0; i < numPosts; i++) {
-        if (posts[i] > largestPostNoSoFar) {
-            largestPostNoSoFar = posts[i];
+        if (posts[i].postNo > largestPostNoSoFar) {
+            largestPostNoSoFar = posts[i].postNo;
         }
     }
     return largestPostNoSoFar;
@@ -212,7 +212,7 @@ Post.find().then((posts) => {
     for (let i = 0; i < numTags; i++) {
         const tagFromMd = tags[i];
         const tagObject = mdsSortedByTag[tagFromMd];
-        Tag.find({tagName: tagFromMd.tagName}).then((docs) => {
+        Tag.find({tagName: tagFromMd}).then((docs) => {
             if (docs.length === 0) {
                 /* Create a new tag */
                 // console.log(mdsSortedByTag[tagFromMd]);
