@@ -135,6 +135,9 @@ a
     color: $link-color
   .content-body
     display: flex
+    @media (max-width: $break)
+      display: block
+
     /* subtitle */
     .subtitle
       flex: 1
@@ -144,13 +147,26 @@ a
       background-color: $secondary-bg-color
       animation-name: bg-color-light-to-secondary
       animation-duration: $color-change-duration
+      @media (max-width: $break)
+        padding: 0
+        margin-top: 1em
+        background-color: $secondary-bg-color
+        animation-name: none
+        &.about h3
+          margin-bottom: -1em
       &.sticky
         background-color: $light-color
         animation-name: bg-color-secondary-to-light
         animation-duration: $color-change-duration
+        @media (max-width: $break)
+          background-color: $secondary-bg-color
+          animation-name: none
       h5
         font-weight: normal
         margin: 0
+        @media (max-width: $break)
+          margin: 0 2em
+          display: inline-block
       h5.selected
         font-weight: bold
 
@@ -159,21 +175,19 @@ a
       margin: $top-bottom-margin 0
 
     /* body */
-    .about, .blog
-      margin: $top-bottom-margin $nested-side-margin
-    @media (max-width: $break)
-      .about, .blog
-        margin: $top-bottom-margin $nested-side-margin-small
-    .works
-      margin: $top-bottom-margin $side-margin
-    @media (max-width: $break)
-      .works
-        margin: $top-bottom-margin $nested-side-margin-small
     .content-view-wrapper
       flex: 5
       .content-view
         $read-more-height: 2em
         position: relative  // To make .content-preview::after cover other elements -> https://stackoverflow.com/questions/39690977/how-to-specify-a-divs-position-as-absolute-and-relative-at-the-same-time
+        &.about, &.blog
+          margin: $top-bottom-margin $nested-side-margin
+          @media (max-width: $break)
+            margin: $top-bottom-margin $nested-side-margin-small
+        &.works
+          margin: $top-bottom-margin $side-margin
+          @media (max-width: $break)
+            margin: $top-bottom-margin $nested-side-margin-small
         .content-preview
           height: calc(40vh - #{$read-more-height})
           overflow: hidden
