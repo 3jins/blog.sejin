@@ -1,10 +1,18 @@
 import React, {Component} from 'react';
-import {mdConverter} from "../../../../server/utils/mdModifier";
+import {highlightCode, mdConverter} from "../../../../server/utils/mdModifier";
 import LoadingView from '../LoadingView';
 import {decapitalizeFirstLetter} from "../../../../server/utils/stringModifier";
-import FacebookProvider, { Comments } from 'react-facebook';
+import FacebookProvider, {Comments} from 'react-facebook';
 
 class ContentViewContent extends Component {
+    // constructor(props) {
+    //     super(props);
+    //     this.highlightCode = highlightCode.bind(this);
+    // }
+
+    // componentDidMount() { highlightCode(); }
+    // componentDidUpdate() { highlightCode(); }
+
     render() {
         const renderContents = (postPayload) => {
             if (!postPayload || postPayload.length === 0) {
@@ -14,11 +22,13 @@ class ContentViewContent extends Component {
                     </div>
                 );
             }
+            const postTitle = postPayload[0].title;
+            const postContent = mdConverter(postPayload[0].content);
             return (
                 <div className={["content-view", decapitalizeFirstLetter(this.props.belongToMajor)].join(' ')}>
-                    <div>
-                        <h1>{postPayload[0].title}</h1>
-                        {mdConverter(postPayload[0].content)}
+                    <div ref={element => highlightCode(element)}>
+                        <h1>{postTitle}</h1>
+                        {postContent}
                     </div>
                     <div className="fb-comments-wrapper">
                         <FacebookProvider appId="1662680190479239" language="ko_KR">

@@ -10,6 +10,7 @@ import Home from './components/apps/Home';
 import PostViewer from './components/apps/PostViewer';
 import NoMatch from './components/apps/NoMatch';
 import './index.sass';
+import '../node_modules/highlight.js/styles/monokai.css';
 // import registerServiceWorker from './registerServiceWorker';
 
 const store = createStore(reducers);

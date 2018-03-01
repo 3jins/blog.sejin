@@ -7,10 +7,12 @@ $secondary-bg-color: rgb(255, 255, 255)
 $light-color: rgb(224, 224, 224)
 $link-color: rgb(128, 128, 255)
 
-$menu-height: 4em
-$menu-item-width: 10em
 $menu-base-pixel: 14px
 $content-base-pixel: 16px
+$code-base-pixel: 14px
+
+$menu-height: 4em
+$menu-item-width: 10em
 $side-margin: 12em
 $top-bottom-margin: 3em
 $nested-side-margin: 6em
@@ -133,6 +135,13 @@ a
   line-height: 2em
   a
     color: $link-color
+  pre
+    margin: 1.5em 5%
+    padding: 3em 8%
+    border-radius: 50px
+    line-height: 1.4em
+    code
+      font: $code-base-pixel Consolas, "Source Code Pro", "Bitstream Vera Sans Mono", "나눔바른고딕 Light", "Lucida Grande", Helvetica, Arial, sans-serif
   .content-body
     display: flex
     @media (max-width: $break)
