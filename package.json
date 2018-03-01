@@ -41,7 +41,7 @@
   },
   "scripts": {
     "clean": "rm -rf build public/bundle.js",
-    "build": "npm run clean; babel server --out-dir build; webpack",
+    "build": "npm run clean; babel server --out-dir build; webpack -p",
     "start": "export SERVER_ENV=production; node ./build/main.js",
     "dev": "export SERVER_ENV=development; node ./build/main.js",
     "db": "node ./build/db/dbCreation.js"
