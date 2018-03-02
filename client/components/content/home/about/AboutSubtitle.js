@@ -6,7 +6,7 @@ class AboutContents extends Component {
     render() {
         return (
             <div className={[decapitalizeFirstLetter(this.props.belongToMajor), "subtitle", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
-                <h3>{capitalizeFirstLetter(this.props.belongToMinor)}</h3>
+                <h3 className="slur">{capitalizeFirstLetter(this.props.belongToMinor)}</h3>
             </div>
         );
     }

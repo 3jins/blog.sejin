@@ -13,9 +13,16 @@ class ContentViewSubtitle extends Component {
             return tags.map((tag) => {
                 if (tag.belongToMinor === belongToMinor) {
                     return (
-                        <h5 key={tag.tagName} className={isContain(currentTags, tag.tagName) ? "selected" : "unselected"}>
-                            #{tag.tagName} ({tag.postList.length})
-                        </h5>
+                        <div className="tag-div">
+                            <h5 key={tag.tagName}
+                                className={["slur", isContain(currentTags, tag.tagName) ? "selected" : "unselected"].join(' ')}
+                                title={tag.tagName}>
+                                #{tag.tagName}
+                            </h5>
+                            <h5 className={["count", isContain(currentTags, tag.tagName) ? "selected" : "unselected"].join(' ')}>
+                                {"(" + tag.postList.length + ")"}
+                            </h5>
+                        </div>
                     );
                 }
             });
@@ -23,7 +30,7 @@ class ContentViewSubtitle extends Component {
 
         return (
             <div className={["subtitle", "post-viewer", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
-                <h3>{capitalizeFirstLetter(this.props.belongToMinor)}</h3>
+                <h3 className="slur">{capitalizeFirstLetter(this.props.belongToMinor)}</h3>
                 {renderTags(this.props.tagPayload, this.props.currentTags, this.props.belongToMinor)}
             </div>
         );
