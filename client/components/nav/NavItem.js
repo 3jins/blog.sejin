@@ -2,31 +2,33 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
 class NavItems extends Component {
-    componentWillReceiveProps(nextProps) {
-        if (this.menuTitle !== nextProps.menuTitle) {
-            this.menuTitle = nextProps.menuTitle;
-        }
-    }
-
     render() {
+        const classNameForHover = this.props.isSelected ? 'selected' : 'unselected';
         const makeNavLink = (menuTitle, upperMenuTitle, menuIdx, onSelected) => {
             if (upperMenuTitle === '') {     // nav
                 return (
-                    <Link to={["/nav", menuTitle].join('/')} onClick={() => onSelected(menuIdx)}>
+                    <Link
+                        to={["/nav", menuTitle].join('/')}
+                        className={classNameForHover}>
                         {menuTitle}
                     </Link>
                 );
             }
             else if (upperMenuTitle === "About") {   // subnav in About
                 return (
-                    <p onClick={() => onSelected(menuIdx)}>
+                    <p
+                        className="unselected"
+                        onClick={() => onSelected(menuIdx)}>
                         {menuTitle}
                     </p>
                 );
             }
             else {  // subnav in Works or Blog
                 return (
-                    <Link to={["/nav", upperMenuTitle, menuTitle].join('/')} onClick={() => onSelected(menuIdx)}>
+                    <Link
+                        to={["/nav", upperMenuTitle, menuTitle].join('/')}
+                        className={classNameForHover}
+                        onClick={() => onSelected(menuIdx)}>
                         {menuTitle}
                     </Link>
                 );

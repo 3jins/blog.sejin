@@ -21,14 +21,23 @@ class Nav extends Component {
         };
         const titleForDesign = this.menuList[this.props.selectedMenuIdx].titleForDesign;
 
-        const mapMenuToComponent = (menuList, upperMenuTitle = "") => {
+        const mapMenuToComponent = (menuList, selectedMenuIdx, handleChangeSubmenu, upperMenuTitle = "") => {
+            if (!menuList || menuList.length === 0) {
+                console.log("[mapMenuToComponent] menuList is undefined or empty");
+                return;
+            }
             return menuList.map((navMenu, menuIdx) => {
+                let isSelected = false;
+                if (selectedMenuIdx === menuIdx) {
+                    isSelected = true;
+                }
                 return <NavItem
                     key={menuIdx}
                     menuTitle={navMenu.title}
                     menuIdx={menuIdx}
+                    isSelected={isSelected}
                     upperMenuTitle={upperMenuTitle}
-                    onSelected={this.props.handleChangeSubmenu}
+                    onSelected={handleChangeSubmenu}
                 />;
             });
         };
@@ -41,7 +50,11 @@ class Nav extends Component {
                         <table className="nav-menu-table">
                             <tbody>
                             <tr>
-                                {mapMenuToComponent(this.menuList)}
+                                {mapMenuToComponent(
+                                    this.menuList,
+                                    this.props.selectedMenuIdx,
+                                    this.props.handleChangeSubmenu
+                                )}
                             </tr>
                             </tbody>
                         </table>
@@ -66,8 +79,11 @@ class Nav extends Component {
                         <table className="subnav-menu-table">
                             <tbody>
                             <tr>
-                                {mapMenuToComponent(
+                                {this.menuList[this.props.selectedMenuIdx].title &&
+                                mapMenuToComponent(
                                     components.menuList[this.props.selectedMenuIdx].submenuList,
+                                    this.props.selectedSubmenuIdx,
+                                    this.props.handleChangeSubmenu,
                                     this.menuList[this.props.selectedMenuIdx].title
                                 )}
                             </tr>
@@ -83,7 +99,7 @@ class Nav extends Component {
 export default connect(
     (state) => ({
         selectedMenuIdx: state.menus.selectedMenuIdx,
-        selectedSubmenuIdx: state.menus.selectedSubenuIdx,
+        selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
         isNavSticky: state.scrolls.areNavsSticky.isNavSticky,
         isSubnavSticky: state.scrolls.areNavsSticky.isSubnavSticky,
     }),

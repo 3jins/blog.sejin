@@ -5,6 +5,9 @@ $primary-bg-color: rgb(0, 0, 24)
 $secondary-color: rgb(0, 0, 24)
 $secondary-bg-color: rgb(255, 255, 255)
 $light-color: rgb(224, 224, 224)
+//$less-light-color: rgb(128, 128, 128)
+$dark-color: rgb(128, 128, 128)
+$point-color: rgb(255, 56, 56)
 $link-color: rgb(128, 128, 255)
 
 $menu-base-pixel: 14px
@@ -56,8 +59,6 @@ a
   font: $menu-base-pixel "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
   text-align: center
   height: 100vh
-  a
-    color: $primary-color
   .sticky
     z-index: 10
   .main-nav
@@ -76,9 +77,12 @@ a
         table-layout: fixed
         td
           width: $menu-item-width
-          p
+          p, a
             cursor: pointer
             margin: 0
+            color: $dark-color
+          .selected, .unselected:hover
+            color: $primary-color
 
   .v-center-table
     width: 100%
@@ -100,11 +104,8 @@ a
           100%
             opacity: 1.0
   .subnav
-    color: $secondary-color
     background-color: $secondary-bg-color
     height: $menu-height
-    a
-      color: $secondary-color
     .subnav-menu-table-wrapper
       width: 100%
       height: calc(#{$menu-height} / 2)
@@ -123,9 +124,12 @@ a
         table-layout: fixed
         td
           width: $menu-item-width
-          p
+          p, a
+            color: $dark-color
             cursor: pointer
             margin: 0
+          .selected, .unselected:hover
+            color: $secondary-color
 
 
 .content
