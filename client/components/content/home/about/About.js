@@ -77,13 +77,10 @@ class About extends Component {
                         ref={(section) => {
                             this.contentPositions[idx] = section;
                         }}>
-                        <AboutSubtitle
-                            belongToMajor={post.belongToMajor}
-                            belongToMinor={post.belongToMinor}
-                        />
                         <AboutContent
                             content={post.content}
                             belongToMajor={post.belongToMajor}
+                            belongToMinor={post.belongToMinor}
                         />
                     </div>
                 );
