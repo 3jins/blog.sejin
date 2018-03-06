@@ -4,15 +4,17 @@ $primary-color: rgb(255, 255, 255)
 $primary-bg-color: rgb(0, 0, 24)
 $secondary-color: rgb(0, 0, 24)
 $secondary-bg-color: rgb(255, 255, 255)
+$more-light-color: rgb(240, 240, 240)
 $light-color: rgb(224, 224, 224)
-//$less-light-color: rgb(128, 128, 128)
 $dark-color: rgb(128, 128, 128)
-$point-color: rgb(255, 56, 56)
+$more-dark-color: rgb(64, 64, 64)
+$point-color: rgb(255, 96, 64)
 $link-color: rgb(128, 128, 255)
 
 $menu-base-pixel: 14px
-$content-base-pixel: 16px
+$content-base-pixel: 14px
 $code-base-pixel: 14px
+$small-pixel: 11px
 
 $menu-height: 4em
 $menu-item-width: 10em
@@ -60,6 +62,13 @@ a
   -o-text-overflow: ellipsis
   -ms-text-overflow: ellipsis
   white-space: nowrap
+
+.circle-img
+  border-radius: 100%
+.flex-box
+  display: flex
+.table-box
+  display: table
 
 .nav
   color: $primary-color
@@ -139,7 +148,6 @@ a
           .selected, .unselected:hover
             color: $secondary-color
 
-
 .content
   color: $secondary-color
   background-color: $secondary-bg-color
@@ -186,7 +194,8 @@ a
       h3
         margin-left: auto
         margin-right: auto
-        @media (min-width: $break)  // The condition is not max. It's MIN.
+        // The condition is not max. It's MIN.
+        @media (min-width: $break)
           width: calc(100vw / 6)
       .tag-div
         $count-width: 2em
@@ -220,15 +229,18 @@ a
       flex: 5
       .content-view
         $read-more-height: 2em
-        position: relative  // To make .content-preview::after cover other elements -> https://stackoverflow.com/questions/39690977/how-to-specify-a-divs-position-as-absolute-and-relative-at-the-same-time
-        &.about, &.blog
-          margin: $top-bottom-margin $nested-side-margin
-          @media (max-width: $break)
-            margin: $top-bottom-margin $nested-side-margin-small
+        position: relative
+        // To make .content-preview::after cover other elements -> https://stackoverflow.com/questions/39690977/how-to-specify-a-divs-position-as-absolute-and-relative-at-the-same-time
         &.works
-          margin: $top-bottom-margin $side-margin
-          @media (max-width: $break)
-            margin: $top-bottom-margin $nested-side-margin-small
+          > div
+            margin: $top-bottom-margin $side-margin
+            @media (max-width: $break)
+              margin: $top-bottom-margin $nested-side-margin-small
+        &.blog
+          > div
+            margin: $top-bottom-margin $nested-side-margin
+            @media (max-width: $break)
+              margin: $top-bottom-margin $nested-side-margin-small
         .content-preview
           height: calc(40vh - #{$read-more-height})
           overflow: hidden
@@ -249,9 +261,144 @@ a
             color: $link-color
             margin: 0
 
+      /* about - custom design */
+      .content-view.about
+        h1
+          text-align: center
+          padding: .5em 0
+          margin: 0
+          color: $primary-color
+          background-color: $more-dark-color
+        h2
+          display: block
+          margin-top: auto
+        .content-wrapper
+          margin: 2em 0
+        .now
+          > div
+            padding: $top-bottom-margin $side-margin
+            @media (max-width: $break)
+              padding: $top-bottom-margin $nested-side-margin-small
+          //background-image: url('./images/nyc_bg.jpg')
+          //background-size: cover
+          .me
+            background-color: #f0f8ff
+            .img-wrapper
+              display: inline-block
+              margin: auto 0
+              flex: 1
+              min-width: 13em
+              img
+                width: 10em
+            .profile-wrapper
+              display: inline-block
+              flex: 5
+          .blog
+            background-color: rgba(255, 255, 255, 0.7)
+            .item
+              flex: 1
+              margin: 0 1em
+              padding: 1em
+              border: $more-light-color 0.5em solid
+              border-radius: 2em
+              .img-wrapper
+                text-align: center
+                img
+                  height: 5em
+        .vision
+          margin: 0
+          > div
+            padding: $top-bottom-margin $side-margin
+            @media (max-width: $break)
+              padding: $top-bottom-margin $nested-side-margin-small
+          .content-wrapper
+            display: table
+            padding: 0
+            margin: 0
+            min-height: 30em
+            &.front-end
+              background-image: url('./images/source_code_bg.png')
+              background-size: cover
+            &.uiux
+              background-image: url('./images/nyc_bg.jpg')
+              background-size: cover
+            &.open-source
+              background-image: url('./images/git_bg.jpg')
+              background-size: cover
+            .item
+              color: $primary-color
+              background-color: rgba(0, 0, 0, 0.6)
+              display: table-cell
+              vertical-align: middle
+              padding: $top-bottom-margin $side-margin
+              @media (max-width: $break)
+                padding: 0 $nested-side-margin-small
+              .img-wrapper
+                width: 13em
+                margin: auto 0
+                padding: 1em 0
+                img
+                  width: 10em
+                  height: 10em
+            &:nth-child(even)
+              .img-wrapper
+                float: left
+            &:nth-child(odd)
+              .img-wrapper
+                float: right
+                text-align: right
+              .detail
+                display: table
+        .history
+          > div
+            margin: $top-bottom-margin $side-margin
+            @media (max-width: $break)
+              margin: $top-bottom-margin $nested-side-margin-small
+          .timeline
+            &::before
+              content: ''
+              position: absolute
+              top: 7em
+              margin-left: 1.2em
+              width: 0.1em
+              height: calc(100% - 7em)
+              background-color: $light-color
+            .event
+              margin: 1em 0
+              .event-icon
+                background-color: $point-color
+                width: 2.5em
+                height: 2.5em
+                text-align: center
+                position: absolute
+                img
+                  height: 1.5em
+                  margin: 0.5em 0
+              .event-detail
+                background-color: $more-light-color
+                border-radius: 10px
+                position: relative
+                margin-left: 4.5em
+                padding: 1em
+                h4, p
+                  margin: 0
+                .year
+                  font-size: $small-pixel
+                  line-height: 0.5em
+                  color: $dark-color
+                .comment
+                  color: $more-dark-color
+                  line-height: 1.5em
+                &::before
+                  content: ''
+                  position: absolute
+                  left: -1.5em
+                  border: 0.5em solid transparent
+                  border-right: 1em solid $more-light-color
+
 
 .footer
-  color: $light-color
+  color: $more-light-color
   background-color: $primary-bg-color
   font: $menu-base-pixel "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
   height: calc(100vh - #{$menu-height})
@@ -277,5 +424,5 @@ a
         padding-top: 10%
         width: 100%
         text-align: center
-        color: $light-color
+        color: $more-light-color
         font-size: 1em
