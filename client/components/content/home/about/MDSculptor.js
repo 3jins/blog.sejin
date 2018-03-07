@@ -2,9 +2,6 @@ import React from 'react';
 import {mdConverter} from "../../../../../server/utils/mdModifier";
 import NoPostPreview from "../NoPostPreview";
 import profileImg from "../../../../images/profile.png";
-import shareImg from "../../../../images/share.png";
-import jokeImg from "../../../../images/joke.png";
-import adviceImg from "../../../../images/advice.png";
 import frontEndImg from "../../../../images/frontEnd.png";
 import uiuxImg from "../../../../images/uiux.png";
 import openSourceImg from "../../../../images/openSource.png";
@@ -29,47 +26,23 @@ const splitter = (content, belongToMinor) => {
                     const element = elements[i];
                     if (element === "\n") continue;
                     if (element.type === 'h2') {     // title
-                        if (!me.title) { // me
-                            me.title = {
-                                key: element.key,
-                                element: element.props.children[0],
-                            };
-                        }
-                        else {  // blog
-                            blog.title = {
-                                key: element.key,
-                                element: element.props.children[0],
-                            };
-                        }
+                        me.title = {
+                            key: element.key,
+                            element: element.props.children[0],
+                        };
                     }
                     else {      // content
-                        if (!blog.title) {   // me
-                            if (!me.contents) {
-                                me.contents = [{
-                                    key: element.key,
-                                    element: element.props.children[0],
-                                }];
-                            }
-                            else {
-                                me.contents[me.contents.length] = {
-                                    key: element.key,
-                                    element: element.props.children[0],
-                                };
-                            }
+                        if (!me.contents) {
+                            me.contents = [{
+                                key: element.key,
+                                element: element.props.children[0],
+                            }];
                         }
-                        else {  // blog
-                            if (!blog.contents) {
-                                blog.contents = [{
-                                    key: element.key,
-                                    element: element.props.children[0]
-                                }];
-                            }
-                            else {
-                                blog.contents[blog.contents.length] = {
-                                    key: element.key,
-                                    element: element.props.children[0],
-                                };
-                            }
+                        else {
+                            me.contents[me.contents.length] = {
+                                key: element.key,
+                                element: element.props.children[0],
+                            };
                         }
                     }
                 }
@@ -169,7 +142,7 @@ const splitter = (content, belongToMinor) => {
                             for (let i = 0; i < numDetails; i++) {
                                 const detail = details[i];
                                 if (typeof detail !== 'object' || detail.type !== "li") continue;
-                                if(detail.year === '2014') {
+                                if (detail.year === '2014') {
                                     console.log(detail);
                                 }
                                 if (!('year' in historyList[yearIdx - 1])) {
@@ -199,8 +172,6 @@ const sculptor = (splitContent, belongToMinor) => {
     switch (belongToMinor) {
         case 'now':
             const me = splitContent.me;
-            const blog = splitContent.blog;
-            const nowImgs = [shareImg, jokeImg, adviceImg];
             return (
                 <div className={belongToMinor}>
                     <h1>Now</h1>
@@ -215,23 +186,6 @@ const sculptor = (splitContent, belongToMinor) => {
                                     return <p key={content.key}>{content.element}</p>;
                                 })}
                             </div>
-                        </div>
-                    </div>
-                    <div className='blog'>
-                        <h2>{blog.title.element}</h2>
-                        <div className={['content-wrapper', 'flex-box'].join(' ')}>
-                            {blog.contents.map((content, idx) => {
-                                return (
-                                    <div key={content.key} className='item'>
-                                        <div className='img-wrapper'>
-                                            <img src={nowImgs[idx]}/>
-                                        </div>
-                                        <div className='detail'>
-                                            <p>{content.element}</p>
-                                        </div>
-                                    </div>
-                                );
-                            })}
                         </div>
                     </div>
                 </div>
@@ -249,23 +203,17 @@ const sculptor = (splitContent, belongToMinor) => {
                                 <div className={['content-wrapper', camelCaseToHyphen(extractedKey)].join(' ')}
                                      key={extractedKey}>
                                     <div className='item'>
-                                        <table>
-                                            <tbody>
-                                            <tr>
-                                                <td className='img-wrapper'>
-                                                    <img src={visionImgs[idx]}/>
-                                                </td>
-                                                <td className='detail'>
-                                                    <h2>{outerContent.title.element}</h2>
-                                                    {outerContent.contents.map((content) => {
-                                                        return (
-                                                            <p key={content.key}>{content.element}</p>
-                                                        );
-                                                    })}
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                        <div className='img-wrapper'>
+                                            <img src={visionImgs[idx]}/>
+                                        </div>
+                                        <div className='detail'>
+                                            <h2>{outerContent.title.element}</h2>
+                                            {outerContent.contents.map((content) => {
+                                                return (
+                                                    <p key={content.key}>{content.element}</p>
+                                                );
+                                            })}
+                                        </div>
                                     </div>
                                 </div>
                             );

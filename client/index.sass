@@ -65,8 +65,10 @@ a
 
 .circle-img
   border-radius: 100%
+
 .flex-box
   display: flex
+
 .table-box
   display: table
 
@@ -266,9 +268,11 @@ a
         h1
           text-align: center
           padding: .5em 0
-          margin: 0
-          color: $primary-color
-          background-color: $more-dark-color
+          margin: 0 calc(#{$side-margin} / 2)
+            // text size of h1 is 2em...
+          border-bottom: $secondary-color solid 3px
+          @media (max-width: $break)
+            margin: 0 $nested-side-margin-small
         h2
           display: block
           margin-top: auto
@@ -279,32 +283,25 @@ a
             padding: $top-bottom-margin $side-margin
             @media (max-width: $break)
               padding: $top-bottom-margin $nested-side-margin-small
-          //background-image: url('./images/nyc_bg.jpg')
-          //background-size: cover
           .me
-            background-color: #f0f8ff
-            .img-wrapper
-              display: inline-block
-              margin: auto 0
-              flex: 1
-              min-width: 13em
-              img
-                width: 10em
-            .profile-wrapper
-              display: inline-block
-              flex: 5
-          .blog
-            background-color: rgba(255, 255, 255, 0.7)
-            .item
-              flex: 1
-              margin: 0 1em
-              padding: 1em
-              border: $more-light-color 0.5em solid
-              border-radius: 2em
-              .img-wrapper
+            // I don't know why it needs additional -9em
+            min-height: calc(100vh - #{$menu-height} - 9em)
+            display: grid
+            .content-wrapper
+              @media (max-width: $break)
+                display: block
                 text-align: center
+              .img-wrapper
+                display: inline-block
+                flex: 1
+                min-width: 13em
                 img
-                  height: 5em
+                  width: 10em
+                  @media (max-width: $break)
+                    width: 5em
+              .profile-wrapper
+                display: inline-block
+                flex: 5
         .vision
           margin: 0
           > div
@@ -312,23 +309,10 @@ a
             @media (max-width: $break)
               padding: $top-bottom-margin $nested-side-margin-small
           .content-wrapper
-            display: table
             padding: 0
             margin: 0
-            min-height: 30em
-            &.front-end
-              background-image: url('./images/source_code_bg.png')
-              background-size: cover
-            &.uiux
-              background-image: url('./images/nyc_bg.jpg')
-              background-size: cover
-            &.open-source
-              background-image: url('./images/git_bg.jpg')
-              background-size: cover
             .item
-              color: $primary-color
-              background-color: rgba(0, 0, 0, 0.6)
-              display: table-cell
+              background-color: rgba(255, 255, 255, 0.6)
               vertical-align: middle
               padding: $top-bottom-margin $side-margin
               @media (max-width: $break)
@@ -337,9 +321,15 @@ a
                 width: 13em
                 margin: auto 0
                 padding: 1em 0
+                @media (max-width: $break)
+                  width: 100%
+                  text-align: center
                 img
                   width: 10em
                   height: 10em
+                  @media (max-width: $break)
+                    width: 5em
+                    height: 5em
             &:nth-child(even)
               .img-wrapper
                 float: left
@@ -347,8 +337,10 @@ a
               .img-wrapper
                 float: right
                 text-align: right
-              .detail
-                display: table
+                @media (max-width: $break)
+                  text-align: center
+            .detail
+              display: table
         .history
           > div
             margin: $top-bottom-margin $side-margin
@@ -395,7 +387,6 @@ a
                   left: -1.5em
                   border: 0.5em solid transparent
                   border-right: 1em solid $more-light-color
-
 
 .footer
   color: $more-light-color
