@@ -142,9 +142,6 @@ const splitter = (content, belongToMinor) => {
                             for (let i = 0; i < numDetails; i++) {
                                 const detail = details[i];
                                 if (typeof detail !== 'object' || detail.type !== "li") continue;
-                                if (detail.year === '2014') {
-                                    console.log(detail);
-                                }
                                 if (!('year' in historyList[yearIdx - 1])) {
                                     historyList[yearIdx - 1].year = detail.props.children[0];      // ex) 1993
                                 }
@@ -222,7 +219,6 @@ const sculptor = (splitContent, belongToMinor) => {
                 </div>
             );
         case 'history':
-            console.log(splitContent);
             const historyImgs = {
                 birth: birthImg,
                 edu: eduImg,

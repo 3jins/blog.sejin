@@ -268,11 +268,11 @@ a
         h1
           text-align: center
           padding: .5em 0
-          margin: 0 calc(#{$side-margin} / 2)
+          margin: 2em calc(#{$side-margin} / 2)
             // text size of h1 is 2em...
           border-bottom: $secondary-color solid 3px
           @media (max-width: $break)
-            margin: 0 $nested-side-margin-small
+            margin: 2em $nested-side-margin-small
         h2
           display: block
           margin-top: auto
@@ -284,8 +284,7 @@ a
             @media (max-width: $break)
               padding: $top-bottom-margin $nested-side-margin-small
           .me
-            // I don't know why it needs additional -9em
-            min-height: calc(100vh - #{$menu-height} - 9em)
+            min-height: 30em
             display: grid
             .content-wrapper
               @media (max-width: $break)
@@ -300,6 +299,7 @@ a
                   @media (max-width: $break)
                     width: 5em
               .profile-wrapper
+                text-align: left
                 display: inline-block
                 flex: 5
         .vision
@@ -350,10 +350,10 @@ a
             &::before
               content: ''
               position: absolute
-              top: 7em
+              top: 9em
               margin-left: 1.2em
               width: 0.1em
-              height: calc(100% - 7em)
+              height: calc(100% - 9em)
               background-color: $light-color
             .event
               margin: 1em 0
