@@ -7,7 +7,6 @@ import LoadingView from '../../LoadingView';
 import AboutContent from './AboutContent';
 import {getMenuHeight} from "../../../../../server/utils/unitConverter";
 import components from "../../../../constants";
-import AboutSubtitle from "./AboutSubtitle";
 
 class About extends Component {
     constructor(props) {

@@ -1,10 +1,10 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { createStore } from 'redux';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {createStore} from 'redux';
 import reducers from './reducers';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 
 import Home from './components/apps/Home';
 import PostViewer from './components/apps/PostViewer';

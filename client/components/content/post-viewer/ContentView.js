@@ -17,6 +17,9 @@ class ContentView extends Component {
         if (nextProps.postPayload.length > 0) {
             this.props.handleChangeMenu(nextProps.postPayload, this.menuList);
         }
+        if (nextProps.menuActionType === 'CHANGE_MENU') {
+            this.props.handleChangeMenuFinished();
+        }
     }
 
     shouldComponentUpdate(nextProps) {
@@ -70,6 +73,7 @@ export default ContentView = connect(
     (state) => ({
         postPayload: state.posts.postPayload,
         tagPayload: state.posts.tagPayload,
+        menuActionType: state.menus.menuActionType,
     }),
     (dispatch) => ({
         handleFetchPost: (url, postNo) => {
@@ -97,5 +101,6 @@ export default ContentView = connect(
                 }
             });
         },
+        handleChangeMenuFinished: () => dispatch(actions.changeMenuFinished()),
     }),
 )(ContentView);
