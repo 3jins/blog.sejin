@@ -49,7 +49,6 @@ body
 a
   text-decoration: none
 
-
 /* markdown */
 .md
   table
@@ -272,7 +271,7 @@ a
           text-align: center
           padding: .5em 0
           margin: 2em calc(#{$side-margin} / 2)
-            // text size of h1 is 2em...
+          // text size of h1 is 2em...
           border-bottom: $secondary-color solid 3px
           @media (max-width: $break)
             margin: 2em $nested-side-margin-small
@@ -403,6 +402,9 @@ a
     padding-left: $side-margin
     padding-right: $side-margin
     width: 100%
+    @media(max-width: $break)
+      padding-left: $nested-side-margin
+      padding-right: $nested-side-margin
     td
       .contact-table
         margin: 0 auto
