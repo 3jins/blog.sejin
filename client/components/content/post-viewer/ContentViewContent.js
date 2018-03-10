@@ -34,7 +34,7 @@ class ContentViewContent extends Component {
                         <FacebookProvider appId="1662680190479239" language="ko_KR">
                             <Comments
                                 className="fb-comments"
-                                href={window.location.href + "/postviewer/" + this.props.postNo}
+                                href={window.location.href}
                                 width="100%"
                                 numPosts={10}
                             />
