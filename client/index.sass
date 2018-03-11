@@ -149,12 +149,12 @@ a
 .content
   color: $secondary-color
   background-color: $secondary-bg-color
-  font: $content-base-pixel "Bitstream Vera Sans Mono", "나눔바른고딕 Light", "Source Code Pro", "Lucida Grande", Helvetica, Arial, sans-serif
+  font: $content-base-pixel "나눔바른고딕 Light", "Source Code Pro", "Lucida Grande", Helvetica, Arial, sans-serif
   line-height: 2em
+  h1, h2, h3, h4, h5, h6
+    font-family: "고양덕양 B", "나눔바른고딕 Light", "Source Code Pro", "Lucida Grande", Helvetica, Arial, sans-serif
   a
     color: $link-color
-  table
-    width: 100%
   del
     color: $less-light-color
   blockquote
@@ -186,7 +186,7 @@ a
       flex: 1
       padding: $top-bottom-margin 0
       text-align: center
-      font-family: "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
+      font-family: "Source Code Pro", "나눔바른고딕 Light", "Lucida Grande", Helvetica, Arial, sans-serif
       background-color: $secondary-bg-color
       animation-name: bg-color-light-to-secondary
       animation-duration: $color-change-duration
@@ -287,6 +287,9 @@ a
         h2
           display: block
           margin-top: auto
+        img
+          display: inline
+          margin: 0
         .content-wrapper
           margin: 2em 0
         .now
