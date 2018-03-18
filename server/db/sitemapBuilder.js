@@ -10,28 +10,28 @@ export default () => {
         {
             url: {
                 loc: siteBaseUrl,
-                lastmod: new Date().getTime(),
+                lastmod: new Date().toISOString(),
                 priority: 1.00,
             }
         },
         {
             url: {
                 loc: siteBaseUrl + "/nav/About",
-                lastmod: new Date().getTime(),
+                lastmod: new Date().toISOString(),
                 priority: 0.80 * 0.80 * 0.80,
             }
         },
         {
             url: {
                 loc: siteBaseUrl + "/nav/Works",
-                lastmod: new Date().getTime(),
+                lastmod: new Date().toISOString(),
                 priority: 0.80 * 0.80 * 0.80,
             }
         },
         {
             url: {
                 loc: siteBaseUrl + "/nav/Blog",
-                lastmod: new Date().getTime(),
+                lastmod: new Date().toISOString(),
                 priority: 0.80 * 0.80 * 0.80,
             }
         },
