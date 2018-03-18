@@ -8,6 +8,10 @@ var _fs2 = _interopRequireDefault(_fs);
 
 var _arrayComparer = require('../utils/arrayComparer');
 
+var _sitemapBuilder = require('./sitemapBuilder');
+
+var _sitemapBuilder2 = _interopRequireDefault(_sitemapBuilder);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mdPath = process.cwd() + '/md_files';
@@ -243,4 +247,6 @@ _models.Post.find().then(function (posts) {
         _loop3(i);
     }
     console.log("Tag addition/update/removal are completed.");
+
+    (0, _sitemapBuilder2.default)();
 });

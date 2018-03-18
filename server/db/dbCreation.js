@@ -1,6 +1,7 @@
 import {Post, Tag} from './models';
 import fs from 'fs';
 import {isEqual, isContain} from "../utils/arrayComparer";
+import sitemapBuilder from "./sitemapBuilder";
 
 const mdPath = process.cwd() + '/md_files';
 
@@ -239,4 +240,6 @@ Post.find().then((posts) => {
         });
     }
     console.log("Tag addition/update/removal are completed.");
+
+    sitemapBuilder();
 });
