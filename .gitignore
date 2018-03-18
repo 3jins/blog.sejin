@@ -129,4 +129,7 @@ fabric.properties
 md_files/.git/*
 md_files/.git/.*
 
+# sitemap
+sitemap.xml
+
 # End of https://www.gitignore.io/api/node,webstorm
