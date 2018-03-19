@@ -52,7 +52,7 @@ exports.default = function () {
         for (var i = 0; i < numPostData; i++) {
             urls[postDataBeginsAt + i] = {
                 url: {
-                    loc: [siteBaseUrl, postData[i].postNo].join('/'),
+                    loc: [siteBaseUrl, "postviewer", postData[i].postNo].join('/'),
                     lastmod: postData[i].dateUpdated,
                     priority: 0.80
                 }
