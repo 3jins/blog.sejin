@@ -50,7 +50,6 @@ body
 a
   text-decoration: none
 
-
 /* Add ... to overflown statements */
 .slur
   overflow: hidden
@@ -67,6 +66,16 @@ a
 
 .table-box
   display: table
+
+/* scrollbar - only for Chrome */
+::-webkit-scrollbar
+  width: 10px
+::-webkit-scrollbar-track
+  background: transparent
+::-webkit-scrollbar-thumb
+  background: #888
+::-webkit-scrollbar-thumb:hover
+  background: #555
 
 .nav
   color: $primary-color
@@ -170,9 +179,10 @@ a
     margin: 0 auto
   pre
     margin: 1.5em 5%
-    padding: 3em 8%
-    border-radius: 50px
+    padding: 0.7em
+    border-radius: 1em
     line-height: 1.4em
+    box-shadow: 5px 5px 10px 5px #aaa
     code
       font: $code-base-pixel Consolas, "Source Code Pro", "Bitstream Vera Sans Mono", "나눔바른고딕 Light", "Lucida Grande", Helvetica, Arial, sans-serif
   .content-body
