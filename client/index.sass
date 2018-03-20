@@ -164,6 +164,8 @@ a
     font-family: "고양덕양 B", "나눔바른고딕 Light", "Source Code Pro", "Lucida Grande", Helvetica, Arial, sans-serif
   a
     color: $link-color
+  .react-router-link
+    color: $secondary-color
   del
     color: $less-light-color
   blockquote
@@ -254,14 +256,24 @@ a
         $read-more-height: 2em
         position: relative
         // To make .content-preview::after cover other elements -> https://stackoverflow.com/questions/39690977/how-to-specify-a-divs-position-as-absolute-and-relative-at-the-same-time
+        > div
+          margin: $top-bottom-margin $nested-side-margin
+          @media (max-width: $break)
+            margin: $top-bottom-margin $nested-side-margin-small
         &.works
-          > div
+          > a > div
             margin: $top-bottom-margin $side-margin
+            transition: background-color $color-change-duration
+            &:hover
+              background-color: $light-color
             @media (max-width: $break)
               margin: $top-bottom-margin $nested-side-margin-small
         &.blog
-          > div
+          > a > div
             margin: $top-bottom-margin $nested-side-margin
+            transition: background-color $color-change-duration
+            &:hover
+              background-color: $light-color
             @media (max-width: $break)
               margin: $top-bottom-margin $nested-side-margin-small
         .content-preview

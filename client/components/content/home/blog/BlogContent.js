@@ -9,13 +9,12 @@ class BlogContent extends Component {
         return (
             <div id={this.props.postNo}
                  className={["content-view", decapitalizeFirstLetter(this.props.belongToMajor)].join(' ')}>
-                <div className="content-preview" ref={element => highlightCode(element)}>
-                    <h1>{this.props.title}</h1>
-                    {mdConverter(this.props.content)}
-                </div>
-                <div className="read-more">
-                    <Link to={["/postviewer", this.props.postNo].join('/')}>Read more</Link>
-                </div>
+                <Link className={"react-router-link"} to={["/postviewer", this.props.postNo].join('/')}>
+                    <div className="content-preview" ref={element => highlightCode(element)}>
+                        <h1>{this.props.title}</h1>
+                        {mdConverter(this.props.content)}
+                    </div>
+                </Link>
             </div>
         );
     }
