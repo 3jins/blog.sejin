@@ -18,21 +18,21 @@ export default () => {
             url: {
                 loc: siteBaseUrl + "/nav/About",
                 lastmod: new Date().toISOString(),
-                priority: 0.80 * 0.80 * 0.80,
+                priority: 9 * 9 * 9 / 1000,
             }
         },
         {
             url: {
                 loc: siteBaseUrl + "/nav/Works",
                 lastmod: new Date().toISOString(),
-                priority: 0.80 * 0.80 * 0.80,
+                priority: 9 * 9 * 9 / 1000,
             }
         },
         {
             url: {
                 loc: siteBaseUrl + "/nav/Blog",
                 lastmod: new Date().toISOString(),
-                priority: 0.80 * 0.80 * 0.80,
+                priority: 9 * 9 * 9 / 1000,
             }
         },
     ];
@@ -41,11 +41,14 @@ export default () => {
     const convertDataToUrls = (postData) => {
         const numPostData = postData.length;
         for (let i = 0; i < numPostData; i++) {
+            if(postData[i].postNo <= 2) {   // Pass data for 'About'
+                continue;
+            }
             urls[postDataBeginsAt + i] = {
                 url: {
                     loc: [siteBaseUrl, "postviewer", postData[i].postNo].join('/'),
                     lastmod: postData[i].dateUpdated,
-                    priority: 0.80,
+                    priority: 0.9,
                 }
             };
         }
