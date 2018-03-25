@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: http://enhanced.kr/sitemap.xml
