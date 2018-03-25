@@ -6,6 +6,7 @@ import About from '../content/home/about/About';
 import Works from '../content/home/works/Works';
 import Blog from '../content/home/blog/Blog';
 import Footer from '../footer/Footer';
+import Helmet from "react-helmet/es/Helmet";
 
 class Home extends Component {
     componentDidMount() {
@@ -33,6 +34,9 @@ class Home extends Component {
 
         return (
             <div>
+                <Helmet>
+                    <meta property="og:url" content="http://enhanced.kr"/>
+                </Helmet>
                 <Nav/>
                 {renderContents(this.props.match.params.title, this.props.match.params.subtitle)}
                 <Footer/>

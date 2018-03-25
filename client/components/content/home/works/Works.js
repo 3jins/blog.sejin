@@ -94,6 +94,9 @@ class Works extends Component {
             <div className="content" ref={(section) => {
                 this.contentsStartPosition = section;
             }}>
+                <Helmet>
+                    <meta property="og:url" content="http://enhanced.kr/nav/Blog"/>
+                </Helmet>
                 {this.props.loading && renderLoading()}
                 {!this.props.loading && renderContents(this.props.postPayload)}
             </div>

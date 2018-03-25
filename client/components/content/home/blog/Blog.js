@@ -8,6 +8,7 @@ import BlogContent from './BlogContent';
 import BlogSubtitle from './BlogSubtitle';
 import {getMenuHeight} from "../../../../../server/utils/unitConverter";
 import components from "../../../../constants";
+import Helmet from "react-helmet/es/Helmet";
 
 class Blog extends Component {
     constructor(props) {
@@ -98,6 +99,9 @@ class Blog extends Component {
 
         return (
             <div className="content" ref={(section) => this.contentsStartPosition = section}>
+                <Helmet>
+                    <meta property="og:url" content="http://enhanced.kr/nav/Blog"/>
+                </Helmet>
                 <div className="content-body">
                     {postPayload.length > 0 && <BlogSubtitle
                         belongToMinor={this.props.postPayload[0].belongToMinor}
