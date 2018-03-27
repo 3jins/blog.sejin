@@ -24,6 +24,7 @@ $top-bottom-margin: 3em
 $nested-side-margin: 6em
 $nested-side-margin-small: 10%
 $content-width: calc(100vw - #{$side-margin} - 2 * #{$nested-side-margin})
+$scrollbar-width: 10px
 
 $color-change-duration: 0.5s
 
@@ -69,7 +70,7 @@ a
 
 /* scrollbar - only for Chrome */
 ::-webkit-scrollbar
-  width: 10px
+  width: $scrollbar-width
 ::-webkit-scrollbar-track
   background: transparent
 ::-webkit-scrollbar-thumb
@@ -269,6 +270,7 @@ a
             @media (max-width: $break)
               margin: $top-bottom-margin $nested-side-margin-small
         &.blog
+          width: calc(500vw / 6 - #{$scrollbar-width})
           > a > div
             margin: $top-bottom-margin $nested-side-margin
             transition: background-color $color-change-duration
