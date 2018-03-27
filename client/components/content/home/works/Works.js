@@ -7,6 +7,7 @@ import LoadingView from '../../LoadingView';
 import WorksContent from './WorksContent';
 import {getMenuHeight} from "../../../../../server/utils/unitConverter";
 import constants from "../../../../constants";
+import Helmet from "react-helmet/es/Helmet";
 
 class Works extends Component {
     constructor(props) {
