@@ -293,6 +293,8 @@ a
               margin: $top-bottom-margin $nested-side-margin-small
         &.blog
           width: calc(500vw / 6 - #{$scrollbar-width})
+          @media (max-width: $break)
+            width: 100%
           > a > div
             margin: $top-bottom-margin $nested-side-margin
             transition: background-color $color-change-duration
