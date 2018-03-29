@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {highlightCode, mdConverter} from "../../../../server/utils/mdModifier";
+import {highlightCode, mdConverter} from "../../../../utils/mdModifier";
 import LoadingView from '../LoadingView';
-import {decapitalizeFirstLetter} from "../../../../server/utils/stringModifier";
+import {decapitalizeFirstLetter} from "../../../../utils/stringModifier";
 import FacebookProvider, {Comments} from 'react-facebook';
 
 class ContentViewContent extends Component {

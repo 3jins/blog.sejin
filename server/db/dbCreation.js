@@ -1,6 +1,6 @@
 import {Post, Tag} from './models';
 import fs from 'fs';
-import {isEqual, isContain} from "../utils/arrayComparer";
+import {isEqual, isContain} from "../../utils/arrayComparer";
 import sitemapBuilder from "./sitemapBuilder";
 
 const mdPath = process.cwd() + '/md_files';

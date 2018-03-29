@@ -5,9 +5,9 @@ import * as actions from '../../../../actions';
 import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import AboutContent from './AboutContent';
-import {getMenuHeight} from "../../../../../server/utils/unitConverter";
+import {getMenuHeight} from "../../../../../utils/unitConverter";
 import components from "../../../../constants";
-import {isEmpty} from "../../../../../server/utils/nullChecker";
+import {isEmpty} from "../../../../../utils/nullChecker";
 
 class About extends Component {
     constructor(props) {

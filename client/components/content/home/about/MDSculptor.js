@@ -1,5 +1,5 @@
 import React from 'react';
-import {mdConverter} from "../../../../../server/utils/mdModifier";
+import {mdConverter} from "../../../../../utils/mdModifier";
 import NoPostPreview from "../NoPostPreview";
 import profileImg from "../../../../images/profile.png";
 import frontEndImg from "../../../../images/frontEnd.png";
@@ -11,7 +11,7 @@ import prizeImg from "../../../../images/prize.png";
 import workImg from "../../../../images/work.png";
 import militaryImg from "../../../../images/military.png";
 import etcImg from "../../../../images/etc.png";
-import {camelCaseToHyphen} from "../../../../../server/utils/stringModifier";
+import {camelCaseToHyphen} from "../../../../../utils/stringModifier";
 
 const splitter = (content, belongToMinor) => {
         const convertedContent = mdConverter(content);

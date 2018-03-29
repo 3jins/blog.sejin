@@ -5,11 +5,11 @@ import * as actions from '../../../../actions';
 import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import WorksContent from './WorksContent';
-import {getMenuHeight} from "../../../../../server/utils/unitConverter";
+import {getMenuHeight} from "../../../../../utils/unitConverter";
 import constants from "../../../../constants";
 import Helmet from "react-helmet/es/Helmet";
-import {getParameterByName} from "../../../../../server/utils/stringModifier";
-import {isEmpty} from "../../../../../server/utils/nullChecker";
+import {getParameterByName} from "../../../../../utils/stringModifier";
+import {isEmpty} from "../../../../../utils/nullChecker";
 import PageView from "../../PageView";
 
 class Works extends Component {

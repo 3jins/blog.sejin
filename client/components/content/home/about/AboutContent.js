@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {decapitalizeFirstLetter} from "../../../../../build/utils/stringModifier";
 import {sculptor, splitter} from "./MDSculptor";
+import {decapitalizeFirstLetter} from "../../../../../utils/stringModifier";
 
 class AboutContent extends Component {
     render() {

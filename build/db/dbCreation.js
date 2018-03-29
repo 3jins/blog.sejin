@@ -6,7 +6,7 @@ var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var _arrayComparer = require('../utils/arrayComparer');
+var _arrayComparer = require('../../utils/arrayComparer');
 
 var _sitemapBuilder = require('./sitemapBuilder');
 

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
-import {mdConverter} from "../../../../../server/utils/mdModifier";
-import {decapitalizeFirstLetter} from "../../../../../server/utils/stringModifier";
-import {highlightCode} from "../../../../../server/utils/mdModifier";
+import {mdConverter} from "../../../../../utils/mdModifier";
+import {decapitalizeFirstLetter} from "../../../../../utils/stringModifier";
+import {highlightCode} from "../../../../../utils/mdModifier";
 
 class WorksContent extends Component {
     render() {

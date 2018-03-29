@@ -1,7 +1,7 @@
 import * as posts from './posts';
 import * as menus from './menus';
 import * as scrolls from './scrolls';
-import {getBasePx, getMenuHeightRaw, emToPx} from "../../server/utils/unitConverter";
+import {getBasePx, getMenuHeightRaw, emToPx} from "../../utils/unitConverter";
 
 const headers = {
     'Accept': 'application/json',

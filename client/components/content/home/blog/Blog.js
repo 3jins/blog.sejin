@@ -6,11 +6,11 @@ import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import BlogContent from './BlogContent';
 import BlogSubtitle from './BlogSubtitle';
-import {getMenuHeight} from "../../../../../server/utils/unitConverter";
+import {getMenuHeight} from "../../../../../utils/unitConverter";
 import components from "../../../../constants";
 import Helmet from "react-helmet/es/Helmet";
-import {getParameterByName} from "../../../../../server/utils/stringModifier";
-import {isEmpty} from "../../../../../server/utils/nullChecker";
+import {getParameterByName} from "../../../../../utils/stringModifier";
+import {isEmpty} from "../../../../../utils/nullChecker";
 import PageView from "../../PageView";
 
 class Blog extends Component {

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import LoadingView from '../LoadingView';
-import {isContain} from "../../../../server/utils/arrayComparer";
-import {capitalizeFirstLetter} from "../../../../build/utils/stringModifier";
+import {isContain} from "../../../../utils/arrayComparer";
+import {capitalizeFirstLetter} from "../../../../utils/stringModifier";
 
 class ContentViewSubtitle extends Component {
     render() {
