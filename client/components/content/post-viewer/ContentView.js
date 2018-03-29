@@ -5,6 +5,7 @@ import LoadingView from '../LoadingView';
 import ContentViewContent from "./ContentViewContent";
 import ContentViewSubtitle from "./ContentViewSubtitle";
 import {menuList} from "../../../constants";
+import {isEmpty} from "../../../../utils/nullChecker";
 
 class ContentView extends Component {
     constructor(props) {
@@ -14,8 +15,8 @@ class ContentView extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.postPayload.length > 0) {
-            this.props.handleChangeMenu(nextProps.postPayload, this.menuList);
+        if (!isEmpty(nextProps.post)) {
+            this.props.handleChangeMenu(nextProps.post, this.menuList);
         }
         if (nextProps.menuActionType === 'CHANGE_MENU') {
             this.props.handleChangeMenuFinished();
@@ -23,27 +24,27 @@ class ContentView extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return nextProps.postPayload.length > 0 || nextProps.tagPayload.length > 0;
+        return !isEmpty(nextProps.post) || !isEmpty(nextProps.tagPayload);
     }
 
     render() {
-        const getBelongToMajor = (postPayload) => {
-            if (postPayload.length > 0) {
-                return postPayload[0].belongToMajor;
+        const getBelongToMajor = (post) => {
+            if (!isEmpty(post)) {
+                return post[0].belongToMajor;
             }
             return '';
         };
-        const getBelongToMinor = (postPayload) => {
-            if (postPayload.length > 0) {
-                return postPayload[0].belongToMinor;
+        const getBelongToMinor = (post) => {
+            if (!isEmpty(post)) {
+                return post[0].belongToMinor;
             }
             return '';
         };
-        const belongToMajor = getBelongToMajor(this.props.postPayload);
-        const belongToMinor = getBelongToMinor(this.props.postPayload);
+        const belongToMajor = getBelongToMajor(this.props.post);
+        const belongToMinor = getBelongToMinor(this.props.post);
         let currentTags = [];
-        if (this.props.postPayload.length > 0) {
-            currentTags = this.props.postPayload[0].tags;
+        if (!isEmpty(this.props.post)) {
+            currentTags = this.props.post[0].tags;
         }
 
         return (
@@ -58,7 +59,7 @@ class ContentView extends Component {
                     />}
                     <div className={"content-view-wrapper"}>
                         <ContentViewContent
-                            postPayload={this.props.postPayload}
+                            post={this.props.post}
                             belongToMajor={belongToMajor}
                             postNo={this.props.postNo}
                         />
@@ -71,7 +72,7 @@ class ContentView extends Component {
 
 export default ContentView = connect(
     (state) => ({
-        postPayload: state.posts.postPayload,
+        post: state.posts.postPayload.post,
         tagPayload: state.posts.tagPayload,
         menuActionType: state.menus.menuActionType,
     }),
@@ -86,15 +87,15 @@ export default ContentView = connect(
             const pendedPostResult = dispatch(actions.fetchPost(url, postNo));
             pendedPostResult.postPayload
                 .then((postPayload) => {
-                    const pendedTagResult = dispatch(actions.fetchTags('/tags', postPayload[0].belongToMinor));
+                    const pendedTagResult = dispatch(actions.fetchTags('/tags', postPayload.post[0].belongToMinor));
                     pendedTagResult.tagPayload
                         .then((tagPayload) => {
                             dispatch(actions.fetchSuccess(postPayload, tagPayload));
                         })
                 });
         },
-        handleChangeMenu: (postPayload, menuList) => {
-            const belongToMajor = postPayload[0].belongToMajor;
+        handleChangeMenu: (post, menuList) => {
+            const belongToMajor = post[0].belongToMajor;
             menuList.map((menu, idx) => {
                 if (menu.title === belongToMajor) {
                     dispatch(actions.changeMenu(idx));

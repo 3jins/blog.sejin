@@ -3,27 +3,20 @@ import {highlightCode, mdConverter} from "../../../../utils/mdModifier";
 import LoadingView from '../LoadingView';
 import {decapitalizeFirstLetter} from "../../../../utils/stringModifier";
 import FacebookProvider, {Comments} from 'react-facebook';
+import {isEmpty} from "../../../../utils/nullChecker";
 
 class ContentViewContent extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.highlightCode = highlightCode.bind(this);
-    // }
-
-    // componentDidMount() { highlightCode(); }
-    // componentDidUpdate() { highlightCode(); }
-
     render() {
-        const renderContents = (postPayload) => {
-            if (!postPayload || postPayload.length === 0) {
+        const renderContents = (post) => {
+            if (isEmpty(post)) {
                 return (
                     <div>
                         <LoadingView isTable={false}/>
                     </div>
                 );
             }
-            const postTitle = postPayload[0].title;
-            const postContent = mdConverter(postPayload[0].content);
+            const postTitle = post[0].title;
+            const postContent = mdConverter(post[0].content);
             return (
                 <div className={["content-view", decapitalizeFirstLetter(this.props.belongToMajor)].join(' ')}>
                     <div ref={element => highlightCode(element)}>
@@ -45,7 +38,7 @@ class ContentViewContent extends Component {
         };
 
         return (
-            renderContents(this.props.postPayload)
+            renderContents(this.props.post)
         );
     }
 }

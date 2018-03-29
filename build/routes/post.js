@@ -20,14 +20,14 @@ router.get('/:postNo', function (req, res) {
         "postNo": postNo
     };
 
-    _models.Post.find(queryJson).exec(function (err, posts) {
+    _models.Post.find(queryJson).exec(function (err, post) {
         if (err) {
             console.log(err);
             return res.status(500).json({
                 message: 'Could not retrieve works'
             });
         }
-        res.json(posts);
+        res.json({ post: post });
     });
 });
 
