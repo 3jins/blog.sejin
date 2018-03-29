@@ -3,12 +3,12 @@ import NavItem from './NavItem';
 import {connect} from 'react-redux';
 import * as actions from '../../actions';
 import Typist from 'react-typist';
-import components from "../../constants";
+import {menuList} from "../../constants";
 
 class Nav extends Component {
     constructor(props) {
         super(props);
-        this.menuList = components.menuList;
+        this.menuList = menuList;
     }
 
     render() {
@@ -81,7 +81,7 @@ class Nav extends Component {
                             <tr>
                                 {this.menuList[this.props.selectedMenuIdx].title &&
                                 mapMenuToComponent(
-                                    components.menuList[this.props.selectedMenuIdx].submenuList,
+                                    menuList[this.props.selectedMenuIdx].submenuList,
                                     this.props.selectedSubmenuIdx,
                                     this.props.handleChangeSubmenu,
                                     this.menuList[this.props.selectedMenuIdx].title

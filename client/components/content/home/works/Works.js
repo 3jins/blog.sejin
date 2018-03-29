@@ -6,7 +6,7 @@ import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import WorksContent from './WorksContent';
 import {getMenuHeight} from "../../../../../utils/unitConverter";
-import constants from "../../../../constants";
+import {menuList} from "../../../../constants";
 import Helmet from "react-helmet/es/Helmet";
 import {getParameterByName} from "../../../../../utils/stringModifier";
 import {isEmpty} from "../../../../../utils/nullChecker";
@@ -16,7 +16,7 @@ class Works extends Component {
     constructor(props) {
         super(props);
         this.contentsStartPosition = null;
-        this.menuList = constants.menuList;
+        this.menuList = menuList;
         this.menuIdx = 1;
         this.page = getParameterByName('page') === null ? 1 : getParameterByName('page');
         props.handleFetchPosts(

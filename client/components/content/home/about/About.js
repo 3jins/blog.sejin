@@ -6,14 +6,14 @@ import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import AboutContent from './AboutContent';
 import {getMenuHeight} from "../../../../../utils/unitConverter";
-import components from "../../../../constants";
+import {menuList} from "../../../../constants";
 import {isEmpty} from "../../../../../utils/nullChecker";
 
 class About extends Component {
     constructor(props) {
         super(props);
         this.contentPositions = [];
-        this.menuList = components.menuList;
+        this.menuList = menuList;
         this.menuIdx = 0;
         props.handleChangeMenu(this.menuIdx);
     }

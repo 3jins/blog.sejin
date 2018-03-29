@@ -4,12 +4,12 @@ import * as actions from '../../../actions';
 import LoadingView from '../LoadingView';
 import ContentViewContent from "./ContentViewContent";
 import ContentViewSubtitle from "./ContentViewSubtitle";
-import constants from "../../../constants";
+import {menuList} from "../../../constants";
 
 class ContentView extends Component {
     constructor(props) {
         super(props);
-        this.menuList = constants.menuList;
+        this.menuList = menuList;
         props.handleFetchPost('/post', props.postNo);
     }
 

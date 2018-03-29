@@ -7,7 +7,7 @@ import LoadingView from '../../LoadingView';
 import BlogContent from './BlogContent';
 import BlogSubtitle from './BlogSubtitle';
 import {getMenuHeight} from "../../../../../utils/unitConverter";
-import components from "../../../../constants";
+import {menuList} from "../../../../constants";
 import Helmet from "react-helmet/es/Helmet";
 import {getParameterByName} from "../../../../../utils/stringModifier";
 import {isEmpty} from "../../../../../utils/nullChecker";
@@ -17,7 +17,7 @@ class Blog extends Component {
     constructor(props) {
         super(props);
         this.contentsStartPosition = null;
-        this.menuList = components.menuList;
+        this.menuList = menuList;
         this.menuIdx = 2;
         this.page = getParameterByName('page') === null ? 1 : getParameterByName('page');
         props.handleFetchPosts(
