@@ -71,10 +71,13 @@ a
 /* scrollbar - only for Chrome */
 ::-webkit-scrollbar
   width: $scrollbar-width
+
 ::-webkit-scrollbar-track
   background: transparent
+
 ::-webkit-scrollbar-thumb
   background: #888
+
 ::-webkit-scrollbar-thumb:hover
   background: #555
 
@@ -188,6 +191,25 @@ a
     box-shadow: 5px 5px 10px 5px #aaa
     code
       font: $code-base-pixel Consolas, "Source Code Pro", "Bitstream Vera Sans Mono", "나눔바른고딕 Light", "Lucida Grande", Helvetica, Arial, sans-serif
+
+  .pages
+    text-align: center
+    margin: 3em 0
+    > span, > a
+      padding: 0.4em 0.7em
+      border-radius: 0.3em
+      margin: 0 0.2em
+      border: $secondary-color 1px solid
+    > span
+      background-color: $secondary-color
+      color: $secondary-bg-color
+    > a
+      background-color: $secondary-bg-color
+      color: $secondary-color
+      &:hover
+        background-color: $secondary-color
+        color: $secondary-bg-color
+
   .content-body
     display: flex
     @media (max-width: $break)
@@ -297,7 +319,6 @@ a
           > a
             color: $link-color
             margin: 0
-
       /* about - custom design */
       .content-view.about
         h1
@@ -458,7 +479,6 @@ a
         text-align: center
         color: $more-light-color
         font-size: 1em
-
 
 .no-match
   text-align: center

@@ -8,6 +8,9 @@ import WorksContent from './WorksContent';
 import {getMenuHeight} from "../../../../../server/utils/unitConverter";
 import constants from "../../../../constants";
 import Helmet from "react-helmet/es/Helmet";
+import {getParameterByName} from "../../../../../server/utils/stringModifier";
+import {isEmpty} from "../../../../../server/utils/nullChecker";
+import PageView from "../../PageView";
 
 class Works extends Component {
     constructor(props) {
@@ -15,10 +18,12 @@ class Works extends Component {
         this.contentsStartPosition = null;
         this.menuList = constants.menuList;
         this.menuIdx = 1;
+        this.page = getParameterByName('page') === null ? 1 : getParameterByName('page');
         props.handleFetchPosts(
             '/posts',
             props.belongToMajor,
             props.belongToMinor ? props.belongToMinor : this.menuList[this.menuIdx].submenuList[0].title,
+            this.page
         );
         props.handleChangeMenu(this.menuIdx);
     }
@@ -28,7 +33,8 @@ class Works extends Component {
             this.props.handleFetchPosts(
                 '/posts',
                 nextProps.belongToMajor,
-                nextProps.belongToMinor
+                nextProps.belongToMinor,
+                1
             );
         }
         if (nextProps.scroll) {
@@ -60,7 +66,7 @@ class Works extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return (nextProps.postPayload.length > 0) || (this.props.loading !== nextProps.loading);
+        return (!isEmpty(nextProps.postPayload)) || (this.props.loading !== nextProps.loading);
     }
 
     render() {
@@ -71,10 +77,10 @@ class Works extends Component {
         };
 
         const renderContents = (postPayload) => {
-            if (!postPayload || postPayload.length === 0) {
+            if (isEmpty(postPayload.posts)) {
                 return <NoPostPreview/>
             }
-            return postPayload.map((post) => {
+            return postPayload.posts.map((post) => {
                 return (
                     <div key={post._id} className="content-body">
                         <WorksContent
@@ -100,6 +106,7 @@ class Works extends Component {
                 </Helmet>
                 {this.props.loading && renderLoading()}
                 {!this.props.loading && renderContents(this.props.postPayload)}
+                <PageView page={this.page} numPosts={this.props.postPayload.numPosts} pageScale={10}/>
             </div>
         );
     }
@@ -114,8 +121,8 @@ export default connect(
         scroll: state.menus.scroll,
     }),
     (dispatch) => ({
-        handleFetchPosts: (url, belongToMajor, belongToMinor) => {
-            const pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor));
+        handleFetchPosts: (url, belongToMajor, belongToMinor, page) => {
+            const pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor, page));
             pendedPostResult.postPayload
                 .then((response) => {
                     dispatch(actions.fetchSuccess(response));

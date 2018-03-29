@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class LoadingPreview extends Component {
+class LoadingView extends Component {
     render() {
         if(this.props.isTable) {
             return (
@@ -21,4 +21,4 @@ class LoadingPreview extends Component {
     }
 }
 
-export default LoadingPreview;
+export default LoadingView;

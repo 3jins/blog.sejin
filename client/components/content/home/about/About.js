@@ -7,6 +7,7 @@ import LoadingView from '../../LoadingView';
 import AboutContent from './AboutContent';
 import {getMenuHeight} from "../../../../../server/utils/unitConverter";
 import components from "../../../../constants";
+import {isEmpty} from "../../../../../server/utils/nullChecker";
 
 class About extends Component {
     constructor(props) {
@@ -54,7 +55,7 @@ class About extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return (nextProps.postPayload.length > 0) || (this.props.loading !== nextProps.loading);
+        return !isEmpty(nextProps.posts) || (this.props.loading !== nextProps.loading);
     }
 
     render() {
@@ -64,11 +65,11 @@ class About extends Component {
             );
         };
 
-        const renderContents = (postPayload) => {
-            if (!postPayload || postPayload.length === 0) {
+        const renderContents = (posts) => {
+            if (isEmpty(posts)) {
                 return <NoPostPreview/>;
             }
-            return postPayload.map((post, idx) => {
+            return posts.map((post, idx) => {
                 return (
                     <div
                         className="content-body"
@@ -89,7 +90,7 @@ class About extends Component {
         return (
             <div className="content">
                 {this.props.loading && renderLoading()}
-                {!this.props.loading && renderContents(this.props.postPayload)}
+                {!this.props.loading && renderContents(this.props.posts)}
             </div>
         );
     }
@@ -97,7 +98,7 @@ class About extends Component {
 
 export default connect(
     (state) => ({
-        postPayload: state.posts.postPayload,
+        posts: state.posts.postPayload.posts,
         loading: state.posts.loading,
         menuActionType: state.menus.menuActionType,
         selectedSubmenuIdx: state.menus.selectedSubmenuIdx,

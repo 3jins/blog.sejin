@@ -9,6 +9,9 @@ import BlogSubtitle from './BlogSubtitle';
 import {getMenuHeight} from "../../../../../server/utils/unitConverter";
 import components from "../../../../constants";
 import Helmet from "react-helmet/es/Helmet";
+import {getParameterByName} from "../../../../../server/utils/stringModifier";
+import {isEmpty} from "../../../../../server/utils/nullChecker";
+import PageView from "../../PageView";
 
 class Blog extends Component {
     constructor(props) {
@@ -16,20 +19,24 @@ class Blog extends Component {
         this.contentsStartPosition = null;
         this.menuList = components.menuList;
         this.menuIdx = 2;
+        this.page = getParameterByName('page') === null ? 1 : getParameterByName('page');
         props.handleFetchPosts(
             '/posts',
             props.belongToMajor,
             props.belongToMinor ? props.belongToMinor : this.menuList[this.menuIdx].submenuList[0].title,
+            this.page
         );
         props.handleChangeMenu(this.menuIdx);
     }
 
     componentWillReceiveProps(nextProps) {
+        // this.page = getParameterByName('page') === null ? 1 : getParameterByName('page');
         if (this.props.belongToMinor !== nextProps.belongToMinor) {
             this.props.handleFetchPosts(
                 '/posts',
                 nextProps.belongToMajor,
-                nextProps.belongToMinor
+                nextProps.belongToMinor,
+                1
             );
         }
         if (nextProps.scroll) {
@@ -62,15 +69,14 @@ class Blog extends Component {
 
     shouldComponentUpdate(nextProps) {
         return (
-            (nextProps.postPayload.length > 0) ||
-            (nextProps.tagPayload.length > 0) ||
+            !isEmpty(nextProps.postPayload) ||
+            !isEmpty(nextProps.tagPayload) ||
             (this.props.loading !== nextProps.loading)
         );
     }
 
     render() {
         const postPayload = this.props.postPayload;
-
 
         const renderLoading = () => {
             return (
@@ -79,10 +85,10 @@ class Blog extends Component {
         };
 
         const renderContents = (postPayload) => {
-            if (!postPayload || postPayload.length === 0) {
+            if (isEmpty(postPayload.posts)) {
                 return <NoPostPreview/>;
             }
-            return postPayload.map((post) => {
+            return postPayload.posts.map((post) => {
                 return (
                     <BlogContent
                         key={post._id}
@@ -103,13 +109,14 @@ class Blog extends Component {
                     <meta property="og:url" content="http://enhanced.kr/nav/Blog"/>
                 </Helmet>
                 <div className="content-body">
-                    {postPayload.length > 0 && <BlogSubtitle
-                        belongToMinor={this.props.postPayload[0].belongToMinor}
+                    {!isEmpty(postPayload.posts) && <BlogSubtitle
+                        belongToMinor={this.props.postPayload.posts[0].belongToMinor}
                         tagPayload={this.props.tagPayload}
                     />}
-                    <div className={"content-view-wrapper"}>
+                    <div className="content-view-wrapper">
                         {this.props.loading && renderLoading()}
                         {!this.props.loading && renderContents(this.props.postPayload, this.props.tagPayload)}
+                        <PageView page={this.page} numPosts={this.props.postPayload.numPosts} pageScale={10}/>
                     </div>
                 </div>
             </div>
@@ -127,8 +134,8 @@ export default connect(
         scroll: state.menus.scroll,
     }),
     (dispatch) => ({
-        handleFetchPosts: (url, belongToMajor, belongToMinor) => {
-            const pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor));
+        handleFetchPosts: (url, belongToMajor, belongToMinor, page) => {
+            const pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor, page));
             pendedPostResult.postPayload
                 .then((postPayload) => {
                     const pendedTagResult = dispatch(actions.fetchTags('/tags', belongToMinor));

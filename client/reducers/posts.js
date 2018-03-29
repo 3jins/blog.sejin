@@ -2,7 +2,7 @@ import {FETCH_POSTS, FETCH_POST, FETCH_TAGS, FETCH_SUCCESS} from "../actions/pos
 
 const initialState = {
     postActionType: 'FETCH_POSTS',
-    postPayload: [],
+    postPayload: {},
     tagPayload: [],
     loading: false,
 };

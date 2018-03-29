@@ -12,15 +12,17 @@ const headers = {
 /*********
  * posts *
  *********/
-export function fetchPosts(url, belongToMajor, belongToMinor) {
-    console.log(url + "/" + belongToMajor + "/" + belongToMinor);
-    const postPayload = fetch(url + "/" + belongToMajor + "/" + belongToMinor, {
+export function fetchPosts(url, belongToMajor, belongToMinor, page) {
+    let request = url + "/" + belongToMajor + "/" + belongToMinor;
+    if(typeof page !== 'undefined') {
+        request = url + "/" + belongToMajor + "/" + belongToMinor + "?page=" + page
+    }
+    const postPayload = fetch(request, {
         method: 'get',
-        headers: headers
+        headers: headers,
     })
         .then(res => res.json())
         .catch(err => console.log(err));
-
     return {
         type: posts.FETCH_POSTS,
         loading: true,
