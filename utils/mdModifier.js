@@ -1,5 +1,5 @@
 import {Converter} from 'react-showdown';
-import * as Highlight from "highlight.js/lib/highlight";
+import * as Highlight from "../node_modules/highlight.js";
 
 const mdConverter = (content) => {
     const converter = new Converter({tables: true, strikethrough: true});
