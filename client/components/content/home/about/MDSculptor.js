@@ -201,7 +201,7 @@ const sculptor = (splitContent, belongToMinor) => {
                                      key={extractedKey}>
                                     <div className='item'>
                                         <div className='img-wrapper'>
-                                            <img src={visionImgs[idx]}/>
+                                            <img className="circle-img" src={visionImgs[idx]}/>
                                         </div>
                                         <div className='detail'>
                                             <h2>{outerContent.title.element}</h2>
