@@ -6,7 +6,6 @@ import Nav from '../nav/Nav';
 import ContentView from '../content/post-viewer/ContentView';
 import Footer from '../footer/Footer';
 import {getMenuHeight} from "../../../utils/unitConverter";
-import Helmet from "react-helmet/es/Helmet";
 
 class PostViewer extends Component {
     constructor(props) {
@@ -33,9 +32,6 @@ class PostViewer extends Component {
         console.log(this.props.match.params.postNo);
         return (
             <div>
-                <Helmet>
-                    <meta property="og:url" content={"http://enhanced.kr/postviewer/" + this.props.match.params.postNo}/>
-                </Helmet>
                 <Nav/>
                 <ContentView
                     postNo={this.props.match.params.postNo}

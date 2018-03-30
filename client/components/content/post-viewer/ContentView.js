@@ -4,8 +4,9 @@ import * as actions from '../../../actions';
 import LoadingView from '../LoadingView';
 import ContentViewContent from "./ContentViewContent";
 import ContentViewSubtitle from "./ContentViewSubtitle";
-import {menuList} from "../../../constants";
+import {blogTitle, menuList} from "../../../constants";
 import {isEmpty} from "../../../../utils/nullChecker";
+import Helmet from "react-helmet/es/Helmet";
 
 class ContentView extends Component {
     constructor(props) {
@@ -49,6 +50,12 @@ class ContentView extends Component {
 
         return (
             <div className="content">
+                <Helmet>
+                    <meta property="og:url" content={"http://enhanced.kr/contentviewer/" + this.props.postNo}/>
+                    <title>
+                        {!isEmpty(this.props.post) && this.props.post[0].title + " :: " + blogTitle}
+                    </title>
+                </Helmet>
                 <div className="content-body">
                     {this.props.loading && <LoadingView isTable={true}/>}
                     {belongToMajor !== 'Works' &&

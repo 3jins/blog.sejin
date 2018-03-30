@@ -7,7 +7,7 @@ import LoadingView from '../../LoadingView';
 import BlogContent from './BlogContent';
 import BlogSubtitle from './BlogSubtitle';
 import {getMenuHeight} from "../../../../../utils/unitConverter";
-import {menuList} from "../../../../constants";
+import {blogTitle, menuList} from "../../../../constants";
 import Helmet from "react-helmet/es/Helmet";
 import {getParameterByName} from "../../../../../utils/stringModifier";
 import {isEmpty} from "../../../../../utils/nullChecker";
@@ -107,6 +107,7 @@ class Blog extends Component {
             <div className="content" ref={(section) => this.contentsStartPosition = section}>
                 <Helmet>
                     <meta property="og:url" content="http://enhanced.kr/nav/Blog"/>
+                    <title>{"Blog :: " + blogTitle}</title>
                 </Helmet>
                 <div className="content-body">
                     {!isEmpty(postPayload.posts) && <BlogSubtitle

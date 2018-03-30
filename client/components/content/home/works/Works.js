@@ -103,6 +103,7 @@ class Works extends Component {
             }}>
                 <Helmet>
                     <meta property="og:url" content="http://enhanced.kr/nav/Blog"/>
+                    <title>{"Works :: " + blogTitle}</title>
                 </Helmet>
                 {this.props.loading && renderLoading()}
                 {!this.props.loading && renderContents(this.props.postPayload)}

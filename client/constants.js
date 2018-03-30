@@ -49,4 +49,6 @@ const menuList = [
     },
 ];
 
-export {menuList};
+const blogTitle = "Sejin\'s Blog";
+
+export {menuList, blogTitle};
