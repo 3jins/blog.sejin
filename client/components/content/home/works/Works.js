@@ -6,7 +6,7 @@ import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import WorksContent from './WorksContent';
 import {getMenuHeight} from "../../../../../utils/unitConverter";
-import {menuList} from "../../../../constants";
+import {blogTitle, menuList} from "../../../../constants";
 import Helmet from "react-helmet/es/Helmet";
 import {getParameterByName} from "../../../../../utils/stringModifier";
 import {isEmpty} from "../../../../../utils/nullChecker";
