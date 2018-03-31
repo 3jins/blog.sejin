@@ -10,6 +10,8 @@ var _express2 = _interopRequireDefault(_express);
 
 var _models = require('../db/models');
 
+var _nullChecker = require('../../utils/nullChecker');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = _express2.default.Router();
@@ -17,6 +19,7 @@ var router = _express2.default.Router();
 router.get('/:nav/:subnav?', function (req, res) {
     var nav = req.params.nav;
     var subnav = req.params.subnav;
+    var tag = req.query.tag;
     var page = req.query.page;
     var pageScale = 10;
     var findJson = {
@@ -24,8 +27,11 @@ router.get('/:nav/:subnav?', function (req, res) {
     };
     var sortJson = nav === 'About' ? "postNo" : { "postNo": -1 };
 
-    if (typeof subnav !== 'undefined') {
+    if (!(0, _nullChecker.isEmpty)(subnav)) {
         findJson["belongToMinor"] = subnav;
+    }
+    if (!(0, _nullChecker.isEmpty)(tag)) {
+        findJson["tags"] = { $all: [tag] };
     }
 
     _models.Post.find(findJson).skip((page - 1) * pageScale) //

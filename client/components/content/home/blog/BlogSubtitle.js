@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {capitalizeFirstLetter} from "../../../../../utils/stringModifier";
+import {capitalizeFirstLetter, removeQueryParameters} from "../../../../../utils/stringModifier";
 import LoadingPreview from "../../LoadingView";
 
 class BlogSubtitle extends Component {
@@ -13,12 +13,17 @@ class BlogSubtitle extends Component {
                 if (tag.belongToMinor === belongToMinor) {
                     return (
                         <div className="tag-div">
-                            <h5 key={tag.tagName} title={tag.tagName} className="slur">
-                                #{tag.tagName}
-                            </h5>
-                            <h5 className="count">
-                                {"(" + tag.postList.length + ")"}
-                            </h5>
+                            <a href={"?tag=" + tag.tagName}>
+                                <h5
+                                    key={tag.tagName}
+                                    className={["slur", this.props.selectedTag === tag.tagName ? "selected" : "unselected"].join(' ')}
+                                    title={tag.tagName}>
+                                    #{tag.tagName}
+                                </h5>
+                                <h5 className="count">
+                                    {"(" + tag.postList.length + ")"}
+                                </h5>
+                            </a>
                         </div>
                     );
                 }
@@ -27,7 +32,11 @@ class BlogSubtitle extends Component {
 
         return (
             <div className={["subtitle", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
-                <h3 className="slur">{capitalizeFirstLetter(this.props.belongToMinor)}</h3>
+                <h3 className="slur">
+                    <a href={removeQueryParameters()}>
+                        {capitalizeFirstLetter(this.props.belongToMinor)}
+                    </a>
+                </h3>
                 {renderTags(this.props.tagPayload, this.props.belongToMinor)}
             </div>
         );

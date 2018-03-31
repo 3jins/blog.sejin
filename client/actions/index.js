@@ -2,20 +2,24 @@ import * as posts from './posts';
 import * as menus from './menus';
 import * as scrolls from './scrolls';
 import {getBasePx, getMenuHeightRaw, emToPx} from "../../utils/unitConverter";
+import {isEmpty} from "../../utils/nullChecker";
 
 const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
 };
 
-
 /*********
  * posts *
  *********/
-export function fetchPosts(url, belongToMajor, belongToMinor, page) {
+export function fetchPosts(url, belongToMajor, belongToMinor, tag, page) {
     let request = url + "/" + belongToMajor + "/" + belongToMinor;
-    if(typeof page !== 'undefined') {
-        request = url + "/" + belongToMajor + "/" + belongToMinor + "?page=" + page
+    if (isEmpty(page)) page = 1;
+    if (isEmpty(tag)) {
+        request = url + "/" + belongToMajor + "/" + belongToMinor + "?page=" + page;
+    }
+    else {
+        request = url + "/" + belongToMajor + "/" + belongToMinor + "?tag=" + tag + "&page=" + page;
     }
     const postPayload = fetch(request, {
         method: 'get',

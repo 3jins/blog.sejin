@@ -14,14 +14,16 @@ class ContentViewSubtitle extends Component {
                 if (tag.belongToMinor === belongToMinor) {
                     return (
                         <div className="tag-div">
-                            <h5 key={tag.tagName}
-                                className={["slur", isContain(currentTags, tag.tagName) ? "selected" : "unselected"].join(' ')}
-                                title={tag.tagName}>
-                                #{tag.tagName}
-                            </h5>
-                            <h5 className={["count", isContain(currentTags, tag.tagName) ? "selected" : "unselected"].join(' ')}>
-                                {"(" + tag.postList.length + ")"}
-                            </h5>
+                            <a href={"/nav/Blog?tag=" + tag.tagName}>
+                                <h5 key={tag.tagName}
+                                    className={["slur", isContain(currentTags, tag.tagName) ? "selected" : "unselected"].join(' ')}
+                                    title={tag.tagName}>
+                                    #{tag.tagName}
+                                </h5>
+                                <h5 className={["count", isContain(currentTags, tag.tagName) ? "selected" : "unselected"].join(' ')}>
+                                    {"(" + tag.postList.length + ")"}
+                                </h5>
+                            </a>
                         </div>
                     );
                 }
@@ -30,7 +32,11 @@ class ContentViewSubtitle extends Component {
 
         return (
             <div className={["subtitle", "post-viewer", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
-                <h3 className="slur">{capitalizeFirstLetter(this.props.belongToMinor)}</h3>
+                <h3 className="slur">
+                    <a href="/nav/Blog">
+                        {capitalizeFirstLetter(this.props.belongToMinor)}
+                    </a>
+                </h3>
                 {renderTags(this.props.tagPayload, this.props.currentTags, this.props.belongToMinor)}
             </div>
         );

@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
+import {getParameterByName} from "../../../utils/stringModifier";
+import {isEmpty} from "../../../utils/nullChecker";
 
 class PageView extends Component {
     render() {
-        const page = parseInt(this.props.page);
+        const page = isNaN(parseInt(this.props.page)) ? 1 : parseInt(this.props.page);
         const numPosts = this.props.numPosts;
         const pageScale = this.props.pageScale;
 
@@ -19,8 +21,18 @@ class PageView extends Component {
         const finalPage = Math.floor(numPosts / pageScale) + 1;
         let isLast = false;
 
-        if (!isLoading) {
+        if (isLoading) {
+            return (
+                <div className="pages">
+                    {loadingView}
+                </div>
+            );
+        }
+        else {
             if(!isPageNeeded) return null;
+
+            const currentTag = getParameterByName('tag');
+            const urlQueryBase = isEmpty(currentTag) ? "?page=" : "?tag=" + currentTag + "&page=";
             for (let i = 0; i < numPageBundle; i++) {
                 if (pageStart + i > finalPage) {
                     isLast = true;
@@ -30,38 +42,35 @@ class PageView extends Component {
                     pages[i] = <span>{pageStart + i}</span>;
                 }
                 else {
-                    pages[i] = <a href={"?page=" + (pageStart + i)}>{pageStart + i}</a>;
+                    pages[i] = <a href={urlQueryBase + (pageStart + i)}>{pageStart + i}</a>;
                 }
             }
             if (page > 1) {
-                otherButtons.prev = <a href={"?page=" + (page - 1)}>{"<"}</a>;
+                otherButtons.prev = <a href={urlQueryBase + (page - 1)}>{"<"}</a>;
             }
             if (page > 10) {
-                otherButtons.prevBundle = <a href={"?page=" + (page - numPageBundle)}>{"<<"}</a>;
+                otherButtons.prevBundle = <a href={urlQueryBase + (page - numPageBundle)}>{"<<"}</a>;
             }
             if (page < finalPage) {
-                otherButtons.next = <a href={"?page=" + (page + 1)}>{">"}</a>;
+                otherButtons.next = <a href={urlQueryBase + (page + 1)}>{">"}</a>;
             }
             if (!isLast) {
-                otherButtons.nextBundle = <a href={"?page=" + (page + numPageBundle)}>{">>"}</a>;
+                otherButtons.nextBundle = <a href={urlQueryBase + (page + numPageBundle)}>{">>"}</a>;
             }
-        }
 
-        return (
-            <div className="pages">
-                {otherButtons.prevBundle}
-                {otherButtons.prev}
-                {pages}
-                {otherButtons.next}
-                {otherButtons.nextBundle}
-                {!isLoading &&
-                <p>
-                    Current page: {page} of <a href={"?" + "page=" + finalPage}>{finalPage}</a>
-                </p>
-                }
-                {isLoading && loadingView}
-            </div>
-        );
+            return (
+                <div className="pages">
+                    {otherButtons.prevBundle}
+                    {otherButtons.prev}
+                    {pages}
+                    {otherButtons.next}
+                    {otherButtons.nextBundle}
+                    <p>
+                        Current page: {page} of <a href={urlQueryBase + finalPage}>{finalPage}</a>
+                    </p>
+                </div>
+            );
+        }
     };
 }
 

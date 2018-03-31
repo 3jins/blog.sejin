@@ -24,15 +24,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var app = (0, _express2.default)();
 var port = process.env.SERVER_ENV === 'development' ? 5913 : 80;
+var publicPath = _path2.default.resolve(__dirname, "../../public"); // Directory would be deeper one step when it is transpiled.
 
-app.use(_express2.default.static(__dirname + "/../public"));
+app.use(_express2.default.static(publicPath));
 app.use('/posts', _posts2.default);
 app.use('/post', _post2.default);
 app.use('/tags', _tags2.default);
 app.get('/*', function (req, res) {
-    res.sendFile(_path2.default.resolve(__dirname + "/../public/index.html"));
+    res.sendFile(_path2.default.resolve(publicPath, "index.html"));
 });
-console.log(__dirname + "/../public/index.html");
 
 app.listen(port, function () {
     console.log('Express listening on port', port);

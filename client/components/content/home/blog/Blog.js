@@ -19,11 +19,13 @@ class Blog extends Component {
         this.contentsStartPosition = null;
         this.menuList = menuList;
         this.menuIdx = 2;
-        this.page = getParameterByName('page') === null ? 1 : getParameterByName('page');
+        this.tag = getParameterByName('tag');
+        this.page = getParameterByName('page');
         props.handleFetchPosts(
             '/posts',
             props.belongToMajor,
             props.belongToMinor ? props.belongToMinor : this.menuList[this.menuIdx].submenuList[0].title,
+            this.tag,
             this.page
         );
         props.handleChangeMenu(this.menuIdx);
@@ -36,7 +38,8 @@ class Blog extends Component {
                 '/posts',
                 nextProps.belongToMajor,
                 nextProps.belongToMinor,
-                1
+                this.tag,
+                this.page
             );
         }
         if (nextProps.scroll) {
@@ -113,6 +116,7 @@ class Blog extends Component {
                     {!isEmpty(postPayload.posts) && <BlogSubtitle
                         belongToMinor={this.props.postPayload.posts[0].belongToMinor}
                         tagPayload={this.props.tagPayload}
+                        selectedTag={this.tag}
                     />}
                     <div className="content-view-wrapper">
                         {this.props.loading && renderLoading()}
@@ -135,8 +139,8 @@ export default connect(
         scroll: state.menus.scroll,
     }),
     (dispatch) => ({
-        handleFetchPosts: (url, belongToMajor, belongToMinor, page) => {
-            const pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor, page));
+        handleFetchPosts: (url, belongToMajor, belongToMinor, tag, page) => {
+            const pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor, tag, page));
             pendedPostResult.postPayload
                 .then((postPayload) => {
                     const pendedTagResult = dispatch(actions.fetchTags('/tags', belongToMinor));

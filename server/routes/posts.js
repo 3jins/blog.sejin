@@ -1,11 +1,13 @@
 import express from 'express';
 import {Post} from '../db/models';
+import {isEmpty} from "../../utils/nullChecker";
 
 const router = express.Router();
 
 router.get('/:nav/:subnav?', function (req, res) {
     const nav = req.params.nav;
     const subnav = req.params.subnav;
+    const tag = req.query.tag;
     const page = req.query.page;
     const pageScale = 10;
     const findJson = {
@@ -13,8 +15,11 @@ router.get('/:nav/:subnav?', function (req, res) {
     };
     const sortJson = nav === 'About' ? "postNo" : {"postNo": -1};
 
-    if (typeof subnav !== 'undefined') {
+    if (!isEmpty(subnav)) {
         findJson["belongToMinor"] = subnav;
+    }
+    if (!isEmpty(tag)) {
+        findJson["tags"] = {$all: [tag]};
     }
 
     Post
