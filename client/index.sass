@@ -84,7 +84,7 @@ a
 .nav
   color: $primary-color
   background-color: $primary-bg-color
-  font: $menu-base-pixel "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
+  font: $menu-base-pixel #{"Source Code Pro"}, #{"나눔바른고딕 Light"}, #{"Bitstream Vera Sans Mono"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
   text-align: center
   height: 100vh
   .sticky
@@ -162,35 +162,10 @@ a
 .content
   color: $secondary-color
   background-color: $secondary-bg-color
-  font: $content-base-pixel "나눔바른고딕 Light", "Source Code Pro", "Lucida Grande", Helvetica, Arial, sans-serif
+  font: $content-base-pixel #{"나눔바른고딕 Light"}, #{"Source Code Pro"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
   line-height: 2em
-  h1, h2, h3, h4, h5, h6
-    font-family: "고양덕양 B", "나눔바른고딕 Light", "Source Code Pro", "Lucida Grande", Helvetica, Arial, sans-serif
   a
     color: $link-color
-  .react-router-link
-    color: $secondary-color
-  del
-    color: $less-light-color
-  blockquote
-    font-style: italic
-    border-left: solid 5px #444
-    padding: 0.5em 2.5em
-    margin: 0
-  table
-    width: 100%
-    line-height: 1.2em
-  img
-    display: table
-    margin: 0 auto
-  pre
-    margin: 1.5em 5%
-    padding: 0.7em
-    border-radius: 1em
-    line-height: 1.4em
-    box-shadow: 5px 5px 10px 5px #aaa
-    code
-      font: $code-base-pixel Consolas, "Source Code Pro", "Bitstream Vera Sans Mono", "나눔바른고딕 Light", "Lucida Grande", Helvetica, Arial, sans-serif
 
   .pages
     text-align: center
@@ -221,7 +196,7 @@ a
       flex: 1
       padding: $top-bottom-margin 0
       text-align: center
-      font-family: "Source Code Pro", "나눔바른고딕 Light", "Lucida Grande", Helvetica, Arial, sans-serif
+      font-family: #{"Source Code Pro"}, #{"나눔바른고딕 Light"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
       background-color: $secondary-bg-color
       animation-name: bg-color-light-to-secondary
       animation-duration: $color-change-duration
@@ -275,6 +250,31 @@ a
     /* body */
     .content-view-wrapper
       flex: 5
+      h1, h2, h3, h4, h5, h6
+        font-family: #{"고양덕양 B"}, #{"나눔바른고딕 Light"}, #{"Source Code Pro"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
+      .react-router-link
+        color: $secondary-color
+      del
+        color: $less-light-color
+      blockquote
+        font-style: italic
+        border-left: solid 5px #444
+        padding: 0.5em 2.5em
+        margin: 0
+      table
+        width: 100%
+        line-height: 1.2em
+      img
+        display: table
+        margin: 0 auto
+      pre
+        margin: 1.5em 5%
+        padding: 0.7em
+        border-radius: 1em
+        line-height: 1.4em
+        box-shadow: 5px 5px 10px 5px #aaa
+        code
+          font: $code-base-pixel Consolas, #{"Source Code Pro"}, #{"Bitstream Vera Sans Mono"}, #{"나눔바른고딕 Light"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
       .content-view
         $read-more-height: 2em
         position: relative
@@ -456,7 +456,7 @@ a
 .footer
   color: $more-light-color
   background-color: $primary-bg-color
-  font: $menu-base-pixel "Source Code Pro", "나눔바른고딕 Light", "Bitstream Vera Sans Mono", "Lucida Grande", Helvetica, Arial, sans-serif
+  font: $menu-base-pixel #{"Source Code Pro"}, #{"나눔바른고딕 Light"}, #{"Bitstream Vera Sans Mono"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
   height: calc(100vh - #{$menu-height})
   a
     color: $primary-color
@@ -494,3 +494,4 @@ a
   color: $primary-color
   background-color: $primary-bg-color
   vertical-align: middle
+  font: $menu-base-pixel #{"고양덕양 B"}, #{"나눔바른고딕 Light"}, #{"Source Code Pro"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
