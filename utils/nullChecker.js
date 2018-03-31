@@ -1,4 +1,4 @@
-const isEmpty = (obj) => {
+const isEmpty = (obj, isZeroEmpty=false) => {
     if (obj === null) return true;
     switch(typeof obj) {
         case 'undefined':
@@ -8,7 +8,7 @@ const isEmpty = (obj) => {
         case 'string':
             return obj === "";
         case 'number':
-            return obj === 0;
+            return isZeroEmpty && (obj === 0);
         case 'boolean':
             return !obj;    // I'll consider false as an empty boolean
     }
