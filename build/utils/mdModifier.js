@@ -18,12 +18,34 @@ var mdConverter = function mdConverter(content) {
     return converter.convert(content);
 };
 
+/* Function only for highlightCode(converted) */
+var highlightNestedCode = function highlightNestedCode(li) {
+    var numLiChildren = li.children.length;
+    for (var i = 0; i < numLiChildren; i++) {
+        if (li.children[i].tagName === "UL") {
+            var numLis = li.children[i].children.length;
+            for (var j = 0; j < numLis; j++) {
+                highlightNestedCode(li.children[i].children[j]);
+            }
+        }
+        if (li.children[i].tagName === "PRE") {
+            Highlight.highlightBlock(li.children[i]);
+        }
+    }
+};
+
 var highlightCode = function highlightCode(converted) {
     if (!converted) return false;
     if (!converted.children || converted.children.length < 2) return false;
     var elements = converted.children[1].children;
     var numElements = elements.length;
     for (var i = 0; i < numElements; i++) {
+        if (elements[i].tagName === "UL") {
+            var numLis = elements[i].children.length;
+            for (var j = 0; j < numLis; j++) {
+                highlightNestedCode(elements[i].children[j]);
+            }
+        }
         if (elements[i].tagName === "PRE") {
             Highlight.highlightBlock(converted.children[1].children[i]);
         }
