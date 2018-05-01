@@ -132,7 +132,7 @@ export default connect(
             // Handle comments count fetching process
             const postPayload = await pendedPostResult.postPayload;
             const commentsCountPayload = postPayload.posts.map(async (post) => {
-                const pendedCommentsCount = dispatch(actions.fetchCommentsCount('/postViewer/' + post.postNo));
+                const pendedCommentsCount = dispatch(actions.fetchCommentsCount('/postviewer/' + post.postNo));
                 const resolvedCommentsCountPayload = await pendedCommentsCount.commentsCountPayload;
                 // console.log(resolvedCommentsCountPayload);
                 return resolvedCommentsCountPayload.share.comment_count;    // await 없어도 0 나옴.
