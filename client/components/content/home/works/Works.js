@@ -79,11 +79,11 @@ class Works extends Component {
             );
         };
 
-        const renderContents = (postPayload) => {
+        const renderContents = (postPayload, commentsCountPayload) => {
             if (isEmpty(postPayload.posts)) {
                 return <NoPostPreview/>
             }
-            return postPayload.posts.map((post) => {
+            return postPayload.posts.map((post, idx) => {
                 return (
                     <div key={post._id} className="content-body">
                         <WorksContent
@@ -92,8 +92,8 @@ class Works extends Component {
                             belongToMinor={post.belongToMinor}
                             title={post.title}
                             content={post.content}
-                            dataUpdated={post.dataUpdated}
-                            onReadMore={this.props.handleFetchPost}
+                            dateCreated={post.dateCreated}
+                            commentsCount={commentsCountPayload[idx]}
                         />
                     </div>
                 );
@@ -109,7 +109,7 @@ class Works extends Component {
                     <title>{"Works :: " + blogTitle}</title>
                 </Helmet>
                 {this.props.loading && renderLoading()}
-                {!this.props.loading && renderContents(this.props.postPayload)}
+                {!this.props.loading && renderContents(this.props.postPayload, this.props.commentsCountPayload)}
                 <PageView page={this.page} numPosts={this.props.postPayload.numPosts} pageScale={10}/>
             </div>
         );
@@ -120,17 +120,30 @@ export default connect(
     (state) => ({
         postPayload: state.posts.postPayload,
         loading: state.posts.loading,
+        commentsCountPayload: state.posts.commentsCountPayload,
         menuActionType: state.menus.menuActionType,
         selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
         scroll: state.menus.scroll,
     }),
     (dispatch) => ({
-        handleFetchPosts: (url, belongToMajor, belongToMinor, tag, page) => {
+        handleFetchPosts: async (url, belongToMajor, belongToMinor, tag, page) => {
             const pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor, tag, page));
-            pendedPostResult.postPayload
-                .then((response) => {
-                    dispatch(actions.fetchSuccess(response));
-                });
+
+            // Handle comments count fetching process
+            const postPayload = await pendedPostResult.postPayload;
+            const commentsCountPayload = postPayload.posts.map(async (post) => {
+                const pendedCommentsCount = dispatch(actions.fetchCommentsCount('/postViewer/' + post.postNo));
+                const resolvedCommentsCountPayload = await pendedCommentsCount.commentsCountPayload;
+                // console.log(resolvedCommentsCountPayload);
+                return resolvedCommentsCountPayload.share.comment_count;    // await 없어도 0 나옴.
+            });
+
+            // Convert the array of promises to an array of values
+            for(let i = 0; i < commentsCountPayload.length; i++) {
+                commentsCountPayload[i] = await commentsCountPayload[i];
+            }
+
+            dispatch(actions.fetchSuccess(postPayload, [], commentsCountPayload));
         },
         handleFetchPost: (url, postNo) => {
             const pendingResult = dispatch(actions.fetchPost(url, postNo));

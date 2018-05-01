@@ -87,11 +87,12 @@ class Blog extends Component {
             );
         };
 
-        const renderContents = (postPayload) => {
-            if (isEmpty(postPayload.posts)) {
+        const renderContents = (postPayload, commentsCountPayload) => {
+            if (isEmpty(postPayload.posts) || isEmpty(commentsCountPayload)) {
                 return <NoPostPreview/>;
             }
-            return postPayload.posts.map((post) => {
+            console.log("???");
+            return postPayload.posts.map((post, idx) => {
                 return (
                     <BlogContent
                         key={post._id}
@@ -99,8 +100,9 @@ class Blog extends Component {
                         belongToMajor={post.belongToMajor}
                         title={post.title}
                         content={post.content}
-                        dataUpdated={post.dataUpdated}
-                        onReadMore={this.props.handleFetchPost}
+                        dateCreated={post.dateCreated}
+                        tags={post.tags}
+                        commentsCount={commentsCountPayload[idx]}
                     />
                 );
             });
@@ -120,7 +122,7 @@ class Blog extends Component {
                     />}
                     <div className="content-view-wrapper">
                         {this.props.loading && renderLoading()}
-                        {!this.props.loading && renderContents(this.props.postPayload, this.props.tagPayload)}
+                        {!this.props.loading && renderContents(this.props.postPayload, this.props.commentsCountPayload)}
                         <PageView page={this.page} numPosts={this.props.postPayload.numPosts} pageScale={10}/>
                     </div>
                 </div>
@@ -134,21 +136,31 @@ export default connect(
         postPayload: state.posts.postPayload,
         loading: state.posts.loading,
         tagPayload: state.posts.tagPayload,
+        commentsCountPayload: state.posts.commentsCountPayload,
         menuActionType: state.menus.menuActionType,
         selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
         scroll: state.menus.scroll,
     }),
     (dispatch) => ({
-        handleFetchPosts: (url, belongToMajor, belongToMinor, tag, page) => {
+        handleFetchPosts: async (url, belongToMajor, belongToMinor, tag, page) => {
             const pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor, tag, page));
-            pendedPostResult.postPayload
-                .then((postPayload) => {
-                    const pendedTagResult = dispatch(actions.fetchTags('/tags', belongToMinor));
-                    pendedTagResult.tagPayload
-                        .then((tagPayload) => {
-                            dispatch(actions.fetchSuccess(postPayload, tagPayload));
-                        })
-                });
+            const pendedTagResult = dispatch(actions.fetchTags('/tags', belongToMinor));
+
+            // Handle comments count fetching process
+            const postPayload = await pendedPostResult.postPayload;
+            const commentsCountPayload = postPayload.posts.map(async (post) => {
+                const pendedCommentsCount = dispatch(actions.fetchCommentsCount('/postViewer/' + post.postNo));
+                const resolvedCommentsCountPayload = await pendedCommentsCount.commentsCountPayload;
+                // console.log(resolvedCommentsCountPayload);
+                return resolvedCommentsCountPayload.share.comment_count;    // await 없어도 0 나옴.
+            });
+
+            // Convert the array of promises to an array of values
+            for(let i = 0; i < commentsCountPayload.length; i++) {
+                commentsCountPayload[i] = await commentsCountPayload[i];
+            }
+
+            dispatch(actions.fetchSuccess(postPayload, await pendedTagResult.tagPayload, commentsCountPayload));
         },
         handleFetchPost: (url, postID) => {
             const pendedPostResult = dispatch(actions.fetchPost(url, postID));

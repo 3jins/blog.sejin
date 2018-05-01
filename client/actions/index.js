@@ -45,7 +45,7 @@ export function fetchPost(url, postNo) {
 
     return {
         type: posts.FETCH_POST,
-        loading: true,
+        // loading: true,
         postPayload: postPayload,
     }
 }
@@ -61,8 +61,26 @@ export function fetchTags(url, belongToMinor) {
 
     return {
         type: posts.FETCH_TAGS,
-        areTagsLoading: true,
+        // areTagsLoading: true,
         tagPayload: tagPayload,
+    };
+}
+
+export function fetchCommentsCount(url) {
+    const domain = "http://enhanced.kr";
+    // https://graph.facebook.com/v2.4/?fields=share{comment_count}&id=http://enhanced.kr/postviewer/121
+    const graphAPI = "https://graph.facebook.com/v2.4/?fields=share{comment_count}&id=";
+    const commentsCountPayload = fetch(graphAPI + domain + url, {
+        method: 'get',
+        headers: headers
+    })
+        .then(res => res.json())
+        .catch(err => console.log(err));
+
+    return {
+        type: posts.FETCH_COMMENTS_COUNT,
+        loading: true,
+        commentsCountPayload: commentsCountPayload,
     };
 }
 
@@ -76,12 +94,13 @@ export function createPost(jsonData) {
     //     .catch(err => console.log(err));
 }
 
-export function fetchSuccess(postPayload, tagPayload = []) {
+export function fetchSuccess(postPayload, tagPayload = [], commentsCountPayload = []) {
     return {
         type: posts.FETCH_SUCCESS,
         loading: false,
         postPayload: postPayload,
         tagPayload: tagPayload,
+        commentsCountPayload: commentsCountPayload,
     };
 }
 
