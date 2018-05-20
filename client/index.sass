@@ -23,6 +23,7 @@ $side-margin: 12em
 $top-bottom-margin: 3em
 $nested-side-margin: 6em
 $nested-side-margin-small: 10%
+$retrieve-nested-side-margin-small: calc(#{$nested-side-margin-small} / (100% - 2 * #{$nested-side-margin-small})) // 12.5%
 $content-width: calc(100vw - #{$side-margin} - 2 * #{$nested-side-margin})
 $scrollbar-width: 10px
 
@@ -266,15 +267,26 @@ a
       table
         width: 100%
         line-height: 1.2em
+        border-collapse: collapse
+        th
+          padding: 0
       img
         display: table
         margin: 0 auto
+        @media (max-width: $break)
+          width: calc(10 * #{$retrieve-nested-side-margin-small})
+          margin-left: -$retrieve-nested-side-margin-small
       pre
         margin: 1.5em 5%
         padding: 0.7em
         border-radius: 1em
         line-height: 1.4em
         box-shadow: 5px 5px 10px 5px #aaa
+        @media (max-width: $break)
+          width: calc(10 * #{$retrieve-nested-side-margin-small} - 0.7em * 2)
+          margin-left: -$retrieve-nested-side-margin-small
+          border-radius: 0
+          box-shadow: 0 5px 10px 0 #aaa
         code
           font: $code-base-pixel Consolas, #{"Source Code Pro"}, #{"Bitstream Vera Sans Mono"}, #{"나눔바른고딕 Light"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
       .content-view
