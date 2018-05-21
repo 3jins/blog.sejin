@@ -69,6 +69,7 @@ class ContentView extends Component {
                             post={this.props.post}
                             belongToMajor={belongToMajor}
                             postNo={this.props.postNo}
+                            tags={this.props.tagPayload}
                         />
                     </div>
                 </div>

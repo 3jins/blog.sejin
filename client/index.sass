@@ -11,6 +11,7 @@ $dark-color: rgb(128, 128, 128)
 $more-dark-color: rgb(64, 64, 64)
 $point-color: rgb(255, 96, 64)
 $link-color: rgb(128, 128, 255)
+$quote-color: rgb(224, 224, 255)
 
 $menu-base-pixel: 14px
 $content-base-pixel: 14px
@@ -255,13 +256,19 @@ a
       flex: 5
       h1, h2, h3, h4, h5, h6
         font-family: #{"고양덕양 B"}, #{"나눔바른고딕 Light"}, #{"Source Code Pro"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
+      h2::after
+        content: ''
+        display: block
+        width: 100%
+        height: 1px
+        background: black
       .react-router-link
         color: $secondary-color
       del
         color: $less-light-color
       blockquote
         font-style: italic
-        border-left: solid 5px #444
+        border-left: solid 0.8em $quote-color
         padding: 0.5em 2.5em
         margin: 0
       table
@@ -316,6 +323,10 @@ a
               background-color: $light-color
             @media (max-width: $break)
               margin: $top-bottom-margin $nested-side-margin-small
+        .post-title-wrapper
+          margin: 3em 0
+          h1
+            margin: 0
         .content-preview
           height: calc(40vh - #{$read-more-height})
           overflow: hidden
