@@ -7,6 +7,10 @@ import {isEmpty} from "../../../../utils/nullChecker";
 
 class ContentViewContent extends Component {
     render() {
+        let url = window.location.href;
+        if(url.length > 4 && url[4] === 's') {
+            url = ['http', url.slice(5, url.length)].join('');
+        }
         const renderContents = (post) => {
             if (isEmpty(post)) {
                 return (
@@ -43,7 +47,7 @@ class ContentViewContent extends Component {
                         <FacebookProvider appId="1662680190479239" language="ko_KR">
                             <Comments
                                 className="fb-comments"
-                                href={window.location.href}
+                                href={url}
                                 width="100%"
                                 numPosts={10}
                             />
