@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import Contact from './Contact';
-import githubImg from '../../images/github_white.png';
-import facebookImg from '../../images/facebook_white.png';
-import linkedinImg from '../../images/linkedin_white.png';
-import mailImg from '../../images/mail_white.png';
+import githubImg from '../../res/images/github_white.png';
+import facebookImg from '../../res/images/facebook_white.png';
+import linkedinImg from '../../res/images/linkedin_white.png';
+import mailImg from '../../res/images/mail_white.png';
 
 class Footer extends Component {
     constructor(props) {

@@ -1,16 +1,16 @@
 import React from 'react';
 import {mdConverter} from "../../../../../utils/mdModifier";
 import NoPostPreview from "../NoPostPreview";
-import profileImg from "../../../../images/profile.png";
-import frontEndImg from "../../../../images/frontEnd.png";
-import uiuxImg from "../../../../images/uiux.png";
-import openSourceImg from "../../../../images/openSource.png";
-import birthImg from "../../../../images/birth.png";
-import eduImg from "../../../../images/edu.png";
-import prizeImg from "../../../../images/prize.png";
-import workImg from "../../../../images/work.png";
-import militaryImg from "../../../../images/military.png";
-import etcImg from "../../../../images/etc.png";
+import profileImg from "../../../../res/images/profile.png";
+import frontEndImg from "../../../../res/images/frontEnd.png";
+import uiuxImg from "../../../../res/images/uiux.png";
+import openSourceImg from "../../../../res/images/openSource.png";
+import birthImg from "../../../../res/images/birth.png";
+import eduImg from "../../../../res/images/edu.png";
+import prizeImg from "../../../../res/images/prize.png";
+import workImg from "../../../../res/images/work.png";
+import militaryImg from "../../../../res/images/military.png";
+import etcImg from "../../../../res/images/etc.png";
 import {camelCaseToHyphen} from "../../../../../utils/stringModifier";
 
 const splitter = (content, belongToMinor) => {
