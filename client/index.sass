@@ -1,3 +1,15 @@
+@font-face
+  font-family: GoyangDeokyangB
+  src: url("res/fonts/고양덕양 B.ttf")
+
+@font-face
+  font-family: NanumBarunGothicLight
+  src: url(./res/fonts/NanumBarunGothicLight.ttf)
+
+@font-face
+  font-family: SourceCodePro-Regular
+  src: url(./res/fonts/SourceCodePro-Regular.ttf)
+
 $break: 800px
 
 $primary-color: rgb(255, 255, 255)
@@ -86,7 +98,7 @@ a
 .nav
   color: $primary-color
   background-color: $primary-bg-color
-  font: $menu-base-pixel #{"Source Code Pro"}, #{"나눔바른고딕 Light"}, #{"Bitstream Vera Sans Mono"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
+  font: $menu-base-pixel #{SourceCodePro-Regular}, #{NanumBarunGothicLight}, #{"Bitstream Vera Sans Mono"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
   text-align: center
   height: 100vh
   .sticky
@@ -164,7 +176,7 @@ a
 .content
   color: $secondary-color
   background-color: $secondary-bg-color
-  font: $content-base-pixel #{"나눔바른고딕 Light"}, #{"Source Code Pro"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
+  font: $content-base-pixel #{NanumBarunGothicLight}, #{SourceCodePro-Regular}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
   line-height: 2em
   a
     color: $link-color
@@ -198,7 +210,7 @@ a
       flex: 1
       padding: $top-bottom-margin 0
       text-align: center
-      font-family: #{"Source Code Pro"}, #{"나눔바른고딕 Light"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
+      font-family: #{SourceCodePro-Regular}, #{NanumBarunGothicLight}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
       background-color: $secondary-bg-color
       animation-name: bg-color-light-to-secondary
       animation-duration: $color-change-duration
@@ -255,7 +267,7 @@ a
     .content-view-wrapper
       flex: 5
       h1, h2, h3, h4, h5, h6
-        font-family: #{"고양덕양 B"}, #{"나눔바른고딕 Light"}, #{"Source Code Pro"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
+        font-family: #{GoyangDeokyangB}, #{NanumBarunGothicLight}, #{SourceCodePro-Regular}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
       h2::after
         content: ''
         display: block
@@ -295,7 +307,7 @@ a
           border-radius: 0
           box-shadow: 0 5px 10px 0 #aaa
         code
-          font: $code-base-pixel Consolas, #{"Source Code Pro"}, #{"Bitstream Vera Sans Mono"}, #{"나눔바른고딕 Light"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
+          font: $code-base-pixel Consolas, #{SourceCodePro-Regular}, #{"Bitstream Vera Sans Mono"}, #{NanumBarunGothicLight}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
       .content-view
         $read-more-height: 2em
         position: relative
@@ -489,7 +501,7 @@ a
 .footer
   color: $more-light-color
   background-color: $primary-bg-color
-  font: $menu-base-pixel #{"Source Code Pro"}, #{"나눔바른고딕 Light"}, #{"Bitstream Vera Sans Mono"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
+  font: $menu-base-pixel #{SourceCodePro-Regular}, #{NanumBarunGothicLight}, #{"Bitstream Vera Sans Mono"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
   height: calc(100vh - #{$menu-height})
   a
     color: $primary-color
@@ -527,4 +539,4 @@ a
   color: $primary-color
   background-color: $primary-bg-color
   vertical-align: middle
-  font: $menu-base-pixel #{"고양덕양 B"}, #{"나눔바른고딕 Light"}, #{"Source Code Pro"}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
+  font: $menu-base-pixel #{GoyangDeokyangB}, #{NanumBarunGothicLight}, #{SourceCodePro-Regular}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
