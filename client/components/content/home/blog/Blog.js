@@ -91,7 +91,6 @@ class Blog extends Component {
             if (isEmpty(postPayload.posts) || isEmpty(commentsCountPayload)) {
                 return <NoPostPreview/>;
             }
-            console.log("???");
             return postPayload.posts.map((post, idx) => {
                 return (
                     <BlogContent
