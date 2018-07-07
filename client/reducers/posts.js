@@ -7,7 +7,7 @@ const initialState = {
     postPayload: {},
     tagPayload: [],
     commentsCountPayload: [],
-    loading: false,
+    isLoaded: false,
 };
 
 export default (state=initialState, action) => {
@@ -16,32 +16,28 @@ export default (state=initialState, action) => {
             return {
                 ...state,
                 postActionType: action.type,
-                loading: action.loading,
             };
         case FETCH_POST:
             return {
                 ...state,
                 postActionType: action.type,
-                loading: action.loading,
             };
         case FETCH_TAGS:
             return {
                 ...state,
-                loading: action.loading,
             };
             break;
         case FETCH_COMMENTS_COUNT:
             return {
                 ...state,
-                loading: action.loading,
             };
         case FETCH_SUCCESS:
             return {
                 ...state,
+                isLoaded: action.isLoaded,
                 postPayload: action.postPayload,
                 tagPayload: action.tagPayload,
                 commentsCountPayload: action.commentsCountPayload,
-                loading: action.loading,
             };
         default:
             return initialState;

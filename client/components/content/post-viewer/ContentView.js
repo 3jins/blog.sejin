@@ -7,6 +7,7 @@ import ContentViewSubtitle from "./ContentViewSubtitle";
 import {blogTitle, menuList} from "../../../constants";
 import {isEmpty} from "../../../../utils/nullChecker";
 import Helmet from "react-helmet/es/Helmet";
+import NotFoundView from "../NotFoundView";
 
 class ContentView extends Component {
     constructor(props) {
@@ -25,7 +26,7 @@ class ContentView extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return !isEmpty(nextProps.post) || !isEmpty(nextProps.tagPayload);
+        return nextProps.isLoaded;
     }
 
     render() {
@@ -56,8 +57,14 @@ class ContentView extends Component {
                         {!isEmpty(this.props.post) && this.props.post[0].title + " :: " + blogTitle}
                     </title>
                 </Helmet>
+                {!this.props.isLoaded && /* loading */
+                    <LoadingView/>
+                }
+                {this.props.isLoaded && isEmpty(this.props.post) && /* not found */
+                    <NotFoundView/>
+                }
+                {this.props.isLoaded && !isEmpty(this.props.post) && /* render */
                 <div className="content-body">
-                    {this.props.loading && <LoadingView isTable={true}/>}
                     {belongToMajor !== 'Works' &&
                     <ContentViewSubtitle
                         tagPayload={this.props.tagPayload}
@@ -73,6 +80,7 @@ class ContentView extends Component {
                         />
                     </div>
                 </div>
+                }
             </div>
         );
     }
@@ -83,24 +91,15 @@ export default ContentView = connect(
         post: state.posts.postPayload.post,
         tagPayload: state.posts.tagPayload,
         menuActionType: state.menus.menuActionType,
+        isLoaded: state.posts.isLoaded,
     }),
     (dispatch) => ({
-        handleFetchPost: (url, postNo) => {
-            const pendingResult = dispatch(actions.fetchPost(url, postNo));
-            pendingResult.postPayload
-                .then((response) => {
-                    dispatch(actions.fetchSuccess(response));
-                });
-
-            const pendedPostResult = dispatch(actions.fetchPost(url, postNo));
-            pendedPostResult.postPayload
-                .then((postPayload) => {
-                    const pendedTagResult = dispatch(actions.fetchTags('/tags', postPayload.post[0].belongToMinor));
-                    pendedTagResult.tagPayload
-                        .then((tagPayload) => {
-                            dispatch(actions.fetchSuccess(postPayload, tagPayload));
-                        })
-                });
+        handleFetchPost: async (url, postNo) => {
+            const postPayload = await dispatch(actions.fetchPost(url, postNo)).postPayload;
+            if(isEmpty(postPayload.post))  // when the post is not found
+                return dispatch(actions.fetchSuccess(postPayload));
+            const tagPayload = await dispatch(actions.fetchTags('/tags', postPayload.post[0].belongToMinor)).tagPayload;
+            dispatch(actions.fetchSuccess(postPayload, tagPayload));
         },
         handleChangeMenu: (post, menuList) => {
             const belongToMajor = post[0].belongToMajor;

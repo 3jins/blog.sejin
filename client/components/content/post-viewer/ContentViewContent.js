@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import {highlightCode, mdConverter} from "../../../../utils/mdModifier";
-import LoadingView from '../LoadingView';
 import {decapitalizeFirstLetter} from "../../../../utils/stringModifier";
 import FacebookProvider, {Comments} from 'react-facebook';
-import {isEmpty} from "../../../../utils/nullChecker";
 
 class ContentViewContent extends Component {
     render() {
@@ -12,13 +10,6 @@ class ContentViewContent extends Component {
             url = ['http', url.slice(5, url.length)].join('');
         }
         const renderContents = (post) => {
-            if (isEmpty(post)) {
-                return (
-                    <div>
-                        <LoadingView isTable={false}/>
-                    </div>
-                );
-            }
             const postTitle = post[0].title;
             const postContent = mdConverter(post[0].content);
             const tags = post[0].tags;

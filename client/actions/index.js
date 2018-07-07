@@ -29,7 +29,6 @@ export function fetchPosts(url, belongToMajor, belongToMinor, tag, page) {
         .catch(err => console.log(err));
     return {
         type: posts.FETCH_POSTS,
-        loading: true,
         postPayload: postPayload,
     };
 }
@@ -45,7 +44,6 @@ export function fetchPost(url, postNo) {
 
     return {
         type: posts.FETCH_POST,
-        // loading: true,
         postPayload: postPayload,
     }
 }
@@ -61,7 +59,6 @@ export function fetchTags(url, belongToMinor) {
 
     return {
         type: posts.FETCH_TAGS,
-        // areTagsLoading: true,
         tagPayload: tagPayload,
     };
 }
@@ -81,7 +78,6 @@ export function fetchCommentsCount(url) {
     console.log(commentsCountPayload);
     return {
         type: posts.FETCH_COMMENTS_COUNT,
-        loading: true,
         commentsCountPayload: commentsCountPayload,
     };
 }
@@ -99,7 +95,7 @@ export function createPost(jsonData) {
 export function fetchSuccess(postPayload, tagPayload = [], commentsCountPayload = []) {
     return {
         type: posts.FETCH_SUCCESS,
-        loading: false,
+        isLoaded: true,
         postPayload: postPayload,
         tagPayload: tagPayload,
         commentsCountPayload: commentsCountPayload,
