@@ -34,8 +34,20 @@ var removeQueryParameters = function removeQueryParameters(url) {
     return url.substring(0, idx);
 };
 
+var replaceAll = function replaceAll(str, prev, after) {
+    var lastIndex = 0;
+    while (true) {
+        lastIndex = str.indexOf(prev, lastIndex);
+        if (lastIndex < 0) break;
+        str = str.replace(prev, after);
+        lastIndex += after.length + 1;
+    }
+    return str;
+};
+
 exports.capitalizeFirstLetter = capitalizeFirstLetter;
 exports.decapitalizeFirstLetter = decapitalizeFirstLetter;
 exports.camelCaseToHyphen = camelCaseToHyphen;
 exports.getParameterByName = getParameterByName;
 exports.removeQueryParameters = removeQueryParameters;
+exports.replaceAll = replaceAll;

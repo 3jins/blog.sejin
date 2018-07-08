@@ -12,6 +12,7 @@ import Helmet from "react-helmet/es/Helmet";
 import {getParameterByName} from "../../../../../utils/stringModifier";
 import {isEmpty} from "../../../../../utils/nullChecker";
 import PageView from "../../PageView";
+import NotFoundView from "../../NotFoundView";
 
 class Blog extends Component {
     constructor(props) {
@@ -114,14 +115,23 @@ class Blog extends Component {
                     <title>{"Blog :: " + blogTitle}</title>
                 </Helmet>
                 <div className="content-body">
-                    {!isEmpty(postPayload.posts) && <BlogSubtitle
-                        belongToMinor={this.props.postPayload.posts[0].belongToMinor}
-                        tagPayload={this.props.tagPayload}
-                        selectedTag={this.tag}
-                    />}
+                    {this.props.isLoaded && !isEmpty(this.props.postPayload.posts) &&
+                        <BlogSubtitle
+                            belongToMinor={this.props.postPayload.posts[0].belongToMinor}
+                            tagPayload={this.props.tagPayload}
+                            selectedTag={this.tag}
+                        />
+                    }
                     <div className="content-view-wrapper">
-                        {this.props.loading && renderLoading()}
-                        {!this.props.loading && renderContents(this.props.postPayload, this.props.commentsCountPayload)}
+                        {!this.props.isLoaded && /* loading */
+                            <LoadingView/>
+                        }
+                        {this.props.isLoaded && isEmpty(this.props.postPayload.posts) && /* not found */
+                            <NotFoundView/>
+                        }
+                        {this.props.isLoaded && !isEmpty(this.props.postPayload.posts) && /* render */
+                            renderContents(this.props.postPayload, this.props.commentsCountPayload)
+                        }
                         <PageView page={this.page} numPosts={this.props.postPayload.numPosts} pageScale={10}/>
                     </div>
                 </div>
@@ -133,7 +143,7 @@ class Blog extends Component {
 export default connect(
     (state) => ({
         postPayload: state.posts.postPayload,
-        loading: state.posts.loading,
+        isLoaded: state.posts.isLoaded,
         tagPayload: state.posts.tagPayload,
         commentsCountPayload: state.posts.commentsCountPayload,
         menuActionType: state.menus.menuActionType,
@@ -152,7 +162,7 @@ export default connect(
             });
 
             // Convert the array of promises to an array of values
-            for(let i = 0; i < commentsCountPayload.length; i++) {
+            for (let i = 0; i < commentsCountPayload.length; i++) {
                 commentsCountPayload[i] = await commentsCountPayload[i];
             }
 

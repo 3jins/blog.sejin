@@ -21,9 +21,7 @@ var _highlight = require('../node_modules/highlight.js');
 
 var Highlight = _interopRequireWildcard(_highlight);
 
-require('../node_modules/katex/dist/katex.min.css');
-
-require('../node_modules/highlight.js/styles/monokai.css');
+var _stringModifier = require('./stringModifier');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -33,7 +31,8 @@ var mdConverter = function mdConverter(content) {
     var markdownIt = new _markdownIt2.default();
     var markdownItKatex = markdownIt.use(_markdownItKatex2.default);
     var renderedString = markdownItKatex.render(content);
-    return (0, _htmlReactParser2.default)(renderedString.replace('<pre', '<pre class="hljs"'));
+    // return Parser(renderedString.replace('<pre', '<pre class="hljs"'));
+    return (0, _htmlReactParser2.default)((0, _stringModifier.replaceAll)(renderedString, '<pre', '<pre class="hljs"'));
 };
 
 /* Function only for highlightCode(converted) */

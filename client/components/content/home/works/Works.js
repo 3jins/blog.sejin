@@ -103,10 +103,10 @@ class Works extends Component {
                 {!this.props.isLoaded && /* loading */
                 <LoadingView/>
                 }
-                {this.props.isLoaded && isEmpty(this.props.postPayload) && /* not found */
+                {this.props.isLoaded && isEmpty(this.props.postPayload.posts) && /* not found */
                 <NotFoundView/>
                 }
-                {this.props.isLoaded && !isEmpty(this.props.postPayload) && /* render */
+                {this.props.isLoaded && !isEmpty(this.props.postPayload.posts) && /* render */
                     renderContents(this.props.postPayload, this.props.commentsCountPayload)
                 }
                 <PageView page={this.page} numPosts={this.props.postPayload.numPosts} pageScale={10}/>
@@ -127,6 +127,7 @@ export default connect(
     (dispatch) => ({
         handleFetchPosts: async (url, belongToMajor, belongToMinor, tag, page) => {
             const postPayload = await dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor, tag, page)).postPayload;
+            console.log(belongToMinor, postPayload);
 
             // Handle comments count fetching process
             const commentsCountPayload = postPayload.posts.map(async (post) => {
@@ -136,8 +137,7 @@ export default connect(
 
             // Convert the array of promises to an array of values
             for (let i = 0; i < commentsCountPayload.length; i++) {
-                commentsCountPayload[i] = commentsCountPayload[i];
-                // commentsCountPayload[i] = await commentsCountPayload[i];    // await is needed?
+                commentsCountPayload[i] = await commentsCountPayload[i];
             }
 
             dispatch(actions.fetchSuccess(postPayload, [], commentsCountPayload));
