@@ -1,13 +1,14 @@
 import MarkdownIt from 'markdown-it';
+import MarkdownItKatex from 'markdown-it-katex';
+import '../node_modules/katex/dist/katex.min.css';
 import * as Highlight from "../node_modules/highlight.js";
 import Parser from 'html-react-parser';
 
 const mdConverter = (content) => {
     const markdownIt = new MarkdownIt();
-    const renderedString = markdownIt.render(content);
+    const markdownItKatex = markdownIt.use(MarkdownItKatex);
+    const renderedString = markdownItKatex.render(content);
     return Parser(renderedString.replace('<pre', '<pre class="hljs"'));
-    // const converter = new Converter({tables: true, strikethrough: true});
-    // return converter.convert(content);
 };
 
 /* Function only for highlightCode(converted) */
@@ -44,6 +45,5 @@ const highlightCode = (converted) => {
     }
     Highlight.initHighlightingOnLoad();
 };
-
 
 export {mdConverter, highlightCode};

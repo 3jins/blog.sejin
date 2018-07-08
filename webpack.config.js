@@ -29,7 +29,7 @@ module.exports = {
                 loader: 'style-loader!css-loader'
             },
             {
-                test: /\.png$|\.jpg$|\.ttf$/,
+                test: /\.png$|\.jpg$|\.ttf$|\.eot$|\.woff$|\.woff2$/,
                 loader: 'url-loader'
             }
         ]

@@ -9,6 +9,12 @@ var _markdownIt = require('markdown-it');
 
 var _markdownIt2 = _interopRequireDefault(_markdownIt);
 
+var _markdownItKatex = require('markdown-it-katex');
+
+var _markdownItKatex2 = _interopRequireDefault(_markdownItKatex);
+
+require('../node_modules/katex/dist/katex.min.css');
+
 var _highlight = require('../node_modules/highlight.js');
 
 var Highlight = _interopRequireWildcard(_highlight);
@@ -23,10 +29,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mdConverter = function mdConverter(content) {
     var markdownIt = new _markdownIt2.default();
-    var renderedString = markdownIt.render(content);
+    var markdownItKatex = markdownIt.use(_markdownItKatex2.default);
+    var renderedString = markdownItKatex.render(content);
     return (0, _htmlReactParser2.default)(renderedString.replace('<pre', '<pre class="hljs"'));
-    // const converter = new Converter({tables: true, strikethrough: true});
-    // return converter.convert(content);
 };
 
 /* Function only for highlightCode(converted) */
