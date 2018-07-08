@@ -52,7 +52,7 @@ class ContentView extends Component {
         return (
             <div className="content">
                 <Helmet>
-                    <meta property="og:url" content={"http://enhanced.kr/contentviewer/" + this.props.postNo}/>
+                    <meta property="og:url" content={"https://enhanced.kr/contentviewer/" + this.props.postNo}/>
                     <title>
                         {!isEmpty(this.props.post) && this.props.post[0].title + " :: " + blogTitle}
                     </title>

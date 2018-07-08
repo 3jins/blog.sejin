@@ -11,6 +11,7 @@ import Helmet from "react-helmet/es/Helmet";
 import {getParameterByName} from "../../../../../utils/stringModifier";
 import {isEmpty} from "../../../../../utils/nullChecker";
 import PageView from "../../PageView";
+import NotFoundView from "../../NotFoundView";
 
 class Works extends Component {
     constructor(props) {
@@ -69,20 +70,11 @@ class Works extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return (!isEmpty(nextProps.postPayload)) || (this.props.loading !== nextProps.loading);
+        return nextProps.isLoaded;
     }
 
     render() {
-        const renderLoading = () => {
-            return (
-                <LoadingView isTable={false}/>
-            );
-        };
-
         const renderContents = (postPayload, commentsCountPayload) => {
-            if (isEmpty(postPayload.posts)) {
-                return <NoPostPreview/>
-            }
             return postPayload.posts.map((post, idx) => {
                 return (
                     <div key={post._id} className="content-body">
@@ -105,11 +97,18 @@ class Works extends Component {
                 this.contentsStartPosition = section;
             }}>
                 <Helmet>
-                    <meta property="og:url" content="http://enhanced.kr/nav/Blog"/>
+                    <meta property="og:url" content="https://enhanced.kr/nav/Blog"/>
                     <title>{"Works :: " + blogTitle}</title>
                 </Helmet>
-                {this.props.loading && renderLoading()}
-                {!this.props.loading && renderContents(this.props.postPayload, this.props.commentsCountPayload)}
+                {!this.props.isLoaded && /* loading */
+                <LoadingView/>
+                }
+                {this.props.isLoaded && isEmpty(this.props.postPayload) && /* not found */
+                <NotFoundView/>
+                }
+                {this.props.isLoaded && !isEmpty(this.props.postPayload) && /* render */
+                    renderContents(this.props.postPayload, this.props.commentsCountPayload)
+                }
                 <PageView page={this.page} numPosts={this.props.postPayload.numPosts} pageScale={10}/>
             </div>
         );
@@ -119,7 +118,7 @@ class Works extends Component {
 export default connect(
     (state) => ({
         postPayload: state.posts.postPayload,
-        loading: state.posts.loading,
+        isLoaded: state.posts.isLoaded,
         commentsCountPayload: state.posts.commentsCountPayload,
         menuActionType: state.menus.menuActionType,
         selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
@@ -127,30 +126,25 @@ export default connect(
     }),
     (dispatch) => ({
         handleFetchPosts: async (url, belongToMajor, belongToMinor, tag, page) => {
-            const pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor, tag, page));
+            const postPayload = await dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor, tag, page)).postPayload;
 
             // Handle comments count fetching process
-            const postPayload = await pendedPostResult.postPayload;
             const commentsCountPayload = postPayload.posts.map(async (post) => {
-                const pendedCommentsCount = dispatch(actions.fetchCommentsCount('/postviewer/' + post.postNo));
-                const resolvedCommentsCountPayload = await pendedCommentsCount.commentsCountPayload;
-                // console.log(resolvedCommentsCountPayload);
-                return resolvedCommentsCountPayload.share.comment_count;    // await 없어도 0 나옴.
+                const commentsCountPayload = await dispatch(actions.fetchCommentsCount('/postviewer/' + post.postNo)).commentsCountPayload;
+                return commentsCountPayload.share.comment_count;
             });
 
             // Convert the array of promises to an array of values
-            for(let i = 0; i < commentsCountPayload.length; i++) {
-                commentsCountPayload[i] = await commentsCountPayload[i];
+            for (let i = 0; i < commentsCountPayload.length; i++) {
+                commentsCountPayload[i] = commentsCountPayload[i];
+                // commentsCountPayload[i] = await commentsCountPayload[i];    // await is needed?
             }
 
             dispatch(actions.fetchSuccess(postPayload, [], commentsCountPayload));
         },
-        handleFetchPost: (url, postNo) => {
-            const pendingResult = dispatch(actions.fetchPost(url, postNo));
-            pendingResult.postPayload
-                .then((response) => {
-                    dispatch(actions.fetchSuccess(response));
-                });
+        handleFetchPost: async (url, postNo) => {
+            const postPayload = await dispatch(actions.fetchPost(url, postNo)).postPayload;
+            dispatch(actions.fetchSuccess(postPayload));
         },
         handleScrollToComponentFinished: () => dispatch(actions.changeMenuFinished()),
         handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),

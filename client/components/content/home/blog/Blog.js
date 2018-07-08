@@ -110,7 +110,7 @@ class Blog extends Component {
         return (
             <div className="content" ref={(section) => this.contentsStartPosition = section}>
                 <Helmet>
-                    <meta property="og:url" content="http://enhanced.kr/nav/Blog"/>
+                    <meta property="og:url" content="https://enhanced.kr/nav/Blog"/>
                     <title>{"Blog :: " + blogTitle}</title>
                 </Helmet>
                 <div className="content-body">
@@ -142,16 +142,13 @@ export default connect(
     }),
     (dispatch) => ({
         handleFetchPosts: async (url, belongToMajor, belongToMinor, tag, page) => {
-            const pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor, tag, page));
-            const pendedTagResult = dispatch(actions.fetchTags('/tags', belongToMinor));
+            const postPayload = await dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor, tag, page)).postPayload;
+            const tagPayload = await dispatch(actions.fetchTags('/tags', belongToMinor)).tagPayload;
 
             // Handle comments count fetching process
-            const postPayload = await pendedPostResult.postPayload;
             const commentsCountPayload = postPayload.posts.map(async (post) => {
-                const pendedCommentsCount = dispatch(actions.fetchCommentsCount('/postviewer/' + post.postNo));
-                const resolvedCommentsCountPayload = await pendedCommentsCount.commentsCountPayload;
-                // console.log(resolvedCommentsCountPayload);
-                return resolvedCommentsCountPayload.share.comment_count;    // await 없어도 0 나옴.
+                const commentsCountPayload = await dispatch(actions.fetchCommentsCount('/postviewer/' + post.postNo)).commentsCountPayload;
+                return commentsCountPayload.share.comment_count;
             });
 
             // Convert the array of promises to an array of values
@@ -159,14 +156,11 @@ export default connect(
                 commentsCountPayload[i] = await commentsCountPayload[i];
             }
 
-            dispatch(actions.fetchSuccess(postPayload, await pendedTagResult.tagPayload, commentsCountPayload));
+            dispatch(actions.fetchSuccess(postPayload, tagPayload, commentsCountPayload));
         },
-        handleFetchPost: (url, postID) => {
-            const pendedPostResult = dispatch(actions.fetchPost(url, postID));
-            pendedPostResult.postPayload
-                .then((response) => {
-                    dispatch(actions.fetchSuccess(response));
-                });
+        handleFetchPost: async (url, postID) => {
+            const postPayload = await dispatch(actions.fetchPost(url, postID)).postPayload;
+            dispatch(actions.fetchSuccess(postPayloadresponse));
         },
         handleScrollToComponentFinished: () => dispatch(actions.changeMenuFinished()),
         handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),

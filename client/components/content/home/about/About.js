@@ -8,6 +8,7 @@ import AboutContent from './AboutContent';
 import {getMenuHeight} from "../../../../../utils/unitConverter";
 import {menuList} from "../../../../constants";
 import {isEmpty} from "../../../../../utils/nullChecker";
+import NotFoundView from "../../NotFoundView";
 
 class About extends Component {
     constructor(props) {
@@ -55,20 +56,11 @@ class About extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return !isEmpty(nextProps.posts) || (this.props.loading !== nextProps.loading);
+        return nextProps.isLoaded;
     }
 
     render() {
-        const renderLoading = () => {
-            return (
-                <LoadingView isTable={false}/>
-            );
-        };
-
         const renderContents = (posts) => {
-            if (isEmpty(posts)) {
-                return <NoPostPreview/>;
-            }
             return posts.map((post, idx) => {
                 return (
                     <div
@@ -89,8 +81,15 @@ class About extends Component {
 
         return (
             <div className="content">
-                {this.props.loading && renderLoading()}
-                {!this.props.loading && renderContents(this.props.posts)}
+                {!this.props.isLoaded && /* loading */
+                <LoadingView/>
+                }
+                {this.props.isLoaded && isEmpty(this.props.posts) && /* not found */
+                <NotFoundView/>
+                }
+                {this.props.isLoaded && !isEmpty(this.props.posts) && /* render */
+                    renderContents(this.props.posts)
+                }
             </div>
         );
     }
@@ -99,25 +98,19 @@ class About extends Component {
 export default connect(
     (state) => ({
         posts: state.posts.postPayload.posts,
-        loading: state.posts.loading,
+        isLoaded: state.posts.isLoaded,
         menuActionType: state.menus.menuActionType,
         selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
         scroll: state.menus.scroll,
     }),
     (dispatch) => ({
-        handleFetchPosts: (url, belongToMajor, belongToMinor) => {
-            const pendedPostResult = dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor));
-            pendedPostResult.postPayload
-                .then((response) => {
-                    dispatch(actions.fetchSuccess(response));
-                });
+        handleFetchPosts: async (url, belongToMajor, belongToMinor) => {
+            const postPayload = await dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor)).postPayload;
+            dispatch(actions.fetchSuccess(postPayload));
         },
-        handleFetchPost: (url, postID) => {
-            const pendedPostResult = dispatch(actions.fetchPost(url, postID));
-            pendedPostResult.postPayload
-                .then((response) => {
-                    dispatch(actions.fetchSuccess(response));
-                });
+        handleFetchPost: async (url, postID) => {
+            const postPayload = await dispatch(actions.fetchPost(url, postID)).postPayload;
+            dispatch(actions.fetchSuccess(postPayload));
         },
         handleScrollToComponentFinished: () => dispatch(actions.changeMenuFinished()),
         handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),
