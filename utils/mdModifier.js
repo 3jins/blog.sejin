@@ -2,12 +2,14 @@ import MarkdownIt from 'markdown-it';
 import MarkdownItKatex from 'markdown-it-katex';
 import Parser from 'html-react-parser';
 import * as Highlight from '../node_modules/highlight.js';
+import {replaceAll} from "./stringModifier";
 
 const mdConverter = (content) => {
     const markdownIt = new MarkdownIt();
     const markdownItKatex = markdownIt.use(MarkdownItKatex);
     const renderedString = markdownItKatex.render(content);
-    return Parser(renderedString.replace('<pre', '<pre class="hljs"'));
+    // return Parser(renderedString.replace('<pre', '<pre class="hljs"'));
+    return Parser(replaceAll(renderedString, '<pre', '<pre class="hljs"'));
 };
 
 /* Function only for highlightCode(converted) */

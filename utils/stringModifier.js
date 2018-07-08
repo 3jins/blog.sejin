@@ -29,10 +29,22 @@ const removeQueryParameters = (url) => {
     return url.substring(0, idx);
 };
 
+const replaceAll = (str, prev, after) => {
+    let lastIndex = 0;
+    while(true) {
+        lastIndex = str.indexOf(prev, lastIndex);
+        if(lastIndex < 0) break;
+        str = str.replace(prev, after);
+        lastIndex += after.length + 1;
+    }
+    return str;
+};
+
 export {
     capitalizeFirstLetter,
     decapitalizeFirstLetter,
     camelCaseToHyphen,
     getParameterByName,
-    removeQueryParameters
+    removeQueryParameters,
+    replaceAll,
 };
