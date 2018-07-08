@@ -542,7 +542,7 @@ a
   vertical-align: middle
   font: $menu-base-pixel #{GoyangDeokyangB}, #{NanumBarunGothicLight}, #{SourceCodePro-Regular}, #{"Lucida Grande"}, Helvetica, Arial, sans-serif
 
-.not-found-div
+.not-found-div, .loading-view-div
   text-align: center
   width: 100vw
   height: 100vh
@@ -550,3 +550,11 @@ a
   vertical-align: middle
   h3
     color: $dark-color
+
+.loading-view-div
+  position: relative
+  h3
+    position: absolute
+    top: 50%
+    width: 100%
+
