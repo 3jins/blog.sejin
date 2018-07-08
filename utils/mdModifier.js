@@ -1,8 +1,7 @@
 import MarkdownIt from 'markdown-it';
 import MarkdownItKatex from 'markdown-it-katex';
-import '../node_modules/katex/dist/katex.min.css';
-import * as Highlight from "../node_modules/highlight.js";
 import Parser from 'html-react-parser';
+import * as Highlight from '../node_modules/highlight.js';
 
 const mdConverter = (content) => {
     const markdownIt = new MarkdownIt();

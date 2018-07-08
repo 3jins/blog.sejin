@@ -13,15 +13,17 @@ var _markdownItKatex = require('markdown-it-katex');
 
 var _markdownItKatex2 = _interopRequireDefault(_markdownItKatex);
 
-require('../node_modules/katex/dist/katex.min.css');
+var _htmlReactParser = require('html-react-parser');
+
+var _htmlReactParser2 = _interopRequireDefault(_htmlReactParser);
 
 var _highlight = require('../node_modules/highlight.js');
 
 var Highlight = _interopRequireWildcard(_highlight);
 
-var _htmlReactParser = require('html-react-parser');
+require('../node_modules/katex/dist/katex.min.css');
 
-var _htmlReactParser2 = _interopRequireDefault(_htmlReactParser);
+require('../node_modules/highlight.js/styles/monokai.css');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
