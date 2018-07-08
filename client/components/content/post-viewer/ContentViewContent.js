@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {highlightCode, mdConverter, parseMath} from "../../../../utils/mdModifier";
+import {highlightCode, mdConverter} from "../../../../utils/mdModifier";
 import {decapitalizeFirstLetter} from "../../../../utils/stringModifier";
 import FacebookProvider, {Comments} from 'react-facebook';
 
@@ -11,7 +11,7 @@ class ContentViewContent extends Component {
         }
         const renderContents = (post) => {
             const postTitle = post[0].title;
-            const postContent = parseMath(mdConverter(post[0].content));
+            const postContent = mdConverter(post[0].content);
             const tags = post[0].tags;
             const dateCreated = new Date(post[0].dateCreated);
             const dateInFormat = dateCreated.getFullYear() + "년 " + (dateCreated.getMonth() + 1) + "월 " + dateCreated.getDate() + "일";

@@ -1,21 +1,32 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.highlightCode = exports.mdConverter = undefined;
 
-var _reactShowdown = require("react-showdown");
+var _markdownIt = require('markdown-it');
 
-var _highlight = require("../node_modules/highlight.js");
+var _markdownIt2 = _interopRequireDefault(_markdownIt);
+
+var _highlight = require('../node_modules/highlight.js');
 
 var Highlight = _interopRequireWildcard(_highlight);
 
+var _htmlReactParser = require('html-react-parser');
+
+var _htmlReactParser2 = _interopRequireDefault(_htmlReactParser);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var mdConverter = function mdConverter(content) {
-    var converter = new _reactShowdown.Converter({ tables: true, strikethrough: true });
-    return converter.convert(content);
+    var markdownIt = new _markdownIt2.default();
+    var renderedString = markdownIt.render(content);
+    return (0, _htmlReactParser2.default)(renderedString.replace('<pre', '<pre class="hljs"'));
+    // const converter = new Converter({tables: true, strikethrough: true});
+    // return converter.convert(content);
 };
 
 /* Function only for highlightCode(converted) */

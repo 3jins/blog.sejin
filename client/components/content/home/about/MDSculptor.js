@@ -14,12 +14,11 @@ import etcImg from "../../../../res/images/etc.png";
 import {camelCaseToHyphen} from "../../../../../utils/stringModifier";
 
 const splitter = (content, belongToMinor) => {
-        const convertedContent = mdConverter(content);
-        const elements = convertedContent.props.children;
-        const numElements = elements.length;
-
+        let elements = null, numElements = 0;
         switch (belongToMinor) {
             case 'now':
+                elements = mdConverter(content);
+                numElements = elements.length;
                 const me = {};
                 const blog = {};
                 for (let i = 0; i < numElements; i++) {
@@ -28,26 +27,28 @@ const splitter = (content, belongToMinor) => {
                     if (element.type === 'h2') {     // title
                         me.title = {
                             key: element.key,
-                            element: element.props.children[0],
+                            element: element.props.children,
                         };
                     }
                     else {      // content
                         if (!me.contents) {
                             me.contents = [{
                                 key: element.key,
-                                element: element.props.children[0],
+                                element: element.props.children,
                             }];
                         }
                         else {
                             me.contents[me.contents.length] = {
                                 key: element.key,
-                                element: element.props.children[0],
+                                element: element.props.children,
                             };
                         }
                     }
                 }
                 return {me, blog};
             case 'vision':
+                elements = mdConverter(content);
+                numElements = elements.length;
                 const frontEnd = {};
                 const uiux = {};
                 const openSource = {};
@@ -58,19 +59,19 @@ const splitter = (content, belongToMinor) => {
                         if (!frontEnd.title) { // frontEnd
                             frontEnd.title = {
                                 key: element.key,
-                                element: element.props.children[0],
+                                element: element.props.children,
                             };
                         }
                         else if (!uiux.title) {  // uiux
                             uiux.title = {
                                 key: element.key,
-                                element: element.props.children[0],
+                                element: element.props.children,
                             };
                         }
                         else {  // openSource
                             openSource.title = {
                                 key: element.key,
-                                element: element.props.children[0],
+                                element: element.props.children,
                             };
                         }
                     }
@@ -79,13 +80,13 @@ const splitter = (content, belongToMinor) => {
                             if (!frontEnd.contents) {
                                 frontEnd.contents = [{
                                     key: element.key,
-                                    element: element.props.children[0],
+                                    element: element.props.children,
                                 }];
                             }
                             else {
                                 frontEnd.contents[frontEnd.contents.length] = {
                                     key: element.key,
-                                    element: element.props.children[0],
+                                    element: element.props.children,
                                 };
                             }
                         }
@@ -93,13 +94,13 @@ const splitter = (content, belongToMinor) => {
                             if (!uiux.contents) {
                                 uiux.contents = [{
                                     key: element.key,
-                                    element: element.props.children[0]
+                                    element: element.props.children
                                 }];
                             }
                             else {
                                 uiux.contents[uiux.contents.length] = {
                                     key: element.key,
-                                    element: element.props.children[0],
+                                    element: element.props.children,
                                 };
                             }
                         }
@@ -107,13 +108,13 @@ const splitter = (content, belongToMinor) => {
                             if (!openSource.contents) {
                                 openSource.contents = [{
                                     key: element.key,
-                                    element: element.props.children[0]
+                                    element: element.props.children
                                 }];
                             }
                             else {
                                 openSource.contents[openSource.contents.length] = {
                                     key: element.key,
-                                    element: element.props.children[0],
+                                    element: element.props.children,
                                 };
                             }
                         }
@@ -122,6 +123,8 @@ const splitter = (content, belongToMinor) => {
                 return {frontEnd, uiux, openSource};
             case 'history':
                 // md파일 수정시 ul 위아래로 정확하게 라인 한 줄씩 띄우지 않으면 제대로 안 들어감. ctrl+/ 눌러서 보고 갈 것.
+                elements = mdConverter(content)[0].props.children;
+                numElements = elements.length;
                 const historyList = [];
                 let yearIdx = 0;
                 for (let i = 0; i < numElements; i++) {
@@ -133,7 +136,7 @@ const splitter = (content, belongToMinor) => {
                         const event = events[i];
                         if (event.type === "p") {
                             historyList[yearIdx++] = {
-                                title: event.props.children[0],
+                                title: event.props.children,
                             };
                         }
                         else if (event.type === "ul") {
@@ -143,16 +146,16 @@ const splitter = (content, belongToMinor) => {
                                 const detail = details[i];
                                 if (typeof detail !== 'object' || detail.type !== "li") continue;
                                 if (!('year' in historyList[yearIdx - 1])) {
-                                    historyList[yearIdx - 1].year = detail.props.children[0];      // ex) 1993
+                                    historyList[yearIdx - 1].year = detail.props.children;      // ex) 1993
                                 }
                                 else if (!('type' in historyList[yearIdx - 1])) {
-                                    historyList[yearIdx - 1].type = detail.props.children[0];      // ex) birth
+                                    historyList[yearIdx - 1].type = detail.props.children;      // ex) birth
                                 }
                                 else if (!('link' in historyList[yearIdx - 1])) {
-                                    historyList[yearIdx - 1].link = detail.props.children[0];      // ex) no link
+                                    historyList[yearIdx - 1].link = detail.props.children;      // ex) no link
                                 }
                                 else if (!('comment' in historyList[yearIdx - 1])) {
-                                    historyList[yearIdx - 1].comment = detail.props.children[0];        // ex) 93년 여름에
+                                    historyList[yearIdx - 1].comment = detail.props.children;        // ex) 93년 여름에
                                 }
                             }
                         }

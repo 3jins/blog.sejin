@@ -1,9 +1,13 @@
-import {Converter} from 'react-showdown';
+import MarkdownIt from 'markdown-it';
 import * as Highlight from "../node_modules/highlight.js";
+import Parser from 'html-react-parser';
 
 const mdConverter = (content) => {
-    const converter = new Converter({tables: true, strikethrough: true});
-    return converter.convert(content);
+    const markdownIt = new MarkdownIt();
+    const renderedString = markdownIt.render(content);
+    return Parser(renderedString.replace('<pre', '<pre class="hljs"'));
+    // const converter = new Converter({tables: true, strikethrough: true});
+    // return converter.convert(content);
 };
 
 /* Function only for highlightCode(converted) */
