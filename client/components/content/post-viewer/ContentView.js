@@ -61,7 +61,7 @@ class ContentView extends Component {
                     <LoadingView/>
                 }
                 {this.props.isLoaded && isEmpty(this.props.post) && /* not found */
-                    <NotFoundView/>
+                    <NotFoundView isFail={true}/>
                 }
                 {this.props.isLoaded && !isEmpty(this.props.post) && /* render */
                 <div className="content-body">

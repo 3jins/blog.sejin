@@ -127,12 +127,14 @@ class Blog extends Component {
                             <LoadingView/>
                         }
                         {this.props.isLoaded && isEmpty(this.props.postPayload.posts) && /* not found */
-                            <NotFoundView/>
+                            <NotFoundView isFail={false}/>
                         }
                         {this.props.isLoaded && !isEmpty(this.props.postPayload.posts) && /* render */
                             renderContents(this.props.postPayload, this.props.commentsCountPayload)
                         }
-                        <PageView page={this.page} numPosts={this.props.postPayload.numPosts} pageScale={10}/>
+                        {this.props.isLoaded && !isEmpty(this.props.postPayload.posts) &&
+                            <PageView page={this.page} numPosts={this.props.postPayload.numPosts} pageScale={10}/>
+                        }
                     </div>
                 </div>
             </div>

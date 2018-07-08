@@ -85,7 +85,7 @@ class About extends Component {
                 <LoadingView/>
                 }
                 {this.props.isLoaded && isEmpty(this.props.posts) && /* not found */
-                <NotFoundView/>
+                <NotFoundView isFail={false}/>
                 }
                 {this.props.isLoaded && !isEmpty(this.props.posts) && /* render */
                     renderContents(this.props.posts)
