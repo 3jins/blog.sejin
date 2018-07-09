@@ -160,6 +160,9 @@ export default connect(
             // Handle comments count fetching process
             const commentsCountPayload = postPayload.posts.map(async (post) => {
                 const commentsCountPayload = await dispatch(actions.fetchCommentsCount('/postviewer/' + post.postNo)).commentsCountPayload;
+                if(!commentsCountPayload.hasOwnProperty('share')) {
+                    return -1;
+                }
                 return commentsCountPayload.share.comment_count;
             });
 
