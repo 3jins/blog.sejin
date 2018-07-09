@@ -3,6 +3,7 @@ const https2http = (url) => {
     if(url.length > 4 && url[4] === 's') {
         url = ['http', url.slice(5, url.length)].join('');
     }
+    return url;
 };
 
 export {https2http}
