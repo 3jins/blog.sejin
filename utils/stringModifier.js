@@ -29,10 +29,16 @@ const removeQueryParameters = (url) => {
     return url.substring(0, idx);
 };
 
+const replaceAt = (str, index, replacement) => {
+    return [str.substring(0, index), replacement, str.substring(index + 1)].join('');
+};
+
 const replaceAll = (str, prev, after) => {
+    console.log(str.length);
     let lastIndex = 0;
     while(true) {
         lastIndex = str.indexOf(prev, lastIndex);
+        console.log(lastIndex);
         if(lastIndex < 0) break;
         str = str.replace(prev, after);
         lastIndex += after.length + 1;
