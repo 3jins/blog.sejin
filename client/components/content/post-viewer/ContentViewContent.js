@@ -2,13 +2,11 @@ import React, {Component} from 'react';
 import {highlightCode, mdConverter} from "../../../../utils/mdModifier";
 import {decapitalizeFirstLetter} from "../../../../utils/stringModifier";
 import FacebookProvider, {Comments} from 'react-facebook';
+import {https2http} from "../../../../utils/urlModifier";
 
 class ContentViewContent extends Component {
     render() {
-        let url = window.location.href;
-        if(url.length > 4 && url[4] === 's') {
-            url = ['http', url.slice(5, url.length)].join('');
-        }
+        let url = https2http(window.location.href);
         const renderContents = (post) => {
             const postTitle = post[0].title;
             const postContent = mdConverter(post[0].content);
