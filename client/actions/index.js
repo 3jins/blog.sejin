@@ -64,7 +64,7 @@ export function fetchTags(url, belongToMinor) {
 }
 
 export function fetchCommentsCount(url) {
-    const fullUrl = window.location.href
+    const fullUrl = window.location.href;
     const domain = fullUrl.substring(0, fullUrl.indexOf('/', 8));
     const graphAPI = "https://graph.facebook.com/v2.4/?fields=share{comment_count}&id=";
     const commentsCountPayload = fetch(graphAPI + domain + url, {

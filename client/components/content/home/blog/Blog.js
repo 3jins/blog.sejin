@@ -170,10 +170,6 @@ export default connect(
 
             dispatch(actions.fetchSuccess(postPayload, tagPayload, commentsCountPayload));
         },
-        handleFetchPost: async (url, postID) => {
-            const postPayload = await dispatch(actions.fetchPost(url, postID)).postPayload;
-            dispatch(actions.fetchSuccess(postPayloadresponse));
-        },
         handleScrollToComponentFinished: () => dispatch(actions.changeMenuFinished()),
         handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),
     }),

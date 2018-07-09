@@ -39,7 +39,6 @@ var replaceAt = function replaceAt(str, index, replacement) {
 };
 
 var replaceAll = function replaceAll(str, prev, after) {
-    console.log(str.length);
     var lastIndex = 0;
     while (true) {
         lastIndex = str.indexOf(prev, lastIndex);

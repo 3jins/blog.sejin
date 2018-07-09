@@ -34,7 +34,6 @@ const replaceAt = (str, index, replacement) => {
 };
 
 const replaceAll = (str, prev, after) => {
-    console.log(str.length);
     let lastIndex = 0;
     while(true) {
         lastIndex = str.indexOf(prev, lastIndex);

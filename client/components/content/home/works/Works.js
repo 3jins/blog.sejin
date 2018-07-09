@@ -129,7 +129,6 @@ export default connect(
     (dispatch) => ({
         handleFetchPosts: async (url, belongToMajor, belongToMinor, tag, page) => {
             const postPayload = await dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor, tag, page)).postPayload;
-            console.log(belongToMinor, postPayload);
 
             // Handle comments count fetching process
             const commentsCountPayload = postPayload.posts.map(async (post) => {
@@ -143,10 +142,6 @@ export default connect(
             }
 
             dispatch(actions.fetchSuccess(postPayload, [], commentsCountPayload));
-        },
-        handleFetchPost: async (url, postNo) => {
-            const postPayload = await dispatch(actions.fetchPost(url, postNo)).postPayload;
-            dispatch(actions.fetchSuccess(postPayload));
         },
         handleScrollToComponentFinished: () => dispatch(actions.changeMenuFinished()),
         handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),
