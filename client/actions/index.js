@@ -64,19 +64,18 @@ export function fetchTags(url, belongToMinor) {
     };
 }
 
-export function fetchCommentsCount(url) {
-    const fullUrl = https2http(window.location.href);
-    const domain = fullUrl.substring(0, fullUrl.indexOf('/', 8));
-    const graphAPI = "https://graph.facebook.com/v2.4/?fields=share{comment_count}&id=";
-    const commentsCountPayload = fetch(graphAPI + domain + url, {
+export function fetchCommentsCount(urls) {
+    const graphAPI = "https://graph.facebook.com/v2.4/?fields=share{comment_count}&ids=";
+    const graphRequest = graphAPI + urls.join(',');
+    const commentsCountPayload = fetch(graphRequest, {
         method: 'get',
         headers: headers
     })
         .then(res => res.json())
         .catch(err => console.log(err));
+    console.log(graphRequest);
+    console.log('action', commentsCountPayload);
 
-    console.log(graphAPI + domain + url);
-    console.log(commentsCountPayload);
     return {
         type: posts.FETCH_COMMENTS_COUNT,
         commentsCountPayload: commentsCountPayload,

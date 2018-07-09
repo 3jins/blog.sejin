@@ -13,6 +13,7 @@ import {getParameterByName} from "../../../../../utils/stringModifier";
 import {isEmpty} from "../../../../../utils/nullChecker";
 import PageView from "../../PageView";
 import NotFoundView from "../../NotFoundView";
+import {https2http} from "../../../../../utils/urlModifier";
 
 class Blog extends Component {
     constructor(props) {
@@ -80,19 +81,8 @@ class Blog extends Component {
     }
 
     render() {
-        const postPayload = this.props.postPayload;
-
-        const renderLoading = () => {
-            return (
-                <LoadingView isTable={false}/>
-            );
-        };
-
         const renderContents = (postPayload, commentsCountPayload) => {
-            if (isEmpty(postPayload.posts) || isEmpty(commentsCountPayload)) {
-                return <NoPostPreview/>;
-            }
-            return postPayload.posts.map((post, idx) => {
+            return postPayload.posts.map((post) => {
                 return (
                     <BlogContent
                         key={post._id}
@@ -102,7 +92,7 @@ class Blog extends Component {
                         content={post.content}
                         dateCreated={post.dateCreated}
                         tags={post.tags}
-                        commentsCount={commentsCountPayload[idx]}
+                        commentsCount={commentsCountPayload[post.postNo]}
                     />
                 );
             });
@@ -116,24 +106,24 @@ class Blog extends Component {
                 </Helmet>
                 <div className="content-body">
                     {this.props.isLoaded && !isEmpty(this.props.postPayload.posts) &&
-                        <BlogSubtitle
-                            belongToMinor={this.props.postPayload.posts[0].belongToMinor}
-                            tagPayload={this.props.tagPayload}
-                            selectedTag={this.tag}
-                        />
+                    <BlogSubtitle
+                        belongToMinor={this.props.postPayload.posts[0].belongToMinor}
+                        tagPayload={this.props.tagPayload}
+                        selectedTag={this.tag}
+                    />
                     }
                     <div className="content-view-wrapper">
                         {!this.props.isLoaded && /* loading */
-                            <LoadingView/>
+                        <LoadingView/>
                         }
                         {this.props.isLoaded && isEmpty(this.props.postPayload.posts) && /* not found */
-                            <NotFoundView isFail={false}/>
+                        <NotFoundView isFail={false}/>
                         }
                         {this.props.isLoaded && !isEmpty(this.props.postPayload.posts) && /* render */
-                            renderContents(this.props.postPayload, this.props.commentsCountPayload)
+                        renderContents(this.props.postPayload, this.props.commentsCountPayload)
                         }
                         {this.props.isLoaded && !isEmpty(this.props.postPayload.posts) &&
-                            <PageView page={this.page} numPosts={this.props.postPayload.numPosts} pageScale={10}/>
+                        <PageView page={this.page} numPosts={this.props.postPayload.numPosts} pageScale={10}/>
                         }
                     </div>
                 </div>
@@ -158,20 +148,24 @@ export default connect(
             const tagPayload = await dispatch(actions.fetchTags('/tags', belongToMinor)).tagPayload;
 
             // Handle comments count fetching process
-            const commentsCountPayload = postPayload.posts.map(async (post) => {
-                const commentsCountPayload = await dispatch(actions.fetchCommentsCount('/postviewer/' + post.postNo)).commentsCountPayload;
-                if(!commentsCountPayload.hasOwnProperty('share')) {
-                    return -1;
-                }
-                return commentsCountPayload.share.comment_count;
-            });
+            const fullUrl = https2http(window.location.href);
+            const domain = fullUrl.substring(0, fullUrl.indexOf('/', 8));
+            const urls = await postPayload.posts.map((post) => domain + '/postviewer/' + post.postNo);
+            const commentsCountPayload = await dispatch(actions.fetchCommentsCount(urls)).commentsCountPayload;
 
             // Convert the array of promises to an array of values
-            for (let i = 0; i < commentsCountPayload.length; i++) {
-                commentsCountPayload[i] = await commentsCountPayload[i];
-            }
+            const refinedCommentsCounts = {};
+            let idx = 0;
+            postPayload.posts.map((post) => {
+                const currentCommentsCountPayload = commentsCountPayload[urls[idx++]];
+                if (!currentCommentsCountPayload.hasOwnProperty('share')) {
+                    refinedCommentsCounts[post.postNo] = -1;
+                } else {
+                    refinedCommentsCounts[post.postNo] = currentCommentsCountPayload.share.comment_count;
+                }
+            });
 
-            dispatch(actions.fetchSuccess(postPayload, tagPayload, commentsCountPayload));
+            dispatch(actions.fetchSuccess(postPayload, tagPayload, refinedCommentsCounts));
         },
         handleScrollToComponentFinished: () => dispatch(actions.changeMenuFinished()),
         handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),

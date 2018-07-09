@@ -25,15 +25,18 @@ export default (state=initialState, action) => {
         case FETCH_TAGS:
             return {
                 ...state,
+                postActionType: action.type,
             };
             break;
         case FETCH_COMMENTS_COUNT:
             return {
                 ...state,
+                postActionType: action.type,
             };
         case FETCH_SUCCESS:
             return {
                 ...state,
+                postActionType: action.type,
                 isLoaded: action.isLoaded,
                 postPayload: action.postPayload,
                 tagPayload: action.tagPayload,

@@ -12,6 +12,7 @@ import {getParameterByName} from "../../../../../utils/stringModifier";
 import {isEmpty} from "../../../../../utils/nullChecker";
 import PageView from "../../PageView";
 import NotFoundView from "../../NotFoundView";
+import {https2http} from "../../../../../utils/urlModifier";
 
 class Works extends Component {
     constructor(props) {
@@ -85,7 +86,7 @@ class Works extends Component {
                             title={post.title}
                             content={post.content}
                             dateCreated={post.dateCreated}
-                            commentsCount={commentsCountPayload[idx]}
+                            commentsCount={commentsCountPayload[post.postNo]}
                         />
                     </div>
                 );
@@ -131,17 +132,26 @@ export default connect(
             const postPayload = await dispatch(actions.fetchPosts(url, belongToMajor, belongToMinor, tag, page)).postPayload;
 
             // Handle comments count fetching process
-            const commentsCountPayload = postPayload.posts.map(async (post) => {
-                const commentsCountPayload = await dispatch(actions.fetchCommentsCount('/postviewer/' + post.postNo)).commentsCountPayload;
-                return commentsCountPayload.share.comment_count;
-            });
+            const fullUrl = https2http(window.location.href);
+            const domain = fullUrl.substring(0, fullUrl.indexOf('/', 8));
+            const urls = await postPayload.posts.map((post) => domain + '/postviewer/' + post.postNo);
+            const commentsCountPayload = await dispatch(actions.fetchCommentsCount(urls)).commentsCountPayload;
+            console.log('handleFetchPosts 1', commentsCountPayload);
 
             // Convert the array of promises to an array of values
-            for (let i = 0; i < commentsCountPayload.length; i++) {
-                commentsCountPayload[i] = await commentsCountPayload[i];
-            }
+            const refinedCommentsCounts = {};
+            let idx = 0;
+            postPayload.posts.map((post) => {
+                const currentCommentsCountPayload = commentsCountPayload[urls[idx++]];
+                if (!currentCommentsCountPayload.hasOwnProperty('share')) {
+                    refinedCommentsCounts[post.postNo] = -1;
+                } else {
+                    refinedCommentsCounts[post.postNo] = currentCommentsCountPayload.share.comment_count;
+                }
+            });
+            console.log('handleFetchPosts 2', refinedCommentsCounts);
 
-            dispatch(actions.fetchSuccess(postPayload, [], commentsCountPayload));
+            dispatch(actions.fetchSuccess(postPayload, [], refinedCommentsCounts));
         },
         handleScrollToComponentFinished: () => dispatch(actions.changeMenuFinished()),
         handleChangeMenu: (menuIdx) => dispatch(actions.changeMenu(menuIdx)),
