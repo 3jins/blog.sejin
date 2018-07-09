@@ -34,12 +34,17 @@ var removeQueryParameters = function removeQueryParameters(url) {
     return url.substring(0, idx);
 };
 
+var replaceAt = function replaceAt(str, index, replacement) {
+    return [str.substring(0, index), replacement, str.substring(index + 1)].join('');
+};
+
 var replaceAll = function replaceAll(str, prev, after) {
+    console.log(str.length);
     var lastIndex = 0;
     while (true) {
         lastIndex = str.indexOf(prev, lastIndex);
         if (lastIndex < 0) break;
-        str = str.replace(prev, after);
+        str = replaceAt(str, lastIndex, after);
         lastIndex += after.length + 1;
     }
     return str;

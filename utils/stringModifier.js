@@ -38,9 +38,8 @@ const replaceAll = (str, prev, after) => {
     let lastIndex = 0;
     while(true) {
         lastIndex = str.indexOf(prev, lastIndex);
-        console.log(lastIndex);
         if(lastIndex < 0) break;
-        str = str.replace(prev, after);
+        str = replaceAt(str, lastIndex, after);
         lastIndex += after.length + 1;
     }
     return str;
