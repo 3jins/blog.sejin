@@ -5,7 +5,7 @@ import * as Highlight from '../node_modules/highlight.js';
 import {replaceAll} from "./stringModifier";
 
 const mdConverter = (content) => {
-    const markdownIt = new MarkdownIt();
+    const markdownIt = new MarkdownIt({html: true,});
     const markdownItKatex = markdownIt.use(MarkdownItKatex);
     const renderedString = markdownItKatex.render(content);
     // return Parser(renderedString.replace('<pre', '<pre class="hljs"'));

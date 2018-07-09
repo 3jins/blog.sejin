@@ -28,7 +28,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mdConverter = function mdConverter(content) {
-    var markdownIt = new _markdownIt2.default();
+    var markdownIt = new _markdownIt2.default({ html: true });
     var markdownItKatex = markdownIt.use(_markdownItKatex2.default);
     var renderedString = markdownItKatex.render(content);
     // return Parser(renderedString.replace('<pre', '<pre class="hljs"'));
