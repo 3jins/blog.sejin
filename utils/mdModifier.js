@@ -3,6 +3,7 @@ import MarkdownItKatex from 'markdown-it-katex';
 import Parser from 'html-react-parser';
 import * as Highlight from '../node_modules/highlight.js';
 import {replaceAll} from "./stringModifier";
+import '../node_modules/katex/dist/katex.min.css';
 
 const mdConverter = (content) => {
     const markdownIt = new MarkdownIt({html: true,});

@@ -43,6 +43,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "ngrok": "^3.0.1",
     "node-sass": "^4.8.2",
     "sass-loader": "^6.0.7"
   },

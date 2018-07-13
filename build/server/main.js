@@ -24,6 +24,10 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _ngrok = require('ngrok');
+
+var _ngrok2 = _interopRequireDefault(_ngrok);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -37,45 +41,56 @@ app.use('/posts', _posts2.default);
 app.use('/post', _post2.default);
 app.use('/tags', _tags2.default);
 app.get('/*', function (req, res) {
-        res.sendFile(_path2.default.resolve(publicPath, "index.html"));
+    res.sendFile(_path2.default.resolve(publicPath, "index.html"));
 });
 
 if (process.env.SERVER_ENV === 'development') {
-        app.listen(testPort, function () {
-                console.log('Express listening on port', testPort);
+    // ngrok
+    (async function () {
+        return await _ngrok2.default.connect({
+            proto: 'http',
+            addr: '192.168.99.100:' + testPort
         });
+    })().then(function (url) {
+        console.log('Can test this app with this exported url:', url);
+    });
+
+    // open
+    app.listen(testPort, function () {
+        console.log('Express listening on port', testPort);
+    });
 } else {
-        _greenlockExpress2.default.create({
-                // Let's Encrypt v2 is ACME draft 11
-                version: 'draft-11',
+    _greenlockExpress2.default.create({
+        // Let's Encrypt v2 is ACME draft 11
+        version: 'draft-11',
 
-                server: 'https://acme-v02.api.letsencrypt.org/directory'
-                // Note: If at first you don't succeed, switch to staging to debug
-                // https://acme-staging-v02.api.letsencrypt.org/directory
+        server: 'https://acme-v02.api.letsencrypt.org/directory'
+        // Note: If at first you don't succeed, switch to staging to debug
+        // https://acme-staging-v02.api.letsencrypt.org/directory
 
-                // You MUST change this to a valid email address
-                , email: 'jinaidy93@gmail.com'
+        // You MUST change this to a valid email address
+        , email: 'jinaidy93@gmail.com'
 
-                // You MUST NOT build clients that accept the ToS without asking the user
-                , agreeTos: true
+        // You MUST NOT build clients that accept the ToS without asking the user
+        , agreeTos: true
 
-                // You MUST change these to valid domains
-                // NOTE: all domains will validated and listed on the certificate
-                , approveDomains: ['enhanced.kr']
+        // You MUST change these to valid domains
+        // NOTE: all domains will validated and listed on the certificate
+        , approveDomains: ['enhanced.kr']
 
-                // You MUST have access to write to directory where certs are saved
-                // ex: /home/foouser/acme/etc
-                , configDir: _path2.default.join(require('os').homedir(), 'acme', 'etc'),
+        // You MUST have access to write to directory where certs are saved
+        // ex: /home/foouser/acme/etc
+        , configDir: _path2.default.join(require('os').homedir(), 'acme', 'etc'),
 
-                app: app
+        app: app
 
-                // Join the community to get notified of important updates and help me make greenlock better
-                , communityMember: false
+        // Join the community to get notified of important updates and help me make greenlock better
+        , communityMember: false
 
-                // Contribute telemetry data to the project
-                , telemetry: true
+        // Contribute telemetry data to the project
+        , telemetry: true
 
-                //, debug: true
+        //, debug: true
 
-        }).listen(httpPort, httpsPort);
+    }).listen(httpPort, httpsPort);
 }

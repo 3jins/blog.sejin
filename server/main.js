@@ -4,6 +4,7 @@ import posts from './routes/posts';
 import post from './routes/post';
 import tags from './routes/tags';
 import path from 'path';
+import ngrok from 'ngrok';
 
 const app = express();
 const testPort = 5913;
@@ -20,6 +21,17 @@ app.get('/*', (req, res) => {
 });
 
 if(process.env.SERVER_ENV === 'development') {
+    // ngrok
+    (async () => {
+        return await ngrok.connect({
+            proto: 'http',
+            addr: '192.168.99.100:' + testPort,
+        });
+    })().then((url) => {
+        console.log('Can test this app with this exported url:', url);
+    });
+
+    // open
     app.listen(testPort, () => {
         console.log('Express listening on port', testPort);
     });
