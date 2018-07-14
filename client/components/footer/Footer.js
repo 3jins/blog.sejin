@@ -12,7 +12,7 @@ class Footer extends Component {
             {
                 // title: 'GitHub',
                 image: githubImg,
-                content: 'https://github.com/42desix',
+                content: 'https://github.com/3jin',
             },
             {
                 // title: 'Facebook',
