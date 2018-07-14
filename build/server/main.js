@@ -24,10 +24,6 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
-var _ngrok = require('ngrok');
-
-var _ngrok2 = _interopRequireDefault(_ngrok);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -46,8 +42,9 @@ app.get('/*', function (req, res) {
 
 if (process.env.SERVER_ENV === 'development') {
     // ngrok
+    var ngrok = require('ngrok');
     (async function () {
-        return await _ngrok2.default.connect({
+        return await ngrok.connect({
             proto: 'http',
             addr: '192.168.99.100:' + testPort
         });

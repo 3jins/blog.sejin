@@ -4,7 +4,6 @@ import posts from './routes/posts';
 import post from './routes/post';
 import tags from './routes/tags';
 import path from 'path';
-import ngrok from 'ngrok';
 
 const app = express();
 const testPort = 5913;
@@ -22,6 +21,7 @@ app.get('/*', (req, res) => {
 
 if(process.env.SERVER_ENV === 'development') {
     // ngrok
+    const ngrok = require('ngrok');
     (async () => {
         return await ngrok.connect({
             proto: 'http',
