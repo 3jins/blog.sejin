@@ -65,12 +65,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/42deSix/blog.sejin.git"
+    "url": "git+https://github.com/3jin/blog.sejin.git"
   },
   "author": "Sejin Jeon",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/42deSix/blog.sejin/issues"
+    "url": "https://github.com/3jin/blog.sejin/issues"
   },
-  "homepage": "https://github.com/42deSix/blog.sejin#readme"
+  "homepage": "https://github.com/3jin/blog.sejin#readme"
 }
