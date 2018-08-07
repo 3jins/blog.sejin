@@ -9,7 +9,7 @@ router.get('/:subnav', function(req, res) {
         tags = Tag.find();
     }
     else {
-        tags = Tag.find({"belongToMinor": subnav});
+        tags = Tag.find({"belongToMinor": subnav}).sort({"tagName": 1});
     }
     tags.exec(function (err, tags) {
         if (err) {

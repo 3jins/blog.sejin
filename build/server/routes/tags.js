@@ -20,7 +20,7 @@ router.get('/:subnav', function (req, res) {
     if (subnav === "") {
         tags = _models.Tag.find();
     } else {
-        tags = _models.Tag.find({ "belongToMinor": subnav });
+        tags = _models.Tag.find({ "belongToMinor": subnav }).sort({ "tagName": 1 });
     }
     tags.exec(function (err, tags) {
         if (err) {
