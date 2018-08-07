@@ -3,9 +3,9 @@ import jsontoxml from 'jsontoxml';
 import fs from 'fs';
 
 export default () => {
-    const rawSitemap = "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\">";
+    const rawSitemap = "<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xsi=\"https://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"https://www.sitemaps.org/schemas/sitemap/0.9 https://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\">";
     const rawSitemapCloser = "</urlset>";
-    const siteBaseUrl = "http://enhanced.kr";
+    const siteBaseUrl = "https://enhanced.kr";
     const urls = [
         {
             url: {

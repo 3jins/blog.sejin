@@ -17,9 +17,9 @@ var _fs2 = _interopRequireDefault(_fs);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function () {
-    var rawSitemap = "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\">";
+    var rawSitemap = "<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xsi=\"https://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"https://www.sitemaps.org/schemas/sitemap/0.9 https://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\">";
     var rawSitemapCloser = "</urlset>";
-    var siteBaseUrl = "http://enhanced.kr";
+    var siteBaseUrl = "https://enhanced.kr";
     var urls = [{
         url: {
             loc: siteBaseUrl,
