@@ -20,6 +20,7 @@ export function fetchPosts(url, belongToMajor, belongToMinor, tag, page) {
         request = url + "/" + belongToMajor + "/" + belongToMinor + "?page=" + page;
     }
     else {
+        tag = tag.replace(/\&/g, '%26').replace(/\+/g, '%2B');
         request = url + "/" + belongToMajor + "/" + belongToMinor + "?tag=" + tag + "&page=" + page;
     }
     const postPayload = fetch(request, {

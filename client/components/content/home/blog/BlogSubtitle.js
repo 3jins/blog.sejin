@@ -13,7 +13,7 @@ class BlogSubtitle extends Component {
                 if (tag.belongToMinor === belongToMinor) {
                     return (
                         <div className="tag-div">
-                            <a href={"?tag=" + tag.tagName}>
+                            <a href={"?tag=" + tag.tagName.replace(/\&/g, '%26').replace(/\+/g, '%2B')}>
                                 <h5
                                     key={tag.tagName}
                                     className={["slur", this.props.selectedTag === tag.tagName ? "selected" : "unselected"].join(' ')}
