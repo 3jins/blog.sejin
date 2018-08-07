@@ -33,7 +33,6 @@ var mdConverter = function mdConverter(content) {
     var markdownIt = new _markdownIt2.default({ html: true });
     var markdownItKatex = markdownIt.use(_markdownItKatex2.default);
     var renderedString = markdownItKatex.render(content);
-    // return Parser(renderedString.replace('<pre', '<pre class="hljs"'));
     return (0, _htmlReactParser2.default)((0, _stringModifier.replaceAll)(renderedString, '<pre', '<pre class="hljs"'));
 };
 
@@ -54,9 +53,11 @@ var highlightNestedCode = function highlightNestedCode(li) {
 };
 
 var highlightCode = function highlightCode(converted) {
-    if (!converted) return false;
+    if (!converted) {
+        return false;
+    }
     if (!converted.children || converted.children.length < 2) return false;
-    var elements = converted.children[1].children;
+    var elements = converted.children;
     var numElements = elements.length;
     for (var i = 0; i < numElements; i++) {
         if (elements[i].tagName === "UL") {
@@ -66,7 +67,9 @@ var highlightCode = function highlightCode(converted) {
             }
         }
         if (elements[i].tagName === "PRE") {
-            Highlight.highlightBlock(converted.children[1].children[i]);
+            Highlight.highlightBlock(converted.children[i]);
+            console.log(converted.children[i]);
+            // Highlight.highlightBlock(converted.children[1].children[i].children[0]);
         }
     }
     Highlight.initHighlightingOnLoad();

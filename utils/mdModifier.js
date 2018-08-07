@@ -9,7 +9,6 @@ const mdConverter = (content) => {
     const markdownIt = new MarkdownIt({html: true,});
     const markdownItKatex = markdownIt.use(MarkdownItKatex);
     const renderedString = markdownItKatex.render(content);
-    // return Parser(renderedString.replace('<pre', '<pre class="hljs"'));
     return Parser(replaceAll(renderedString, '<pre', '<pre class="hljs"'));
 };
 
@@ -30,9 +29,11 @@ const highlightNestedCode = (li) => {
 };
 
 const highlightCode = (converted) => {
-    if (!converted) return false;
+    if (!converted) {
+        return false;
+    }
     if (!converted.children || converted.children.length < 2) return false;
-    const elements = converted.children[1].children;
+    const elements = converted.children;
     const numElements = elements.length;
     for (let i = 0; i < numElements; i++) {
         if (elements[i].tagName === "UL") {
@@ -42,7 +43,9 @@ const highlightCode = (converted) => {
             }
         }
         if (elements[i].tagName === "PRE") {
-            Highlight.highlightBlock(converted.children[1].children[i]);
+            Highlight.highlightBlock(converted.children[i]);
+            console.log(converted.children[i]);
+            // Highlight.highlightBlock(converted.children[1].children[i].children[0]);
         }
     }
     Highlight.initHighlightingOnLoad();
