@@ -87,7 +87,12 @@ if (process.env.SERVER_ENV === 'development') {
         // Contribute telemetry data to the project
         , telemetry: true
 
-        //, debug: true
+        // certificate renewal may begin at this time
+        , renewWithin: 14 * 24 * 60 * 60 * 1000
 
+        // certificate renewal should happen by this time
+        , renewBy: 10 * 24 * 60 * 60 * 1000
+
+        //, debug: true
     }).listen(httpPort, httpsPort);
 }
