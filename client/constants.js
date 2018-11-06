@@ -25,7 +25,7 @@ const menuList = [
                 'title': 'mobile',
             },
             {
-                'title': 'a.i.',
+                'title': 'a.i',
             },
             {
                 'title': 'etc',
