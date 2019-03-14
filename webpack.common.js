@@ -1,12 +1,14 @@
+const path = require("path");
+
 module.exports = {
-    entry: ["babel-polyfill", "whatwg-fetch", __dirname + "/client/index.js"],
+    entry: ['babel-polyfill', 'whatwg-fetch', path.resolve(__dirname, 'client', 'index.js')],
     output: {
-        path: __dirname + "/public",
-        filename: "bundle.js"
+        path: path.resolve(__dirname, 'public'),
+        filename: 'bundle.js'
     },
     devServer: {
         historyApiFallback: {
-            index: __dirname + "/public/"
+            index: path.resolve(__dirname, 'public'),
         }
     },
     module: {
@@ -17,7 +19,7 @@ module.exports = {
                 loader: 'babel-loader',
                 options: {
                     cacheDirectory: true,
-                    presets: ['react', 'es2015', 'env']
+                    presets: ['react', 'env']
                 }
             },
             {
