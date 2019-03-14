@@ -167,9 +167,11 @@ modules.xml
 # End of https://www.gitignore.io/api/node,webstorm+all
 
 # posting content files
-*.md
-md_files/.git/*
-md_files/.git/.*
+md_files/
 
 # sitemap
 sitemap.xml
+
+# transpiled/bundle files
+bundle.js
+build/
