@@ -56,6 +56,7 @@
     "prod": "npm run build && webpack --config webpack.prod.js",
     "dev": "npm run build && webpack --config webpack.dev.js",
     "start": "node ./build/server/main.js",
+    "devstart": "npm start development",
     "db": "node ./build/server/db/dbCreation.js"
   },
   "babel": {
