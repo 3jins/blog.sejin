@@ -1,5 +1,5 @@
 import express from 'express';
-import { Post } from '../db/models';
+import { Post } from '../mongoDB/models';
 const router = express.Router();
 
 router.get('/:postNo', function(req, res) {

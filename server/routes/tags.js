@@ -1,5 +1,5 @@
 import express from 'express';
-import { Tag } from '../db/models';
+import { Tag } from '../mongoDB/models';
 const router = express.Router();
 
 router.get('/:subnav', function(req, res) {

@@ -1,5 +1,5 @@
 import express from 'express';
-import {Post} from '../db/models';
+import {Post} from '../mongoDB/models';
 import {isEmpty} from "../../utils/nullChecker";
 
 const router = express.Router();
