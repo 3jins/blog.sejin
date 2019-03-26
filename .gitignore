@@ -175,3 +175,6 @@ sitemap.xml
 # transpiled/bundle files
 bundle.js
 build/
+
+# backup files
+backup/
