@@ -61,8 +61,7 @@
     "dev": "npm run build && webpack --config webpack.dev.js",
     "start": "node ./build/server/main.js",
     "devstart": "npm start development",
-    "db": "node ./build/server/mongoDB/updateDB.js",
-    "buildsv": "npm run clean && babel server --out-dir build/server"
+    "syncDB": "node ./build/server/scripts/syncDatabase.js"
   },
   "babel": {
     "presets": [
