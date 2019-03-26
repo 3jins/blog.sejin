@@ -49,8 +49,6 @@ const upsertTag = dataObj => Tag.findOne({ tagName: dataObj.tagName })
     let { postList, belongToMinorList } = dataObj;
     let shouldUpdate = false;
     if (isPostListAdded(tag.postList, postList)) {
-      console.log(tag.postList, postList);
-      console.log(_.intersection(tag.postList, postList));
       postList = [...tag.postList, ...postList];
       shouldUpdate = true;
     }

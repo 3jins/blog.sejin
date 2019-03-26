@@ -29,10 +29,14 @@ const updatePost = (dataObj) => {
     .catch(err => console.log(err));
 };
 
-const upsertPost = async dataObj => Post.findOne({ title: dataObj.title })
+const upsertPost = async (dataObj, isRollback = false) => Post.findOne({ title: dataObj.title })
   .then((post) => {
     // Create a new one
-    if (!post) return createPost({ dateCreated: new Date().getTime(), ...dataObj });
+    if (!post) {
+      return createPost(isRollback
+        ? dataObj
+        : { dateCreated: new Date().getTime(), ...dataObj });
+    }
 
     // Update the existing one
     if (isThisPostChanged(post, dataObj)) {
