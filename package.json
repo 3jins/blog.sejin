@@ -43,14 +43,18 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "chai": "^4.2.0",
     "eslint": "^5.9.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
+    "mocha": "^6.0.2",
+    "mongodb-memory-server": "^4.2.1",
     "ngrok": "^3.1.0",
     "node-sass": "^4.11.0",
     "sass-loader": "^6.0.7",
+    "sinon": "^7.3.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "webpack-merge": "^4.2.1"
@@ -58,12 +62,13 @@
   "scripts": {
     "clean": "rm -rf build public/bundle.js",
     "build": "npm run clean && babel server --out-dir build/server && babel utils --out-dir build/utils",
-    "prod": "npm run build && webpack --config webpack.prod.js",
-    "dev": "npm run build && webpack --config webpack.dev.js",
+    "pbuild": "npm run build && webpack --config webpack.prod.js",
+    "dbuild": "npm run build && webpack --config webpack.dev.js",
     "start": "node ./build/server/main.js",
-    "devstart": "npm start development",
     "syncDB": "node ./build/server/scripts/syncDatabase.js",
-    "rollbackDB": "node ./build/server/scripts/rollbackDatabase.js"
+    "rollbackDB": "node ./build/server/scripts/rollbackDatabase.js",
+    "deletePost": "node ./build/server/scripts/deletePost.js",
+    "test": "mocha --require babel-core/register test"
   },
   "babel": {
     "presets": [
