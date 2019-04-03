@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
-import autoIncrement from 'mongoose-auto-increment';
+import MongooseSequence from 'mongoose-sequence';
 
-autoIncrement.initialize(mongoose.connection);
+const AutoIncrement = MongooseSequence(mongoose);
 
 const postSchema = new mongoose.Schema({
-  postNo: { type: Number, required: true, unique: true },
+  // postNo: { type: Number, required: true, unique: true },
   title: { type: String, required: true, unique: true }, // unique: mdFile cannot have unique keys like hash or postNo...
   dateCreated: { type: Date, required: true },
   dateUpdated: { type: Date, required: true },
@@ -16,7 +16,7 @@ const postSchema = new mongoose.Schema({
   tags: { type: Array, required: false }, // just a string array composed of tagNames
 });
 
-postSchema.plugin(autoIncrement.plugin, { model: 'posts', field: 'postNo' });
+postSchema.plugin(AutoIncrement, { inc_field: 'postNo' });
 const Post = mongoose.model('Post', postSchema, 'posts');
 
 export default Post;

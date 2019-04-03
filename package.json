@@ -19,7 +19,7 @@
     "markdown-it-katex": "^2.0.3",
     "markdown-it-math": "^4.1.0",
     "mongoose": "^4.13.17",
-    "mongoose-auto-increment": "^5.0.1",
+    "mongoose-sequence": "^5.0.1",
     "path": "^0.12.7",
     "pre-commit": "^1.2.2",
     "react": "^16.6.3",
