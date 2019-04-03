@@ -12,7 +12,10 @@ const createPost = (dataObj) => {
   const { title } = dataObj;
   return new Post(dataObj).save()
     .then(() => console.log(`[+] Created a post '${title}'`))
-    .catch(err => console.log(err));
+    .catch((err) => {
+      console.error(err);
+      return err;
+    });
 };
 
 const updatePost = (dataObj) => {
@@ -26,7 +29,10 @@ const updatePost = (dataObj) => {
       post.save();
     })
     .then(() => console.log(`[+] Updated a post '${dataObj.title}'`))
-    .catch(err => console.log(err));
+    .catch((err) => {
+      console.warn(err);
+      return err;
+    });
 };
 
 const upsertPost = async (dataObj, isRollback = false) => Post.findOne({ title: dataObj.title })
@@ -47,15 +53,18 @@ const upsertPost = async (dataObj, isRollback = false) => Post.findOne({ title: 
     // Do nothing
     return null;
   })
-  .catch(err => console.log(err));
+  .catch((err) => {
+    console.error(err);
+    return err;
+  });
 
 const findAllPosts = async (projection = '') => Post.find().select(projection);
 
 const findPost = (query, projection = '') => Post.find(query).select(projection);
 
 export {
-  createPost,
-  updatePost,
+  // createPost,
+  // updatePost,
   upsertPost,
   findAllPosts,
   findPost,

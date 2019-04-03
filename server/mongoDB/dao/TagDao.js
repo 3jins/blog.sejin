@@ -14,7 +14,7 @@ const isBelongToMinorListAdded = (originalBelongToMinorListAdded, argBelongToMin
 
 const updateTag = (dataObj) => {
   if (!('tagName' in dataObj)) {
-    throw Error('[!] updatePost needs a property \'tagName\'!');
+    throw Error('[!] updateTag needs a property \'tagName\'!');
   }
   const { tagName, postList, belongToMinorList } = dataObj;
   return Tag.findOne({ tagName })
@@ -61,13 +61,19 @@ const upsertTag = dataObj => Tag.findOne({ tagName: dataObj.tagName })
         .set({ postList, belongToMinorList })
         .save()
         .then(() => console.log(`[+] Updated a tag '${dataObj.tagName}'`))
-        .catch(err => console.log(err));
+        .catch((err) => {
+          console.error(err);
+          return err;
+        });
     }
 
     // Do nothing
     return null;
   })
-  .catch(err => console.log(err));
+  .catch((err) => {
+    console.error(err);
+    return err;
+  });
 
 const findAllTags = async (projection = {}) => Tag.find().select(projection);
 
