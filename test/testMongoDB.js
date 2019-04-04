@@ -13,27 +13,27 @@ const mongoServer = new MongoMemoryServer();
 const option = { useMongoClient: true };
 
 export default () => {
-  describe('Dao', () => {
-    before('preprocessing...', (done) => {
+  describe('MongoDB', () => {
+    before((done) => {
+      console.log('[+] preprocessing...');
       mongoose.Promise = Bluebird;
       mongoServer
         .getConnectionString()
-        .then(dbURL => mongoose.connect(dbURL, option, (err) => {
-          if (err) done(err);
-        }))
+        .then(dbURL => mongoose.connect(dbURL, option))
         .then(() => {
           modelsMock.Post = Post;
           modelsMock.Category = Category;
           modelsMock.Series = Series;
           modelsMock.Tag = Tag;
           done();
-        });
+        }, err => done(err));
     });
 
-    testPostDao(modelsMock);
-    // testTagDao(modelsMock);
+    testPostDao();
+    // testTagDao();
 
     after(() => {
+      console.log('[+] MongoDB test is over. Stopping the mongoServer mock...');
       mongoose.disconnect();
       mongoServer.stop();
     });

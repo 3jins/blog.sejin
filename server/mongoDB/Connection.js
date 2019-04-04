@@ -14,7 +14,7 @@ class Connection {
       return { addressList, port, database };
     };
 
-    const serverEnv = process.argv[2];
+    const serverEnv = process.env.SERVER_ENV;
 
     this.connectionInfo = loadConnectionInfo(serverEnv);
   }
