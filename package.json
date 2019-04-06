@@ -65,8 +65,8 @@
     "pbuild": "npm run build && webpack --config webpack.prod.js",
     "dbuild": "npm run build && webpack --config webpack.dev.js",
     "start": "node ./build/server/main.js",
-    "syncDB": "node ./build/server/scripts/syncDatabase.js",
-    "rollbackDB": "node ./build/server/scripts/rollbackDatabase.js",
+    "syncDB": "node ./build/server/scripts/syncDatabase/index.js",
+    "rollbackDB": "node ./build/server/scripts/rollbackDatabase/index.js",
     "deletePost": "node ./build/server/scripts/deletePost.js",
     "test": "mocha --require babel-core/register test"
   },
