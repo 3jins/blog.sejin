@@ -1,15 +1,19 @@
 import sinon from 'sinon';
 import mongoose from 'mongoose';
 import MongoMemoryServer from 'mongodb-memory-server';
+import FsStub from './FsStub';
+import connectToMock from './connectToMock';
 import testMongoDB from './testMongoDB';
 import testScripts from './server/testScripts';
-import connectToMock from "./connectToMock";
 
 const mongoServerMock = new MongoMemoryServer();
+const fsStub = new FsStub();
 
 before(async () => {
   console.log('[+] preprocessing...');
+  sinon.stub(console, 'error'); // Suppress error message from catch phrases
   await connectToMock(mongoServerMock);
+  fsStub.init();
 });
 
 afterEach(async () => {
@@ -17,11 +21,11 @@ afterEach(async () => {
 });
 
 after(() => {
-  console.log('[+] Test is all over. Clearing the mongoServerMock...');
+  console.log('[+] Test is all over. Clearing the stubs and mocks...');
+  fsStub.restore();
   mongoose.disconnect();
   mongoServerMock.stop();
 });
 
-sinon.stub(console, 'error'); // Suppress error message from catch phrases
-testMongoDB(mongoServerMock);
-testScripts(mongoServerMock);
+testMongoDB();
+testScripts(fsStub.fakeFileSystem);
