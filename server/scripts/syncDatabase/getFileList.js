@@ -1,8 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import * as Bluebird from 'bluebird';
-
-Bluebird.promisifyAll(fs);
 
 const getFileList = async (curPath, belongToMajor = null, belongToMinor = null) => {
   const fileNameList = await fs.readdirAsync(curPath);

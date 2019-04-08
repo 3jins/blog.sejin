@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import fs from 'fs';
+import * as Bluebird from 'bluebird';
 import connectToMongo from '../../mongoDB/connectToMongo';
 import Configuration from '../../Configuration';
 import getFileList from './getFileList';
@@ -7,7 +9,9 @@ import backupDatabase from '../backupDatabase';
 import syncPosts from './syncPosts';
 import syncTags from './syncTags';
 
+Bluebird.promisifyAll(fs);
 const { pathInfo } = Configuration;
+
 connectToMongo()
   .then(() => getFileList(pathInfo.mdFiles))
   .then(async (fileList) => {
