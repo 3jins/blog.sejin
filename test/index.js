@@ -12,6 +12,10 @@ before(async () => {
   await connectToMock(mongoServerMock);
 });
 
+afterEach(async () => {
+  await mongoose.connection.db.dropDatabase();
+});
+
 after(() => {
   console.log('[+] Test is all over. Clearing the mongoServerMock...');
   mongoose.disconnect();
