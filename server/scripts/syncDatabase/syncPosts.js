@@ -14,7 +14,7 @@ export default fileList => fileList.map(async (fileInfo) => {
   const content = await fs.readFileAsync(fullPath, 'utf8');
   const dateUpdated = new Date().getTime();
 
-  await Dao.PostDao.upsertPost({
+  return Dao.PostDao.upsertPost({
     title, dateUpdated, content, belongToMajor, belongToMinor, tags,
   });
 });

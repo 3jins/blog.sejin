@@ -8,13 +8,16 @@ import syncPosts from './syncPosts';
 import syncTags from './syncTags';
 
 const { pathInfo } = Configuration;
-connectToMongo();
-
-getFileList(pathInfo.mdFiles)
+connectToMongo()
+  .then(() => getFileList(pathInfo.mdFiles))
   .then(async (fileList) => {
-    await Promise.all(syncPosts(fileList));
-    await Promise.all(syncTags(fileList));
-    await buildSitemap();
-    await backupDatabase();
-    mongoose.connection.close();
+    Promise.all(syncPosts(fileList));
+    Promise.all(syncTags(fileList));
+  })
+  .then(() => buildSitemap())
+  .then(() => backupDatabase())
+  .then(() => mongoose.connection.close())
+  .catch((err) => {
+    console.error(err);
+    return err;
   });
