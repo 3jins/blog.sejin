@@ -33,7 +33,7 @@ export default async () => {
   // const categories = removeAttribute(await CategoryDao.findAllCategories(), keyToRemoveList);
   // const series = removeAttribute(await SeriesDao.findAllSeries(), keyToRemoveList);
 
-  saveData(backupPath, backupFileName, {
+  return saveData(backupPath, backupFileName, {
     posts, tags, // categories, series
   });
 };

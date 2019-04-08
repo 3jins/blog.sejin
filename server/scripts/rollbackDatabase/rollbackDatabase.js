@@ -1,4 +1,6 @@
+import mongoose from 'mongoose';
 import * as Dao from '../../mongoDB/dao';
+import backupDatabase from '../backupDatabase';
 
 export default async (backupData) => {
   const backupObj = JSON.parse(String(backupData));

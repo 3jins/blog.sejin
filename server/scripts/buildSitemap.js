@@ -70,5 +70,5 @@ export default () => PostDao.findAllPosts().then((postList) => {
   const sitemapFileName = 'sitemap.xml';
   const sitemapContent = buildSitemapContent(rawSitemapOpener, urlList, rawSitemapCloser);
 
-  saveObjectAsXML(sitemapPath, sitemapFileName, sitemapContent);
+  return saveObjectAsXML(sitemapPath, sitemapFileName, sitemapContent);
 });
