@@ -44,7 +44,7 @@ const highlightCode = (converted) => {
         }
         if (elements[i].tagName === "PRE") {
             Highlight.highlightBlock(converted.children[i]);
-            console.log(converted.children[i]);
+            // console.log(converted.children[i]);
             // Highlight.highlightBlock(converted.children[1].children[i].children[0]);
         }
     }

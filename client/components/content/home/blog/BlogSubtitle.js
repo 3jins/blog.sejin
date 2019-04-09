@@ -10,7 +10,7 @@ class BlogSubtitle extends Component {
                 return <LoadingPreview isTable={false}/>
             }
             return tagPayload.map((tag) => {
-                if (tag.belongToMinor === belongToMinor) {
+                // if (tag.belongToMinor.contains(belongToMinor)) {
                     return (
                         <div className="tag-div">
                             <a href={"?tag=" + tag.tagName.replace(/\&/g, '%26').replace(/\+/g, '%2B')}>
@@ -26,7 +26,7 @@ class BlogSubtitle extends Component {
                             </a>
                         </div>
                     );
-                }
+                // }
             });
         };
 
