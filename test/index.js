@@ -1,3 +1,4 @@
+import chai from 'chai';
 import sinon from 'sinon';
 import mongoose from 'mongoose';
 import MongoMemoryServer from 'mongodb-memory-server';
@@ -11,6 +12,7 @@ const fsStub = new FsStub();
 
 before(async () => {
   console.log('[+] preprocessing...');
+  chai.should();
   sinon.stub(console, 'error'); // Suppress error message from catch phrases
   await connectToMock(mongoServerMock);
   fsStub.init();

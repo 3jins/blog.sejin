@@ -1,7 +1,4 @@
-import chai from 'chai';
 import * as PostDao from '../../../../server/mongoDB/dao/PostDao';
-
-chai.should();
 
 export default () => {
   describe('PostDao', () => {
@@ -28,6 +25,7 @@ export default () => {
         postList[0].content.should.equal(healthyObj.content);
       });
       it('tries to insert an existing document to DB', async () => {
+        await PostDao.upsertPost(healthyObj);
         await PostDao.upsertPost(updatedHealthyObj);
         const postList = await PostDao.findAllPosts();
         postList.should.have.lengthOf(1);
