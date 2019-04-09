@@ -4,12 +4,12 @@ import { Tag } from '../models';
 // const MONGO_DUPLICATE_KEY_ERR = 11000;
 
 const isPostListAdded = (originalPostList, argPostList) => (
-  _.intersection(originalPostList, argPostList).length > argPostList.length
+  _.intersection(originalPostList, argPostList).length < argPostList.length
 );
 
 const isBelongToMinorListAdded = (originalBelongToMinorListAdded, argBelongToMinorListAdded) => (
   _.intersection(originalBelongToMinorListAdded, argBelongToMinorListAdded).length
-  > argBelongToMinorListAdded.length
+  < argBelongToMinorListAdded.length
 );
 
 const updateTag = (dataObj) => {
@@ -44,19 +44,21 @@ const upsertTag = dataObj => Tag.findOne({ tagName: dataObj.tagName })
   .then((tag) => {
     // Create a new one
     if (!tag) return createTag(dataObj);
-
     // Update the existing one
-    let { postList, belongToMinorList } = dataObj;
+    let { postList, belongToMinorList } = tag;
     let shouldUpdate = false;
-    if (isPostListAdded(tag.postList, postList)) {
-      postList = [...tag.postList, ...postList];
+    if (isPostListAdded(postList, dataObj.postList)) {
+      console.log('postList on');
+      postList = [...postList, ...dataObj.postList];
       shouldUpdate = true;
     }
-    if (isBelongToMinorListAdded(tag.belongToMinorList, belongToMinorList)) {
-      belongToMinorList = [...tag.belongToMinorList, ...belongToMinorList];
+    if (isBelongToMinorListAdded(belongToMinorList, dataObj.belongToMinorList)) {
+      console.log('belongTo on');
+      belongToMinorList = [...belongToMinorList, ...dataObj.belongToMinorList];
       shouldUpdate = true;
     }
     if (shouldUpdate) {
+      console.log(postList, belongToMinorList);
       return tag
         .set({ postList, belongToMinorList })
         .save()
