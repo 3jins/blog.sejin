@@ -1,145 +1,137 @@
 import * as posts from './posts';
 import * as menus from './menus';
 import * as scrolls from './scrolls';
-import {getBasePx, getMenuHeightRaw, emToPx} from "../../utils/unitConverter";
-import {isEmpty} from "../../utils/nullChecker";
-import {https2http} from "../../utils/urlModifier";
+import { getBasePx, getMenuHeightRaw, emToPx } from '../../utils/unitConverter';
+import { isEmpty } from '../../utils/nullChecker';
 
 const headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
 };
 
-/*********
- * posts *
- *********/
-export function fetchPosts(url, belongToMajor, belongToMinor, tag, page) {
-    let request = url + "/" + belongToMajor + "/" + belongToMinor;
-    if (isEmpty(page)) page = 1;
-    if (isEmpty(tag)) {
-        request = url + "/" + belongToMajor + "/" + belongToMinor + "?page=" + page;
-    }
-    else {
-        tag = tag.replace(/\&/g, '%26').replace(/\+/g, '%2B');
-        request = url + "/" + belongToMajor + "/" + belongToMinor + "?tag=" + tag + "&page=" + page;
-    }
-    const postPayload = fetch(request, {
-        method: 'get',
-        headers: headers,
-    })
-        .then(res => res.json())
-        .catch(err => console.log(err));
-    return {
-        type: posts.FETCH_POSTS,
-        postPayload: postPayload,
-    };
-}
+/* ******* *
+ *  posts  *
+ * ******* */
+const fetchPosts = (url, belongToMajor, belongToMinor, tag, page) => {
+  const ret = { type: posts.FETCH_POSTS };
+  const request = [url, belongToMajor, belongToMinor].join('/');
+  if (isEmpty(page)) page = 1;
+  const option = `?page=${page}${isEmpty(tag) ? '' : `&tag=${tag.replace(/&/g, '%26').replace(/\+/g, '%2B')}`}`;
 
-export function fetchPost(url, postNo) {
-    console.log(url + '/' + postNo);
-    const postPayload = fetch(url + '/' + postNo, {
-        method: 'get',
-        headers: headers
-    })
-        .then(res => res.json())
-        .catch(err => console.log(err));
+  ret.postPayload = fetch(request + option, {
+    method: 'get',
+    headers,
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
 
-    return {
-        type: posts.FETCH_POST,
-        postPayload: postPayload,
-    }
-}
+  return ret;
+};
 
-export function fetchTags(url, belongToMinor) {
-    console.log(url + "/" + belongToMinor);
-    const tagPayload = fetch(url + "/" + belongToMinor, {
-        method: 'get',
-        headers: headers
-    })
-        .then(res => res.json())
-        .catch(err => console.log(err));
+const fetchPost = (url, postNo) => {
+  const ret = { type: posts.FETCH_POST };
+  const request = [url, postNo].join('/');
 
-    return {
-        type: posts.FETCH_TAGS,
-        tagPayload: tagPayload,
-    };
-}
+  ret.postPayload = fetch(request, {
+    method: 'get',
+    headers,
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
 
-export function fetchCommentsCount(urls) {
-    const graphAPI = "https://graph.facebook.com/v2.4/?fields=share{comment_count}&ids=";
-    const graphRequest = graphAPI + urls.join(',');
-    const commentsCountPayload = fetch(graphRequest, {
-        method: 'get',
-        headers: headers
-    })
-        .then(res => res.json())
-        .catch(err => console.log(err));
-    console.log(graphRequest);
-    console.log('action', commentsCountPayload);
+  return ret;
+};
 
-    return {
-        type: posts.FETCH_COMMENTS_COUNT,
-        commentsCountPayload: commentsCountPayload,
-    };
-}
+const fetchTags = (url, belongToMinor) => {
+  const ret = { type: posts.FETCH_TAGS };
+  const request = [url, belongToMinor].join('/');
 
-export function createPost(jsonData) {
-    // const request = fetch('/create_post', {
-    //     method: 'post',
-    //     headers: headers,
-    //     body: JSON.stringify(jsonData),
-    // })
-    //     .then(res => console.log(res))
-    //     .catch(err => console.log(err));
-}
+  ret.tagPayload = fetch(request, {
+    method: 'get',
+    headers,
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
 
-export function fetchSuccess(postPayload, tagPayload = [], commentsCountPayload = []) {
-    return {
-        type: posts.FETCH_SUCCESS,
-        isLoaded: true,
-        postPayload: postPayload,
-        tagPayload: tagPayload,
-        commentsCountPayload: commentsCountPayload,
-    };
-}
+  return ret;
+};
+
+const fetchCommentsCount = (urls) => {
+  const ret = { type: posts.FETCH_COMMENTS_COUNT };
+  const graphAPI = 'https://graph.facebook.com/v2.4/?fields=share{comment_count}&ids=';
+  const request = graphAPI + urls.join(',');
+
+  ret.commentsCountPayload = fetch(request, {
+    method: 'get',
+    headers,
+  })
+    .then(res => res.json())
+    .catch(err => console.error(err));
+
+  return ret;
+};
+
+// const createPost = (jsonData) => {
+//   const request = fetch('/create_post', {
+//     method: 'post',
+//     headers: headers,
+//     body: JSON.stringify(jsonData),
+//   })
+//     .then(res => console.log(res))
+//     .catch(err => console.error(err));
+// };
+
+const fetchSuccess = (postPayload, tagPayload = [], commentsCountPayload = []) => ({
+  type: posts.FETCH_SUCCESS,
+  isLoaded: true,
+  postPayload,
+  tagPayload,
+  commentsCountPayload,
+});
 
 
-/*********
- * menus *
- *********/
-export function changeMenu(menuIdx) {
-    return {
-        type: menus.CHANGE_MENU,
-        menuIdx: menuIdx,
-    };
-}
+/* ******* *
+ *  menus  *
+ * ******* */
+const changeMenu = menuIdx => ({
+  type: menus.CHANGE_MENU,
+  menuIdx,
+});
 
-export function changeSubmenu(submenuIdx) {
-    return {
-        type: menus.CHANGE_SUBMENU,
-        submenuIdx: submenuIdx,
-    };
-}
+const changeSubmenu = submenuIdx => ({
+  type: menus.CHANGE_SUBMENU,
+  submenuIdx,
+});
 
-export function changeMenuFinished() {
-    return {
-        type: menus.CHANGE_MENU_FINISHED,
-    };
-}
+const changeMenuFinished = () => ({
+  type: menus.CHANGE_MENU_FINISHED,
+});
 
-/***********
- * scrolls *
- ***********/
-export function scroll(scrollY, innerWindowHeight) {
-    const basePx = getBasePx()['menu'];
-    const menuHeight = getMenuHeightRaw();
-    const menuPadding = menuHeight / 4;
-    const areNavsSticky = {
-        isNavSticky: scrollY >= emToPx(basePx, menuPadding),
-        isSubnavSticky: scrollY >= innerWindowHeight - emToPx(basePx, menuHeight + menuPadding),
-    };
-    return {
-        type: scrolls.SCROLL,
-        areNavsSticky: areNavsSticky,
-    }
-}
+/* ********* *
+ *  scrolls  *
+ * ********* */
+const scroll = (scrollY, innerWindowHeight) => {
+  const basePx = getBasePx().menu;
+  const menuHeight = getMenuHeightRaw();
+  const menuPadding = menuHeight / 4;
+  const areNavsSticky = {
+    isNavSticky: scrollY >= emToPx(basePx, menuPadding),
+    isSubnavSticky: scrollY >= innerWindowHeight - emToPx(basePx, menuHeight + menuPadding),
+  };
+  return {
+    type: scrolls.SCROLL,
+    areNavsSticky,
+  };
+};
+
+export {
+  fetchPosts,
+  fetchPost,
+  fetchTags,
+  fetchCommentsCount,
+  fetchSuccess,
+  changeMenu,
+  changeSubmenu,
+  changeMenuFinished,
+  scroll,
+};
