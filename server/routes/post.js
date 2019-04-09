@@ -1,24 +1,24 @@
 import express from 'express';
-import { Post } from '../mongoDB/models';
+import * as PostDao from '../mongoDB/dao/PostDao';
+
 const router = express.Router();
 
-router.get('/:postNo', function(req, res) {
-    const postNo = req.params.postNo;
-    const queryJson = {
-        "postNo": postNo,
-    };
+router.get('/:postNo', (req, res) => {
+  const { postNo } = req.params;
+  const findQuery = {
+    postNo,
+  };
 
-    Post
-        .find(queryJson)
-        .exec(function (err, post) {
-            if (err) {
-                console.log(err);
-                return res.status(500).json({
-                    message: 'Could not retrieve works'
-                });
-            }
-            res.json({post: post});
-        });
+  return PostDao.findPost(findQuery)
+    .then(post => res.json({
+      post,
+    }))
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).json({
+        message: `Could not retrieve a post (postNo: ${postNo})`,
+      });
+    });
 });
 
 export default router;
