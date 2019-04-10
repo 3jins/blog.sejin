@@ -9,8 +9,14 @@ const isThisPostChanged = (originalPost, dataObj) => (
 );
 
 const createPost = (dataObj) => {
-  const { title } = dataObj;
-  return new Post(dataObj).save()
+  const { postNo, title } = dataObj;
+  return new Promise((resolve, reject) => new Post(dataObj)
+    .setNext('postNo', (err, post) => { // Increase postNo automatically
+      if (err) return reject(err);
+      if (postNo !== undefined) post.set({ postNo }); // Overwrite postNo if it's included
+      post.save();
+      return resolve();
+    }))
     .then(() => console.log(`[+] Created a post '${title}'`))
     .catch((err) => {
       console.error(err);

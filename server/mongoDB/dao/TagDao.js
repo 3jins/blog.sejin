@@ -48,17 +48,14 @@ const upsertTag = dataObj => Tag.findOne({ tagName: dataObj.tagName })
     let { postList, belongToMinorList } = tag;
     let shouldUpdate = false;
     if (isPostListAdded(postList, dataObj.postList)) {
-      console.log('postList on');
       postList = [...postList, ...dataObj.postList];
       shouldUpdate = true;
     }
     if (isBelongToMinorListAdded(belongToMinorList, dataObj.belongToMinorList)) {
-      console.log('belongTo on');
       belongToMinorList = [...belongToMinorList, ...dataObj.belongToMinorList];
       shouldUpdate = true;
     }
     if (shouldUpdate) {
-      console.log(postList, belongToMinorList);
       return tag
         .set({ postList, belongToMinorList })
         .save()

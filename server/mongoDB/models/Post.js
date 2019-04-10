@@ -16,7 +16,7 @@ const postSchema = new mongoose.Schema({
   tags: { type: Array, required: false }, // just a string array composed of tagNames
 });
 
-postSchema.plugin(AutoIncrement, { inc_field: 'postNo' });
+postSchema.plugin(AutoIncrement, { inc_field: 'postNo', disable_hooks: true });
 const Post = mongoose.model('Post', postSchema, 'posts');
 
 export default Post;
