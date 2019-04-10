@@ -36,7 +36,7 @@ const updatePost = (dataObj) => {
     })
     .then(() => console.log(`[+] Updated a post '${dataObj.title}'`))
     .catch((err) => {
-      console.warn(err);
+      console.error(err);
       return err;
     });
 };

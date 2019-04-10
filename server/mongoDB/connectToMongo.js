@@ -22,8 +22,7 @@ class ConnectToMongoSingleton {
 
     const connectToMongo = (databaseUrlList) => {
       return databaseUrlList.reduce(async (keepGoing, databaseUrl) => {
-        await keepGoing;
-        if (!keepGoing) return keepGoing;
+        if (!await keepGoing) return keepGoing;
 
         try {
           console.log(`Trying to make a connection through ${databaseUrl}...`);
