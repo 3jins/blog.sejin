@@ -39,6 +39,23 @@ export default () => {
             done();
           });
       });
+      it('tries to insert a given value as a postNo', async () => {
+        const postObjList = [
+          { ...updatedHealthyObj, title: '제목3', postNo: 3 },
+          { ...updatedHealthyObj, title: '제목1', postNo: 1 },
+          { ...updatedHealthyObj, title: '제목2', postNo: 2 },
+          { ...updatedHealthyObj, title: '제목4' }, // postNo should automatically increase if there's no given postNo
+        ];
+        await postObjList.reduce(async (lastPostObj, postObj) => {
+          await lastPostObj;
+          return PostDao.upsertPost(postObj);
+        }, null);
+        const postList = await PostDao.findAllPosts();
+        postList.forEach((post) => {
+          const { title, postNo } = post;
+          title.should.equal(`제목${postNo}`);
+        });
+      });
     });
   });
 };

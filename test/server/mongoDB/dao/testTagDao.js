@@ -25,7 +25,6 @@ export default () => {
           return TagDao.upsertTag(tagObj);
         }, null);
         const tag = (await TagDao.findTag({ tagName: 'test tag' }))[0];
-        console.log(tag);
         tag.postList.should.have.lengthOf(tagObjList.length);
         tag.belongToMinorList.should.have.lengthOf(1);
       });
