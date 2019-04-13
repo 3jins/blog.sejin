@@ -63,10 +63,9 @@
     "webpack-merge": "^4.2.1"
   },
   "scripts": {
-    "clean": "rm -rf build public/bundle.js",
-    "build": "npm run clean && babel server --out-dir build/server && babel utils --out-dir build/utils",
-    "pbuild": "npm run build && webpack --config webpack.prod.js",
-    "dbuild": "npm run build && webpack --config webpack.dev.js",
+    "build": "rm -rf build && babel server --out-dir build/server && babel utils --out-dir build/utils",
+    "wpp": "rm -f public/bundle.js && webpack --config webpack.prod.js",
+    "wpd": "rm -f public/bundle.js && webpack --config webpack.dev.js",
     "start": "node ./build/server/main.js",
     "syncDB": "node ./build/server/scripts/syncDatabase/index.js",
     "rollbackDB": "node ./build/server/scripts/rollbackDatabase/index.js",
