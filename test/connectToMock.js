@@ -5,12 +5,14 @@ let instance;
 class ConnectionMockSingleton {
   constructor(mongoServerMock) {
     const connectToMock = (mongoServerMock) => {
-      const option = { useMongoClient: true };
       mongoose.Promise = Bluebird;
 
       return mongoServerMock
         .getConnectionString()
-        .then(dbURL => mongoose.connect(dbURL, option), (err) => {
+        .then(dbURL => mongoose.connect(dbURL, {
+          useCreateIndex: true,
+          useNewUrlParser: true,
+        }), (err) => {
           console.error(err);
           return err;
         });

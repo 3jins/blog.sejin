@@ -27,7 +27,8 @@ class ConnectToMongoSingleton {
         try {
           console.log(`Trying to make a connection through ${databaseUrl}...`);
           await mongoose.connect(databaseUrl, {
-            useMongoClient: true,
+            useCreateIndex: true,
+            useNewUrlParser: true,
           });
           console.log(`[+] Connected to the mongodb server through ${databaseUrl} =)`);
           return false;
