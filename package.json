@@ -22,6 +22,7 @@
     "mongoose-sequence": "^5.0.1",
     "path": "^0.12.7",
     "pre-commit": "^1.2.2",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-facebook": "^4.2.1",
