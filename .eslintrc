@@ -1,5 +1,5 @@
 {
-  "extends": "airbnb",
+  "extends": ["react-app", "airbnb"],
   "rules": {
     "linebreak-style": 0,
     "no-console": 0,
