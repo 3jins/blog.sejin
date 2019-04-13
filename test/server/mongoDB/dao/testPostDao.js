@@ -57,5 +57,27 @@ export default () => {
         });
       });
     });
+    describe('removePosts', () => {});
+    describe('countPosts', () => {
+      const testObj = {
+        title: '제목',
+        dateUpdated: new Date().getTime(),
+        content: '걍 본문이다',
+        belongToMajor: 'blog',
+        belongToMinor: 'tech',
+        tags: ['태그1', '태그2', '태그3'],
+      };
+      const postObjList = [
+        { ...testObj, title: '제목3', postNo: 3 },
+        { ...testObj, title: '제목4', postNo: 4 },
+        { ...testObj, title: '제목2', postNo: 2 },
+      ];
+      it('gets the number of documents', async () => {
+        await Promise.all(postObjList.map(postObj => PostDao.upsertPost(postObj)));
+        // TODO(3jins): Add `PostDao.removePost` for this test
+        const numPosts = await PostDao.countPosts();
+        numPosts.should.equal(postObjList.length);
+      });
+    });
   });
 };

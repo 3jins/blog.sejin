@@ -64,9 +64,11 @@ const upsertPost = async (dataObj, isRollback = false) => Post.findOne({ title: 
     return err;
   });
 
-const findAllPosts = async (projection = '') => Post.find().select(projection);
+const findAllPosts = (projection = '') => Post.find().select(projection);
 
 const findPost = (query, projection = '') => Post.find(query).select(projection);
+
+const countPosts = () => Post.estimatedDocumentCount();
 
 export {
   // createPost,
@@ -74,4 +76,5 @@ export {
   upsertPost,
   findAllPosts,
   findPost,
+  countPosts,
 };
