@@ -2,13 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import scrollToComponent from 'react-scroll-to-component';
 import * as actions from '../../../../actions';
-import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import BlogContent from './BlogContent';
 import BlogSubtitle from './BlogSubtitle';
 import {getMenuHeight} from "../../../../../utils/unitConverter";
 import {blogTitle, menuList} from "../../../../constants";
-import Helmet from "react-helmet/es/Helmet";
+// import Helmet from "react-helmet/es/Helmet";
 import {getParameterByName} from "../../../../../utils/stringModifier";
 import {isEmpty} from "../../../../../utils/nullChecker";
 import PageView from "../../PageView";
@@ -100,10 +99,10 @@ class Blog extends Component {
 
         return (
             <div className="content" ref={(section) => this.contentsStartPosition = section}>
-                <Helmet>
-                    <meta property="og:url" content="https://enhanced.kr/nav/Blog"/>
-                    <title>{"Blog :: " + blogTitle}</title>
-                </Helmet>
+                {/*<Helmet>*/}
+                    {/*<meta property="og:url" content="https://enhanced.kr/nav/Blog"/>*/}
+                    {/*<title>{"Blog :: " + blogTitle}</title>*/}
+                {/*</Helmet>*/}
                 <div className="content-body">
                     {this.props.isLoaded && !isEmpty(this.props.postPayload.posts) &&
                     <BlogSubtitle

@@ -27,7 +27,7 @@ connectToMongo()
     if (process.env.SERVER_ENV === 'development') {
       ngrok.connect({
         proto: 'http',
-        addr: `192.168.99.100:${testPort}`,
+        addr: `localhost:${testPort}`,
       })
         .then(url => console.log('Can test this app with this exported url:', url));
       app.listen(testPort, () => console.log('Express listening on port', testPort));

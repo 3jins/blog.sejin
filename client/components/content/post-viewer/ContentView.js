@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet/es/Helmet';
+// import Helmet from 'react-helmet/es/Helmet';
 import { connect } from 'react-redux';
 import * as actions from '../../../actions';
 import LoadingView from '../LoadingView';
@@ -50,12 +50,12 @@ class ContentView extends Component {
 
     return (
       <div className="content">
-        <Helmet>
-          <meta property="og:url" content={`https://enhanced.kr/contentviewer/${postNo}`} />
-          <title>
-            {!post && `${post[0].title} :: ${blogTitle}`}
-          </title>
-        </Helmet>
+        {/*<Helmet>*/}
+          {/*<meta property="og:url" content={`https://enhanced.kr/contentviewer/${postNo}`} />*/}
+          {/*<title>*/}
+            {/*{!post && `${post[0].title} :: ${blogTitle}`}*/}
+          {/*</title>*/}
+        {/*</Helmet>*/}
         <div className="content-body">
           {belongToMajor !== 'Works' && (
             <ContentViewSubtitle

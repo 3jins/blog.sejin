@@ -2,12 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import scrollToComponent from 'react-scroll-to-component';
 import * as actions from '../../../../actions';
-import NoPostPreview from '../NoPostPreview';
 import LoadingView from '../../LoadingView';
 import WorksContent from './WorksContent';
 import {getMenuHeight} from "../../../../../utils/unitConverter";
 import {blogTitle, menuList} from "../../../../constants";
-import Helmet from "react-helmet/es/Helmet";
+// import Helmet from "react-helmet/es/Helmet";
 import {getParameterByName} from "../../../../../utils/stringModifier";
 import {isEmpty} from "../../../../../utils/nullChecker";
 import PageView from "../../PageView";
@@ -97,10 +96,10 @@ class Works extends Component {
             <div className="content" ref={(section) => {
                 this.contentsStartPosition = section;
             }}>
-                <Helmet>
-                    <meta property="og:url" content="https://enhanced.kr/nav/Blog"/>
-                    <title>{"Works :: " + blogTitle}</title>
-                </Helmet>
+                {/*<Helmet>*/}
+                    {/*<meta property="og:url" content="https://enhanced.kr/nav/Blog"/>*/}
+                    {/*<title>{"Works :: " + blogTitle}</title>*/}
+                {/*</Helmet>*/}
                 {!this.props.isLoaded && /* loading */
                 <LoadingView/>
                 }
