@@ -45,12 +45,14 @@ const PageView = (props) => {
 
   return (
     <div className="pages">
-      {pageControlButtons.prevBundle}
-      {pageControlButtons.prev}
-      {pages}
-      {pageControlButtons.next}
-      {pageControlButtons.nextBundle}
-      <p>
+      <p className="page-buttons">
+        {pageControlButtons.prevBundle}
+        {pageControlButtons.prev}
+        {pages}
+        {pageControlButtons.next}
+        {pageControlButtons.nextBundle}
+      </p>
+      <p className="page-summary">
         Current page: {page} of <a href={urlQueryBase + finalPage}>{finalPage}</a>
       </p>
     </div>

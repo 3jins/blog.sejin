@@ -22,7 +22,7 @@ class Blog extends Component {
         this.menuList = menuList;
         this.menuIdx = 2;
         this.tag = getParameterByName('tag');
-        this.page = getParameterByName('page');
+        this.page = Number(getParameterByName('page'));
         props.handleFetchPosts(
             '/posts',
             props.belongToMajor,
@@ -123,7 +123,7 @@ class Blog extends Component {
                         renderContents(this.props.postPayload, this.props.commentsCountPayload)
                         }
                         {this.props.isLoaded && !isEmpty(this.props.postPayload.posts) &&
-                        <PageView page={this.page} numPosts={this.props.postPayload.numPosts} pageScale={10}/>
+                        <PageView page={this.page > 0 ? this.page : 1} numPosts={this.props.postPayload.numPosts} pageScale={10}/>
                         }
                     </div>
                 </div>
