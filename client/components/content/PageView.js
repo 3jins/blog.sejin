@@ -12,16 +12,13 @@ const PageView = (props) => {
   const pageControlButtons = {
     prevBundle: '', prev: '', next: '', nextBundle: '',
   };
-  const numPageBundle = 10;
-  const pageStart = Math.floor(page / pageScale) * pageScale + 1;
+  const pageStart = Math.floor((page - 1) / pageScale) * pageScale + 1;
   const finalPage = Math.floor(numPosts / pageScale) + 1;
-  let isLast = false;
 
   const currentTag = getParameterByName('tag');
   const urlQueryBase = isEmpty(currentTag) ? '?page=' : `?tag=${currentTag}&page=`;
-  for (let i = 0; i < numPageBundle; i++) {
+  for (let i = 0; i < pageScale; i++) {
     if (pageStart + i > finalPage) {
-      isLast = true;
       break;
     }
     if (pageStart + i === page) {
@@ -33,14 +30,14 @@ const PageView = (props) => {
   if (page > 1) {
     pageControlButtons.prev = <a href={urlQueryBase + (page - 1)}>{'<'}</a>;
   }
-  if (page > 10) {
-    pageControlButtons.prevBundle = <a href={urlQueryBase + (page - numPageBundle)}>{'<<'}</a>;
+  if (page > pageScale) {
+    pageControlButtons.prevBundle = <a href={urlQueryBase + (page - pageScale - (page % pageScale) + 1)}>{'<<'}</a>;
   }
   if (page < finalPage) {
     pageControlButtons.next = <a href={urlQueryBase + (page + 1)}>{'>'}</a>;
   }
-  if (!isLast) {
-    pageControlButtons.nextBundle = <a href={urlQueryBase + (page + numPageBundle)}>{'>>'}</a>;
+  if (page < Math.floor((finalPage - 1) / pageScale) * pageScale) {
+    pageControlButtons.nextBundle = <a href={urlQueryBase + (page + pageScale - (page % pageScale) + 1)}>{'>>'}</a>;
   }
 
   return (
