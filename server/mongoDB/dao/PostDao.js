@@ -68,7 +68,7 @@ const findAllPosts = (projection = '') => Post.find().select(projection);
 
 const findPost = (query, projection = '') => Post.find(query).select(projection);
 
-const countPosts = () => Post.estimatedDocumentCount();
+const countPosts = query => Post.countDocuments(query);
 
 export {
   // createPost,

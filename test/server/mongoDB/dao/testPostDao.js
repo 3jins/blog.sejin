@@ -57,7 +57,8 @@ export default () => {
         });
       });
     });
-    describe('removePosts', () => {});
+    describe('removePosts', () => {
+    });
     describe('countPosts', () => {
       const testObj = {
         title: '제목',
@@ -77,6 +78,60 @@ export default () => {
         // TODO(3jins): Add `PostDao.removePost` for this test
         const numPosts = await PostDao.countPosts();
         numPosts.should.equal(postObjList.length);
+      });
+      it('gets the number of documents with specific belongToMinor', async () => {
+        const additionalPostList = [{
+          ...testObj,
+          title: '제목6',
+          postNo: 6,
+          belongToMinor: 'life',
+        }];
+        await Promise.all(postObjList.concat(additionalPostList)
+          .map(postObj => PostDao.upsertPost(postObj)));
+
+        const numTechPosts = await PostDao.countPosts({ belongToMinor: 'tech' });
+        const numLifePosts = await PostDao.countPosts({ belongToMinor: 'life' });
+
+        numTechPosts.should.equal(postObjList.length);
+        numLifePosts.should.equal(additionalPostList.length);
+      });
+      it('gets the number of documents with specific belongToMinor and specific tag', async () => {
+        const additionalPostList = [{
+          ...testObj,
+          title: '제목6',
+          postNo: 6,
+          belongToMinor: 'life',
+        }, {
+          ...testObj,
+          title: '제목7',
+          postNo: 7,
+          belongToMinor: 'life',
+          tags: ['태그1'],
+        }];
+        const numTag2PostsShouldBe = postObjList.concat(additionalPostList).reduce(
+          (_numTag2Posts, postObj) => (postObj.tags.includes('태그2')
+            ? _numTag2Posts + 1
+            : _numTag2Posts),
+          0,
+        );
+        const numLifeTag2PostsShouldBe = postObjList.concat(additionalPostList).reduce(
+          (_numTag2Posts, postObj) => (postObj.belongToMinor === 'life' && postObj.tags.includes('태그2')
+            ? _numTag2Posts + 1
+            : _numTag2Posts),
+          0,
+        );
+
+        await Promise.all(postObjList.concat(additionalPostList)
+          .map(additionalPost => PostDao.upsertPost(additionalPost)));
+
+        const numTag2Posts = await PostDao.countPosts({ tags: { $all: ['태그2'] } });
+        const numLifeTag2Posts = await PostDao.countPosts({
+          belongToMinor: 'life',
+          tags: { $all: ['태그2'] },
+        });
+
+        numTag2Posts.should.equal(numTag2PostsShouldBe);
+        numLifeTag2Posts.should.equal(numLifeTag2PostsShouldBe);
       });
     });
   });
