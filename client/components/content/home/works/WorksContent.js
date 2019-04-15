@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 import {mdConverter} from "../../../../../utils/mdModifier";
 import {decapitalizeFirstLetter} from "../../../../../utils/stringModifier";
 import {highlightCode} from "../../../../../utils/mdModifier";
@@ -17,7 +17,7 @@ class WorksContent extends Component {
                         <div className="content-preview" ref={element => highlightCode(element)}>
                             <div className="post-meta-info">
                                 <i className="far fa-calendar-alt"><span>{" " + dateInFormat}</span></i>
-                                <i className="fas fa-comment-dots"><span>{" " + this.props.commentsCount}</span></i>
+                                {/* <i className="fas fa-comment-dots"><span>{" " + this.props.commentsCount}</span></i> */}
                             </div>
                             <h1>{this.props.title}</h1>
                             {mdConverter(this.props.content)}
