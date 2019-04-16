@@ -10,6 +10,7 @@ import eduImg from "../../../../res/images/edu.png";
 import prizeImg from "../../../../res/images/prize.png";
 import workImg from "../../../../res/images/work.png";
 import militaryImg from "../../../../res/images/military.png";
+import careerImg from "../../../../res/images/career.png";
 import etcImg from "../../../../res/images/etc.png";
 import {camelCaseToHyphen} from "../../../../../utils/stringModifier";
 
@@ -228,7 +229,8 @@ const sculptor = (splitContent, belongToMinor) => {
                 prize: prizeImg,
                 work: workImg,
                 military: militaryImg,
-                etc: etcImg
+                career: careerImg,
+                etc: etcImg,
             };
             return (
                 <div className={belongToMinor}>
