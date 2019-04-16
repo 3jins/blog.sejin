@@ -1,8 +1,11 @@
 import os from 'os';
+import fs from 'fs';
 import path from 'path';
 import express from 'express';
 import greenlock from 'greenlock-express';
+import logger from 'morgan';
 import ngrok from 'ngrok';
+import configuration from './Configuration';
 import posts from './routes/posts';
 import post from './routes/post';
 import tags from './routes/tags';
@@ -12,14 +15,20 @@ const app = express();
 const testPort = 5913;
 const httpPort = 80;
 const httpsPort = 443;
-const publicPath = path.resolve(__dirname, '../../public'); // Directory would be deeper one step when it is transpiled.
+const { pathInfo } = configuration;
 
-app.use(express.static(publicPath));
+app.use(logger('dev', { skip: (req, res) => res.statusCode < 400 })); // console logging
+app.use(logger('common', { // file logging
+  stream: fs.createWriteStream(path.resolve(pathInfo.root, 'access.log'), { flags: 'a' }),
+}));
+
+app.use(express.static(pathInfo.public));
+
 app.use('/posts', posts);
 app.use('/post', post);
 app.use('/tags', tags);
 app.get('/*', (req, res) => {
-  res.sendFile(path.resolve(publicPath, 'index.html'));
+  res.sendFile(path.resolve(pathInfo.public, 'index.html'));
 });
 
 connectToMongo()
