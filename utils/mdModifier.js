@@ -21,7 +21,7 @@ const highlightNestedCode = (elementList) => {
       for (let j = 0; j < numLis; j++) {
         highlightNestedCode(element.children[j]);
       }
-    } else if (element.tagName === 'PRE') {
+    } else if (element.tagName === 'CODE') {
       hljs.highlightBlock(element);
     }
   }
