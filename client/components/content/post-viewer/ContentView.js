@@ -43,7 +43,7 @@ class ContentView extends Component {
     if (_.isEmpty(postPayload)) return <LoadingView />; // loading
 
     const { post } = postPayload;
-    const { belongToMajor, belongToMinor, currentTags } = post[0];
+    const { belongToMajor, belongToMinor, tags: currentTags } = post[0];
 
     // this.props.handleChangeMenu(postPayload.post[0], menuList);
     // if (menuActionType === 'CHANGE_MENU') this.props.handleChangeMenuFinished();

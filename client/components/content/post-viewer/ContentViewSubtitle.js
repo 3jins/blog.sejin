@@ -1,51 +1,71 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import LoadingView from '../LoadingView';
-import {isContain} from "../../../../utils/arrayComparer";
-import {capitalizeFirstLetter} from "../../../../utils/stringModifier";
+import { capitalizeFirstLetter } from '../../../../utils/stringModifier';
 
-class ContentViewSubtitle extends Component {
-    render() {
-        const renderTags = (tags, currentTags, belongToMinor) => {
-            if (!tags || tags.length === 0) {
-                return <LoadingView isTable={false}/>;
-            }
-            return tags.map((tag) => {
-                if (tag.belongToMinor === belongToMinor) {
-                    return (
-                        <div className="tag-div">
-                            <a href={"/nav/Blog?tag=" + tag.tagName.replace(/\&/g, '%26').replace(/\+/g, '%2B')}>
-                                <h5 key={tag.tagName}
-                                    className={["slur", isContain(currentTags, tag.tagName) ? "selected" : "unselected"].join(' ')}
-                                    title={tag.tagName}>
-                                    #{tag.tagName}
-                                </h5>
-                                <h5 className={["count", isContain(currentTags, tag.tagName) ? "selected" : "unselected"].join(' ')}>
-                                    {"(" + tag.postList.length + ")"}
-                                </h5>
-                            </a>
-                        </div>
-                    );
-                }
-            });
-        };
-
-        return (
-            <div className={["subtitle", "post-viewer", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
-                <h3 className="slur">
-                    <a href="/nav/Blog">
-                        {capitalizeFirstLetter(this.props.belongToMinor)}
-                    </a>
-                </h3>
-                {renderTags(this.props.tagPayload, this.props.currentTags, this.props.belongToMinor)}
-            </div>
-        );
+const ContentViewSubtitle = (props) => {
+  const renderTags = (tags, currentTags) => {
+    if (!tags || tags.length === 0) {
+      return <LoadingView isTable={false} />;
     }
-}
+    return tags.map(tag => (
+      <div className="tag-div">
+        <a href={`/nav/Blog?tag=${tag.tagName.replace(/&/g, '%26').replace(/\+/g, '%2B')}`}>
+          <h5
+            key={tag.tagName}
+            className={['slur', tag.tagName in currentTags ? 'selected' : 'unselected'].join(' ')}
+            title={tag.tagName}
+          >
+            #{tag.tagName}
+          </h5>
+          <h5 className={['count', tag.tagName in currentTags ? 'selected' : 'unselected'].join(' ')}>
+            {`(${tag.postList.length})`}
+          </h5>
+        </a>
+      </div>
+    ));
+  };
 
-export default ContentViewSubtitle = connect(
-    (state) => ({
-        isSubnavSticky: state.scrolls.areNavsSticky.isSubnavSticky,
-    }),
-    (dispatch) => ({}),
+  const {
+    tagPayload,
+    currentTags,
+    belongToMinor,
+    isSubnavSticky,
+  } = props;
+
+  return (
+    <div className={['subtitle', 'post-viewer', isSubnavSticky ? 'sticky' : 'unsticky'].join(' ')}>
+      <h3 className="slur">
+        <a href="/nav/Blog">
+          {capitalizeFirstLetter(belongToMinor)}
+        </a>
+      </h3>
+      {renderTags(tagPayload, currentTags, belongToMinor)}
+    </div>
+  );
+};
+
+ContentViewSubtitle.propTypes = {
+  tagPayload: PropTypes.arrayOf({
+    belongToMinorList: PropTypes.array,
+    postList: PropTypes.array,
+    tagName: PropTypes.string,
+  }),
+  currentTags: PropTypes.arrayOf(PropTypes.string),
+  belongToMinor: PropTypes.string,
+  isSubnavSticky: PropTypes.bool,
+};
+
+ContentViewSubtitle.defaultProps = {
+  tagPayload: [],
+  currentTags: [],
+  belongToMinor: '',
+  isSubnavSticky: false,
+};
+
+export default connect(
+  state => ({
+    isSubnavSticky: state.scrolls.areNavsSticky.isSubnavSticky,
+  }),
 )(ContentViewSubtitle);
