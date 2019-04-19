@@ -56,21 +56,6 @@ const fetchTags = (url, belongToMinor) => {
   return ret;
 };
 
-const fetchCommentsCount = (urls) => {
-  const ret = { type: posts.FETCH_COMMENTS_COUNT };
-  const graphAPI = 'https://graph.facebook.com/v2.4/?fields=share{comment_count}&ids=';
-  const request = graphAPI + urls.join(',');
-
-  ret.commentsCountPayload = fetch(request, {
-    method: 'get',
-    headers,
-  })
-    .then(res => res.json())
-    .catch(err => console.error(err));
-
-  return ret;
-};
-
 // const createPost = (jsonData) => {
 //   const request = fetch('/create_post', {
 //     method: 'post',
@@ -81,12 +66,11 @@ const fetchCommentsCount = (urls) => {
 //     .catch(err => console.error(err));
 // };
 
-const fetchSuccess = (postPayload, tagPayload = [], commentsCountPayload = []) => ({
+const fetchSuccess = (postPayload, tagPayload = []) => ({
   type: posts.FETCH_SUCCESS,
   isLoaded: true,
   postPayload,
   tagPayload,
-  commentsCountPayload,
 });
 
 
@@ -128,7 +112,6 @@ export {
   fetchPosts,
   fetchPost,
   fetchTags,
-  fetchCommentsCount,
   fetchSuccess,
   changeMenu,
   changeSubmenu,
