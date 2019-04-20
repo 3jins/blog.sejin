@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 // import Helmet from "react-helmet/es/Helmet";
 import * as actions from '../../actions';
 import Nav from '../nav/Nav';
-import About from '../content/home/about/About';
-import Works from '../content/home/works/Works';
-import Blog from '../content/home/blog/Blog';
+import About from '../content/mainmenu/about/About';
+import Works from '../content/mainmenu/works/Works';
+import Blog from '../content/mainmenu/blog/Blog';
 import Footer from '../footer/Footer';
 
 class Home extends Component {

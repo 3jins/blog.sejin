@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import scrollToComponent from 'react-scroll-to-component';
 import * as actions from '../../../../actions';
+import MainContentWrapper from '../MainContentWrapper';
 import LoadingView from '../../LoadingView';
 import AboutContent from './AboutContent';
 import { getMenuHeight } from '../../../../../utils/unitConverter';
