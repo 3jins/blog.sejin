@@ -28,7 +28,7 @@ const ContentViewSubtitle = (props) => {
   };
 
   const {
-    tagPayload,
+    tags,
     currentTags,
     belongToMinor,
     isSubnavSticky,
@@ -41,13 +41,13 @@ const ContentViewSubtitle = (props) => {
           {capitalizeFirstLetter(belongToMinor)}
         </a>
       </h3>
-      {renderTags(tagPayload, currentTags, belongToMinor)}
+      {renderTags(tags, currentTags, belongToMinor)}
     </div>
   );
 };
 
 ContentViewSubtitle.propTypes = {
-  tagPayload: PropTypes.arrayOf({
+  tags: PropTypes.arrayOf({
     belongToMinorList: PropTypes.array,
     postList: PropTypes.array,
     tagName: PropTypes.string,
@@ -58,7 +58,7 @@ ContentViewSubtitle.propTypes = {
 };
 
 ContentViewSubtitle.defaultProps = {
-  tagPayload: [],
+  tags: [],
   currentTags: [],
   belongToMinor: '',
   isSubnavSticky: false,

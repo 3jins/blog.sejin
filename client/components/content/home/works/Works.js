@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -9,7 +10,6 @@ import WorksContent from './WorksContent';
 import { getMenuHeight } from '../../../../../utils/unitConverter';
 import { menuList } from '../../../../constants';
 import { getParameterByName } from '../../../../../utils/stringModifier';
-import { isEmpty } from '../../../../../utils/nullChecker';
 import PageView from '../../PageView';
 import NotFoundView from '../../NotFoundView';
 
@@ -17,18 +17,27 @@ class Works extends Component {
   constructor(props) {
     super(props);
     this.contentsStartPosition = null;
-    this.menuList = menuList;
-    this.menuIdx = 1;
     this.tag = getParameterByName('tag');
     this.page = Number(getParameterByName('page'));
-    props.handleFetchPosts(
+  }
+
+  componentDidMount() {
+    const {
+      belongToMajor,
+      belongToMinor,
+      handleFetchPosts,
+      handleChangeMenu,
+    } = this.props;
+
+    const menuIdx = 1;
+    handleFetchPosts(
       '/posts',
-      props.belongToMajor,
-      props.belongToMinor ? props.belongToMinor : this.menuList[this.menuIdx].submenuList[0].title,
+      belongToMajor,
+      !_.isEmpty(belongToMinor) ? belongToMinor : menuList[menuIdx].submenuList[0].title,
       this.tag,
       this.page,
     );
-    props.handleChangeMenu(this.menuIdx);
+    handleChangeMenu(menuIdx);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -77,7 +86,7 @@ class Works extends Component {
   }
 
   render() {
-    const renderContents = postPayload => postPayload.posts.map(post => (
+    const renderContents = posts => posts.map(post => (
       <div key={post.postNo} className="content-body">
         <WorksContent
           postNo={post.postNo}
@@ -90,29 +99,34 @@ class Works extends Component {
       </div>
     ));
 
-    const { isLoaded, postPayload } = this.props;
+    const { isLoaded, posts, numPosts } = this.props;
+
+    if (!isLoaded) { // loading
+      return (
+        <div className="content" ref={(section) => { this.contentsStartPosition = section; }}>
+          <LoadingView />
+        </div>
+      );
+    }
+    if (isLoaded && numPosts === 0) { // no posts
+      return (
+        <div className="content" ref={(section) => { this.contentsStartPosition = section; }}>
+          <NotFoundView isFail={false} />
+        </div>
+      );
+    }
     return (
       <div className="content" ref={(section) => { this.contentsStartPosition = section; }}>
         {/* <Helmet> */}
         {/* <meta property="og:url" content="https://enhanced.kr/nav/Blog"/> */}
         {/* <title>{"Works :: " + blogTitle}</title> */}
         {/* </Helmet> */}
-        {!isLoaded && ( // loading
-          <LoadingView />
-        )}
-        {isLoaded && isEmpty(postPayload.posts) && ( // not found
-          <NotFoundView isFail={false} />
-        )}
-        {isLoaded && !isEmpty(postPayload.posts) && ( // render
-          renderContents(postPayload)
-        )}
-        {isLoaded && !isEmpty(postPayload.posts) && (
-          <PageView
-            page={this.page > 0 ? this.page : 1}
-            numPosts={postPayload.numPosts}
-            pageScale={10}
-          />
-        )}
+        {renderContents(posts)}
+        <PageView
+          page={this.page > 0 ? this.page : 1}
+          numPosts={numPosts}
+          pageScale={10}
+        />
       </div>
     );
   }
@@ -122,19 +136,17 @@ Works.propTypes = {
   isLoaded: PropTypes.bool,
   belongToMajor: PropTypes.string,
   belongToMinor: PropTypes.string,
-  postPayload: PropTypes.objectOf({
-    posts: PropTypes.arrayOf({
-      postNo: PropTypes.number,
-      title: PropTypes.string,
-      dateCreated: PropTypes.instanceOf(Date),
-      dateUpdated: PropTypes.instanceOf(Date),
-      content: PropTypes.string,
-      tags: PropTypes.array,
-      belongToMajor: PropTypes.string,
-      belongToMinor: PropTypes.string,
-    }),
-    numPosts: PropTypes.number,
+  posts: PropTypes.arrayOf({
+    postNo: PropTypes.number,
+    title: PropTypes.string,
+    dateCreated: PropTypes.instanceOf(Date),
+    dateUpdated: PropTypes.instanceOf(Date),
+    content: PropTypes.string,
+    tags: PropTypes.array,
+    belongToMajor: PropTypes.string,
+    belongToMinor: PropTypes.string,
   }),
+  numPosts: PropTypes.number,
   menuActionType: PropTypes.string,
   scroll: PropTypes.bool,
   handleFetchPosts: PropTypes.func.isRequired,
@@ -146,17 +158,16 @@ Works.defaultProps = {
   isLoaded: false,
   belongToMajor: '',
   belongToMinor: '',
-  postPayload: {
-    posts: [],
-    numPosts: 0,
-  },
+  posts: [],
+  numPosts: 0,
   menuActionType: 'CHANGE_MENU_FINISHED',
   scroll: false,
 };
 
 export default connect(
   state => ({
-    postPayload: state.posts.postPayload,
+    posts: state.posts.posts,
+    numPosts: state.posts.numPosts,
     isLoaded: state.posts.isLoaded,
     menuActionType: state.menus.menuActionType,
     selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
@@ -167,7 +178,8 @@ export default connect(
       const postPayload = await dispatch(
         actions.fetchPosts(url, belongToMajor, belongToMinor, tag, page),
       ).postPayload;
-      dispatch(actions.fetchSuccess(postPayload, []));
+      const { posts, numPosts } = postPayload;
+      dispatch(actions.fetchSuccess({ posts, numPosts }));
     },
     handleScrollToComponentFinished: () => dispatch(actions.changeMenuFinished()),
     handleChangeMenu: menuIdx => dispatch(actions.changeMenu(menuIdx)),

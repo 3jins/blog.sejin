@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,7 +11,7 @@ import BlogSubtitle from './BlogSubtitle';
 import { getMenuHeight } from '../../../../../utils/unitConverter';
 import { menuList } from '../../../../constants';
 import { getParameterByName } from '../../../../../utils/stringModifier';
-import { isEmpty } from '../../../../../utils/nullChecker';
+
 import PageView from '../../PageView';
 import NotFoundView from '../../NotFoundView';
 
@@ -18,22 +19,30 @@ class Blog extends Component {
   constructor(props) {
     super(props);
     this.contentsStartPosition = null;
-    this.menuList = menuList;
-    this.menuIdx = 2;
     this.tag = getParameterByName('tag');
     this.page = Number(getParameterByName('page'));
-    props.handleFetchPosts(
+  }
+
+  componentDidMount() {
+    const {
+      belongToMajor,
+      belongToMinor,
+      handleFetchPosts,
+      handleChangeMenu,
+    } = this.props;
+
+    const menuIdx = 2;
+    handleFetchPosts(
       '/posts',
-      props.belongToMajor,
-      props.belongToMinor ? props.belongToMinor : this.menuList[this.menuIdx].submenuList[0].title,
+      belongToMajor,
+      !_.isEmpty(belongToMinor) ? belongToMinor : menuList[menuIdx].submenuList[0].title,
       this.tag,
       this.page,
     );
-    props.handleChangeMenu(this.menuIdx);
+    handleChangeMenu(menuIdx);
   }
 
   componentWillReceiveProps(nextProps) {
-    // this.page = getParameterByName('page') === null ? 1 : getParameterByName('page');
     const { belongToMinor, handleFetchPosts, handleScrollToComponentFinished } = this.props;
     if (belongToMinor !== nextProps.belongToMinor) {
       handleFetchPosts(
@@ -75,12 +84,11 @@ class Blog extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return !isEmpty(nextProps.postPayload)
-      || !isEmpty(nextProps.tagPayload);
+    return nextProps.isLoaded;
   }
 
   render() {
-    const renderContents = postPayload => postPayload.posts.map(post => (
+    const renderContents = posts => posts.map(post => (
       <BlogContent
         key={post.postNo}
         postNo={post.postNo}
@@ -92,7 +100,31 @@ class Blog extends Component {
       />
     ));
 
-    const { isLoaded, postPayload, tagPayload } = this.props;
+    const {
+      isLoaded,
+      posts,
+      numPosts,
+      tags,
+    } = this.props;
+
+    if (!isLoaded) { // loading
+      return (
+        <div className="content" ref={(section) => { this.contentsStartPosition = section; }}>
+          <div className="content-body">
+            <LoadingView />
+          </div>
+        </div>
+      );
+    }
+    if (isLoaded && numPosts === 0) { // no posts
+      return (
+        <div className="content" ref={(section) => { this.contentsStartPosition = section; }}>
+          <div className="content-body">
+            <NotFoundView isFail={false} />
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="content" ref={(section) => { this.contentsStartPosition = section; }}>
         {/* <Helmet> */}
@@ -100,30 +132,18 @@ class Blog extends Component {
         {/* <title>{"Blog :: " + blogTitle}</title> */}
         {/* </Helmet> */}
         <div className="content-body">
-          {isLoaded && _.isEmpty(postPayload.posts) && (
-            <BlogSubtitle
-              belongToMinor={postPayload.posts[0].belongToMinor}
-              tagPayload={tagPayload}
-              selectedTag={this.tag}
-            />
-          )}
+          <BlogSubtitle
+            belongToMinor={posts[0].belongToMinor}
+            tags={tags}
+            selectedTag={this.tag}
+          />
           <div className="content-view-wrapper">
-            {!isLoaded && ( // loading
-              <LoadingView />
-            )}
-            {isLoaded && isEmpty(postPayload.posts) && ( // not found
-              <NotFoundView isFail={false} />
-            )}
-            {isLoaded && !isEmpty(postPayload.posts) && ( // render
-              renderContents(postPayload)
-            )}
-            {isLoaded && !isEmpty(postPayload.posts) && (
-              <PageView
-                page={this.page > 0 ? this.page : 1}
-                numPosts={postPayload.numPosts}
-                pageScale={10}
-              />
-            )}
+            {renderContents(posts)}
+            <PageView
+              page={this.page > 0 ? this.page : 1}
+              numPosts={numPosts}
+              pageScale={10}
+            />
           </div>
         </div>
       </div>
@@ -135,20 +155,18 @@ Blog.propTypes = {
   isLoaded: PropTypes.bool,
   belongToMajor: PropTypes.string,
   belongToMinor: PropTypes.string,
-  postPayload: PropTypes.objectOf({
-    posts: PropTypes.arrayOf({
-      postNo: PropTypes.number,
-      title: PropTypes.string,
-      dateCreated: PropTypes.instanceOf(Date),
-      dateUpdated: PropTypes.instanceOf(Date),
-      content: PropTypes.string,
-      tags: PropTypes.array,
-      belongToMajor: PropTypes.string,
-      belongToMinor: PropTypes.string,
-    }),
-    numPosts: PropTypes.number,
+  posts: PropTypes.arrayOf({
+    postNo: PropTypes.number,
+    title: PropTypes.string,
+    dateCreated: PropTypes.instanceOf(Date),
+    dateUpdated: PropTypes.instanceOf(Date),
+    content: PropTypes.string,
+    tags: PropTypes.array,
+    belongToMajor: PropTypes.string,
+    belongToMinor: PropTypes.string,
   }),
-  tagPayload: PropTypes.arrayOf({
+  numPosts: PropTypes.number,
+  tags: PropTypes.arrayOf({
     tagName: PropTypes.string,
     belongToMinor: PropTypes.string,
     postList: PropTypes.array,
@@ -164,22 +182,21 @@ Blog.defaultProps = {
   isLoaded: false,
   belongToMajor: '',
   belongToMinor: '',
-  postPayload: {
-    posts: [],
-    numPosts: 0,
-  },
-  tagPayload: {},
-  menuActionType: 'CHANGE_MENU_FINISHED',
+  posts: [],
+  numPosts: 0,
+  tags: [],
+  menuActionType: '',
   scroll: false,
 };
 
 export default connect(
   state => ({
-    postPayload: state.posts.postPayload,
     isLoaded: state.posts.isLoaded,
-    tagPayload: state.posts.tagPayload,
+    posts: state.posts.posts,
+    numPosts: state.posts.numPosts,
+    tags: state.posts.tags,
     menuActionType: state.menus.menuActionType,
-    // selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
+    selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
     scroll: state.menus.scroll,
   }),
   dispatch => ({
@@ -188,7 +205,8 @@ export default connect(
         actions.fetchPosts(url, belongToMajor, belongToMinor, tag, page),
       ).postPayload;
       const tagPayload = await dispatch(actions.fetchTags('/tags', belongToMinor)).tagPayload;
-      dispatch(actions.fetchSuccess(postPayload, tagPayload));
+      const { posts, numPosts } = postPayload;
+      dispatch(actions.fetchSuccess({ posts, numPosts, tags: tagPayload }));
     },
     handleScrollToComponentFinished: () => dispatch(actions.changeMenuFinished()),
     handleChangeMenu: menuIdx => dispatch(actions.changeMenu(menuIdx)),

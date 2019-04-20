@@ -66,11 +66,10 @@ const fetchTags = (url, belongToMinor) => {
 //     .catch(err => console.error(err));
 // };
 
-const fetchSuccess = (postPayload, tagPayload = []) => ({
+const fetchSuccess = resultStates => ({
   type: posts.FETCH_SUCCESS,
   isLoaded: true,
-  postPayload,
-  tagPayload,
+  resultStates,
 });
 
 

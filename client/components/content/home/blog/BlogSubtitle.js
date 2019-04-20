@@ -1,51 +1,50 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {capitalizeFirstLetter, removeQueryParameters} from "../../../../../utils/stringModifier";
-import LoadingPreview from "../../LoadingView";
+import React from 'react';
+import { connect } from 'react-redux';
+import { capitalizeFirstLetter, removeQueryParameters } from '../../../../../utils/stringModifier';
+import LoadingPreview from '../../LoadingView';
 
-class BlogSubtitle extends Component {
-    render() {
-        const renderTags = (tagPayload, belongToMinor) => {
-            if (!tagPayload || tagPayload.length === 0) {
-                return <LoadingPreview isTable={false}/>
-            }
-            return tagPayload.map((tag) => {
-                // if (tag.belongToMinor.contains(belongToMinor)) {
-                    return (
-                        <div className="tag-div">
-                            <a href={"?tag=" + tag.tagName.replace(/\&/g, '%26').replace(/\+/g, '%2B')}>
-                                <h5
-                                    key={tag.tagName}
-                                    className={["slur", this.props.selectedTag === tag.tagName ? "selected" : "unselected"].join(' ')}
-                                    title={tag.tagName}>
-                                    #{tag.tagName}
-                                </h5>
-                                <h5 className="count">
-                                    {"(" + tag.postList.length + ")"}
-                                </h5>
-                            </a>
-                        </div>
-                    );
-                // }
-            });
-        };
+const BlogSubtitle = (props) => {
+  const renderTags = (tags, selectedTag) => {
+    if (!tags || tags.length === 0) return <LoadingPreview isTable={false} />;
+    return tags.map(tag => (
+      <div className="tag-div">
+        <a href={`?tag=${tag.tagName.replace(/&/g, '%26').replace(/\+/g, '%2B')}`}>
+          <h5
+            key={tag.tagName}
+            className={`slur ${selectedTag === tag.tagName ? 'selected' : 'unselected'}`}
+            title={tag.tagName}
+          >
+            #{tag.tagName}
+          </h5>
+          <h5 className="count">
+            {`(${tag.postList.length})`}
+          </h5>
+        </a>
+      </div>
+    ));
+  };
 
-        return (
-            <div className={["subtitle", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
-                <h3 className="slur">
-                    <a href={removeQueryParameters()}>
-                        {capitalizeFirstLetter(this.props.belongToMinor)}
-                    </a>
-                </h3>
-                {renderTags(this.props.tagPayload, this.props.belongToMinor)}
-            </div>
-        );
-    }
-}
+  const {
+    belongToMinor,
+    tags,
+    selectedTag,
+    isSubnavSticky,
+  } = props;
+  return (
+    <div className={`subtitle ${isSubnavSticky ? 'sticky' : 'unsticky'}`}>
+      <h3 className="slur">
+        <a href={removeQueryParameters()}>
+          {capitalizeFirstLetter(belongToMinor)}
+        </a>
+      </h3>
+      {renderTags(tags, selectedTag)}
+    </div>
+  );
+};
 
 export default connect(
-    (state) => ({
-        isSubnavSticky: state.scrolls.areNavsSticky.isSubnavSticky,
-    }),
-    () => ({}),
+  state => ({
+    isSubnavSticky: state.scrolls.areNavsSticky.isSubnavSticky,
+  }),
+  () => ({}),
 )(BlogSubtitle);

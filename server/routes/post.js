@@ -10,8 +10,8 @@ router.get('/:postNo', (req, res) => {
   };
 
   return PostDao.findPost(findQuery)
-    .then(post => res.json({
-      post,
+    .then(posts => res.json({
+      posts,
     }))
     .catch((err) => {
       console.error(err);

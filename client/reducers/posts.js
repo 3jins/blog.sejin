@@ -7,8 +7,9 @@ import {
 
 const initialState = {
   postActionType: 'FETCH_POSTS',
-  postPayload: {},
-  tagPayload: [],
+  posts: [],
+  numPosts: 0,
+  tags: [],
   isLoaded: false,
 };
 
@@ -34,8 +35,7 @@ export default (state = initialState, action) => {
         ...state,
         postActionType: action.type,
         isLoaded: action.isLoaded,
-        postPayload: action.postPayload,
-        tagPayload: action.tagPayload,
+        ...action.resultStates,
       };
     default:
       return initialState;

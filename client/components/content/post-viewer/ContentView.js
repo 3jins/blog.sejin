@@ -18,12 +18,9 @@ class ContentView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!_.isEmpty(nextProps.postPayload)) {
-      this.props.handleChangeMenu(nextProps.postPayload.post[0], menuList);
-    }
-    if (nextProps.menuActionType === 'CHANGE_MENU') {
-      this.props.handleChangeMenuFinished();
-    }
+    const { handleChangeMenu, handleChangeMenuFinished } = this.props;
+    if (!_.isEmpty(nextProps.post)) handleChangeMenu(nextProps.post, menuList);
+    if (nextProps.menuActionType === 'CHANGE_MENU') handleChangeMenuFinished();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -34,39 +31,39 @@ class ContentView extends Component {
     const {
       postNo,
       isLoaded,
-      postPayload,
-      tagPayload,
+      posts,
+      tags,
       menuActionType,
     } = this.props;
 
-    if (_.isEmpty(postPayload) && isLoaded) return <NotFoundView isFail={true} />; // error
-    if (_.isEmpty(postPayload)) return <LoadingView />; // loading
+    if (_.isEmpty(posts) && isLoaded) return <NotFoundView isFail={true} />; // error
+    if (_.isEmpty(posts)) return <LoadingView />; // loading
 
-    const { post } = postPayload;
-    const { belongToMajor, belongToMinor, tags: currentTags } = post[0];
+    const post = posts[0];
+    const { belongToMajor, belongToMinor, tags: currentTags } = post;
 
     // this.props.handleChangeMenu(postPayload.post[0], menuList);
     // if (menuActionType === 'CHANGE_MENU') this.props.handleChangeMenuFinished();
 
     return (
       <div className="content">
-        {/*<Helmet>*/}
-          {/*<meta property="og:url" content={`https://enhanced.kr/contentviewer/${postNo}`} />*/}
-          {/*<title>*/}
-            {/*{!post && `${post[0].title} :: ${blogTitle}`}*/}
-          {/*</title>*/}
-        {/*</Helmet>*/}
+        {/* <Helmet> */}
+        {/* <meta property="og:url" content={`https://enhanced.kr/contentviewer/${postNo}`} /> */}
+        {/* <title> */}
+        {/* {!post && `${post[0].title} :: ${blogTitle}`} */}
+        {/* </title> */}
+        {/* </Helmet> */}
         <div className="content-body">
           {belongToMajor !== 'Works' && (
             <ContentViewSubtitle
-              tagPayload={tagPayload}
+              tags={tags}
               currentTags={currentTags}
               belongToMinor={belongToMinor}
             />
           )}
           <div className="content-view-wrapper">
             <ContentViewContent
-              post={post[0]}
+              post={post}
               belongToMajor={belongToMajor}
             />
           </div>
@@ -78,19 +75,17 @@ class ContentView extends Component {
 
 ContentView.propTypes = {
   postNo: PropTypes.number,
-  postPayload: PropTypes.objectOf({
-    post: [{
-      postNo: PropTypes.number,
-      title: PropTypes.string,
-      dateCreated: PropTypes.instanceOf(Date),
-      dateUpdated: PropTypes.instanceOf(Date),
-      content: PropTypes.string,
-      tags: PropTypes.array,
-      belongToMajor: PropTypes.string,
-      belongToMinor: PropTypes.string,
-    }],
+  posts: PropTypes.arrayOf({
+    postNo: PropTypes.number,
+    title: PropTypes.string,
+    dateCreated: PropTypes.instanceOf(Date),
+    dateUpdated: PropTypes.instanceOf(Date),
+    content: PropTypes.string,
+    tags: PropTypes.array,
+    belongToMajor: PropTypes.string,
+    belongToMinor: PropTypes.string,
   }),
-  tagPayload: PropTypes.arrayOf({
+  tags: PropTypes.arrayOf({
     tagName: PropTypes.string,
     belongToMinor: PropTypes.string,
     postList: PropTypes.array,
@@ -101,34 +96,31 @@ ContentView.propTypes = {
 
 ContentView.defaultProps = {
   postNo: -1,
-  postPayload: {},
-  tagPayload: [],
+  posts: [],
+  tags: [],
   menuActionType: 'CHANGE_MENU_FINISHED',
   isLoaded: true,
 };
 
 export default connect(
   state => ({
-    postPayload: state.posts.postPayload,
-    tagPayload: state.posts.tagPayload,
+    posts: state.posts.posts,
+    tags: state.posts.tags,
     menuActionType: state.menus.menuActionType,
     isLoaded: state.posts.isLoaded,
   }),
   dispatch => ({
     handleFetchPost: async (url, postNo) => {
       const postPayload = await dispatch(actions.fetchPost(url, postNo)).postPayload;
-      if (!postPayload.post) { // when the post is not found
-        return dispatch(actions.fetchSuccess(postPayload));
-      }
-      const tagPayload = await dispatch(actions.fetchTags('/tags', postPayload.post[0].belongToMinor)).tagPayload;
-      dispatch(actions.fetchSuccess(postPayload, tagPayload));
+      const { posts } = postPayload;
+      if (_.isEmpty(posts)) return dispatch(actions.fetchSuccess({ post: {} }));
+      const tagPayload = await dispatch(actions.fetchTags('/tags', posts[0].belongToMinor)).tagPayload;
+      return dispatch(actions.fetchSuccess({ posts, tags: tagPayload }));
     },
     handleChangeMenu: (post, menuList) => {
-      const belongToMajor = post.belongToMajor;
-      menuList.map((menu, idx) => {
-        if (menu.title === belongToMajor) {
-          dispatch(actions.changeMenu(idx));
-        }
+      const { belongToMajor } = post;
+      menuList.forEach((menu, idx) => {
+        if (menu.title === belongToMajor) dispatch(actions.changeMenu(idx));
       });
     },
     handleChangeMenuFinished: () => dispatch(actions.changeMenuFinished()),
