@@ -1,111 +1,116 @@
-import React, {Component} from 'react';
-import NavItem from './NavItem';
-import {connect} from 'react-redux';
-import * as actions from '../../actions';
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Typist from 'react-typist';
-import {menuList} from "../../constants";
+import NavItem from './NavItem';
+import * as actions from '../../actions';
+import { menuList } from '../../constants';
 
-class Nav extends Component {
-    constructor(props) {
-        super(props);
-        this.menuList = menuList;
+const Nav = (props) => {
+  const mapMenuToComponent = (menuList, selectedMenuIdx, handleChangeSubmenu, upperMenuTitle = '') => menuList.map((navMenu, menuIdx) => {
+    let isSelected = false;
+    if (selectedMenuIdx === menuIdx) {
+      isSelected = true;
     }
+    return (
+      <NavItem
+        key={navMenu.title}
+        menuTitle={navMenu.title}
+        menuIdx={menuIdx}
+        isSelected={isSelected}
+        upperMenuTitle={upperMenuTitle}
+        onSelected={handleChangeSubmenu}
+      />
+    );
+  });
 
-    render() {
-        const cursorOption = {
-            show: true,
-            blink: true,
-            element: '_',
-            hideWhenDone: false,
-            hideWhenDoneDelay: 1000,
-        };
-        const titleForDesign = this.menuList[this.props.selectedMenuIdx].titleForDesign;
+  const {
+    selectedMenuIdx,
+    selectedSubmenuIdx,
+    isNavSticky,
+    isSubnavSticky,
+    handleChangeSubmenu,
+  } = props;
 
-        const mapMenuToComponent = (menuList, selectedMenuIdx, handleChangeSubmenu, upperMenuTitle = "") => {
-            if (!menuList || menuList.length === 0) {
-                console.log("[mapMenuToComponent] menuList is undefined or empty");
-                return;
-            }
-            return menuList.map((navMenu, menuIdx) => {
-                let isSelected = false;
-                if (selectedMenuIdx === menuIdx) {
-                    isSelected = true;
-                }
-                return <NavItem
-                    key={menuIdx}
-                    menuTitle={navMenu.title}
-                    menuIdx={menuIdx}
-                    isSelected={isSelected}
-                    upperMenuTitle={upperMenuTitle}
-                    onSelected={handleChangeSubmenu}
-                />;
-            });
-        };
+  const cursorOption = {
+    show: true,
+    blink: true,
+    element: '_',
+    hideWhenDone: false,
+    hideWhenDoneDelay: 1000,
+  };
+  const { titleForDesign } = menuList[selectedMenuIdx];
 
-        return (
-            <div className="nav">
-                <div className="main-nav">
-                    <div
-                        className={["nav-menu-table-wrapper", this.props.isNavSticky ? "sticky" : "unsticky"].join(' ')}>
-                        <table className="nav-menu-table">
-                            <tbody>
-                            <tr>
-                                {mapMenuToComponent(
-                                    this.menuList,
-                                    this.props.selectedMenuIdx,
-                                    this.props.handleChangeSubmenu
-                                )}
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <table className="v-center-table">
-                    <tbody>
-                    <tr>
-                        <td className="typed-td">
-                            ${' '}
-                            <Typist key={titleForDesign} avgTypingDelay={100} cursor={cursorOption}>
-                                <Typist.Delay ms={1000}/>
-                                {titleForDesign}
-                            </Typist>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div className="subnav">
-                    <div
-                        className={["subnav-menu-table-wrapper", this.props.isSubnavSticky ? "sticky" : "unsticky"].join(' ')}>
-                        <table className="subnav-menu-table">
-                            <tbody>
-                            <tr>
-                                {this.menuList[this.props.selectedMenuIdx].title &&
-                                mapMenuToComponent(
-                                    menuList[this.props.selectedMenuIdx].submenuList,
-                                    this.props.selectedSubmenuIdx,
-                                    this.props.handleChangeSubmenu,
-                                    this.menuList[this.props.selectedMenuIdx].title
-                                )}
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
+  return (
+    <div className="nav">
+      <div className="main-nav">
+        <div className={`nav-menu-table-wrapper ${isNavSticky ? 'sticky' : 'unsticky'}`}>
+          <table className="nav-menu-table">
+            <tbody>
+              <tr>
+                {mapMenuToComponent(menuList, selectedMenuIdx, handleChangeSubmenu)}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <table className="v-center-table">
+        <tbody>
+          <tr>
+            <td className="typed-td">
+              {'$ '}
+              <Typist key={titleForDesign} avgTypingDelay={100} cursor={cursorOption}>
+                <Typist.Delay ms={1000} />
+                {titleForDesign}
+              </Typist>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div className="subnav">
+        <div className={`subnav-menu-table-wrapper ${isSubnavSticky ? 'sticky' : 'unsticky'}`}>
+          <table className="subnav-menu-table">
+            <tbody>
+              <tr>
+                {menuList[selectedMenuIdx].title
+                && mapMenuToComponent(
+                  menuList[selectedMenuIdx].submenuList,
+                  selectedSubmenuIdx,
+                  handleChangeSubmenu,
+                  menuList[selectedMenuIdx].title,
+                )}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+Nav.propTypes = {
+  selectedMenuIdx: PropTypes.number,
+  selectedSubmenuIdx: PropTypes.number,
+  isNavSticky: PropTypes.bool,
+  isSubnavSticky: PropTypes.bool,
+  handleChangeSubmenu: PropTypes.func.isRequired,
+};
+
+Nav.defaultProps = {
+  selectedMenuIdx: 0,
+  selectedSubmenuIdx: 0,
+  isNavSticky: false,
+  isSubnavSticky: false,
+};
 
 export default connect(
-    (state) => ({
-        selectedMenuIdx: state.menus.selectedMenuIdx,
-        selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
-        isNavSticky: state.scrolls.areNavsSticky.isNavSticky,
-        isSubnavSticky: state.scrolls.areNavsSticky.isSubnavSticky,
-    }),
-    (dispatch) => ({
-        handleChangeSubmenu: (submenuIdx) => {
-            dispatch(actions.changeSubmenu(submenuIdx));
-        },
-    }),
+  state => ({
+    selectedMenuIdx: state.menus.selectedMenuIdx,
+    selectedSubmenuIdx: state.menus.selectedSubmenuIdx,
+    isNavSticky: state.scrolls.areNavsSticky.isNavSticky,
+    isSubnavSticky: state.scrolls.areNavsSticky.isSubnavSticky,
+  }),
+  dispatch => ({
+    handleChangeSubmenu: submenuIdx => dispatch(actions.changeSubmenu(submenuIdx)),
+  }),
 )(Nav);
