@@ -12,10 +12,8 @@ class AboutContent extends Component {
         const sculptedContent = sculptor(splitContent, this.props.belongToMinor);
 
         return (
-            <div className={"content-view-wrapper"}>
-                <div className={["content-view", decapitalizeFirstLetter(this.props.belongToMajor)].join(' ')}>
-                    {sculptedContent}
-                </div>
+            <div className={["content-view", decapitalizeFirstLetter(this.props.belongToMajor)].join(' ')}>
+                {sculptedContent}
             </div>
         );
     }
