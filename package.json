@@ -10,7 +10,7 @@
     "css-loader": "^2.1.1",
     "express": "^4.16.4",
     "greenlock-express": "^2.7.6",
-    "highlight.js": "^9.13.1",
+    "highlight.js": "^10.1.2",
     "html-react-parser": "^0.7.0",
     "jsontoxml": "^1.0.1",
     "lodash": "^4.17.11",
